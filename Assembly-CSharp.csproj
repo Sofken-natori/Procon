@@ -36,7 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Gamema.cs" />
+     <Compile Include="Assets\BridgeButtonManager.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -664,6 +664,9 @@
     <Reference Include="Unity.Rider.Editor">
         <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProGrids.Editor">
+        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.ProGrids.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
         <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -694,17 +697,14 @@
     <Reference Include="Unity.2D.SpriteShape.Editor">
         <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.SpriteShape.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProGrids">
+        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.ProGrids.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.Common.Editor">
         <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.Common.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
         <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.SpriteShape.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProGrids.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.ProGrids.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProGrids">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.ProGrids.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
