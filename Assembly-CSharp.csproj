@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{d937a357-ce2d-d875-bd78-735bf2a71e8e}</ProjectGuid>
+    <ProjectGuid>{3831574c-8ae6-4529-7733-fd627566946c}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -36,7 +36,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\BridgeButtonManager.cs" />
+     <Compile Include="Assets\Script\BridgeButtonManager.cs" />
+     <Compile Include="Assets\Script\TurnManager.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -258,12 +259,6 @@
     </Reference>
     <Reference Include="UnityEditor.UnityConnectModule">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-        <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Common">
-        <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -611,100 +606,100 @@
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\NetStandard\compat\2.0.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.Animation.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.Animation.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEngineBridge.001">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.InternalAPIEngineBridge.001.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.InternalAPIEngineBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.PixelPerfect">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.PixelPerfect.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.PixelPerfect.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="PsdPlugin">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\PsdPlugin.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\PsdPlugin.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.IK.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.IK.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.IK.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Psdimporter.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.Psdimporter.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.Psdimporter.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Path.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.Path.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.Path.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEditorBridge.001">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProGrids.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.ProGrids.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.ProGrids.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.IK.Runtime">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.IK.Runtime.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.IK.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Triangle.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.Animation.Triangle.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.Animation.Triangle.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Runtime">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.Animation.Runtime.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.Animation.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.PixelPerfect.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.PixelPerfect.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.PixelPerfect.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Runtime">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.Common.Runtime.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.Common.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.SpriteShape.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.SpriteShape.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProGrids">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.ProGrids.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.ProGrids.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Editor">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.Common.Editor.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.Common.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
-        <HintPath>C:\Users\sato itaru\Downloads\UnityChanSSU_URP-release-1.0.2\ProconSimulator\Library\ScriptAssemblies\Unity.2D.SpriteShape.Runtime.dll</HintPath>
+        <HintPath>C:\Users\aceto\Downloads\Procon\Library\ScriptAssemblies\Unity.2D.SpriteShape.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
