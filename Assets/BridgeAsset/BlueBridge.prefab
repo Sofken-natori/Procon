@@ -884,10 +884,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3203326786358757755}
-  - component: {fileID: 7514218898997210776}
   - component: {fileID: 3203326786964445955}
   - component: {fileID: 3203326786964445954}
   - component: {fileID: 3203326786964445953}
+  - component: {fileID: 7514218898997210776}
   m_Layer: 5
   m_Name: BlueBridge
   m_TagString: Untagged
@@ -918,22 +918,6 @@ RectTransform:
   m_AnchoredPosition: {x: 91.546, y: 143.88062}
   m_SizeDelta: {x: 170.1216, y: 34.1331}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7514218898997210776
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3203326786964445952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 435962837da29ec45a52e7730fdbcae8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MoveArrow: {fileID: 3203326786561434948}
-  BuildAndDestroyArrow: {fileID: 881910224082141160}
-  BuildAndDestroySelectButton: {fileID: 608802848419827670}
-  MoveSelectButton: {fileID: 6191522810712467265}
 --- !u!222 &3203326786964445955
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1028,6 +1012,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &7514218898997210776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3203326786964445952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 435962837da29ec45a52e7730fdbcae8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MoveArrow: {fileID: 3203326786561434948}
+  BuildAndDestroyArrow: {fileID: 881910224082141160}
+  BuildAndDestroySelectButton: {fileID: 608802848419827670}
+  MoveSelectButton: {fileID: 6191522810712467265}
+  BlueTurn: 1
 --- !u!1 &3203326787472128472
 GameObject:
   m_ObjectHideFlags: 0
