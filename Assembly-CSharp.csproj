@@ -36,9 +36,9 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\BridgeManager.cs" />
      <Compile Include="Assets\Script\BridgeButtonManager.cs" />
      <Compile Include="Assets\Script\TurnManager.cs" />
-     <Compile Include="Assets\Script\BridgeManager.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

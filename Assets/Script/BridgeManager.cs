@@ -31,26 +31,11 @@ public class BridgeManager : MonoBehaviour
         {
             while(ContainsNumber(BridgeX, this.transform.GetChild(i).GetComponent<BridgeButtonManager>().BoardX) && ContainsNumber(BridgeY, this.transform.GetChild(i).GetComponent<BridgeButtonManager>().BoardY))
             {
-                this.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgePosition();
+                Debug.Log("重複");
+                this.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeStartPosition();
             }
             BridgeX[i] = this.transform.GetChild(i).GetComponent<BridgeButtonManager>().BoardX;
-            
-            string X = "BridgeX:";
-            foreach (int n in BridgeX)
-            {
-                X += n.ToString() + " ";
-            }
-            Debug.Log(X);
-            
             BridgeY[i] = this.transform.GetChild(i).GetComponent<BridgeButtonManager>().BoardY;
-            
-            string Y = "BridgeY:";
-            foreach (int n in BridgeY)
-            {
-                Y += n.ToString() + " ";
-            }
-            Debug.Log(Y);
-            
             i++;
         }
     }

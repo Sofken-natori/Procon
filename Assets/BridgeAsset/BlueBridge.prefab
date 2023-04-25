@@ -995,7 +995,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 3203326786964445954}
   m_OnClick:
     m_PersistentCalls:
@@ -1029,6 +1029,9 @@ MonoBehaviour:
   BuildAndDestroySelectButton: {fileID: 608802848419827670}
   MoveSelectButton: {fileID: 6191522810712467265}
   BlueTurn: 1
+  BoardX: 0
+  BoardY: 0
+  Seed: 0
 --- !u!1 &3203326787472128472
 GameObject:
   m_ObjectHideFlags: 0
