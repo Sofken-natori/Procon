@@ -31,7 +31,6 @@ public class BridgeManager : MonoBehaviour
         {
             while(ContainsNumber(BridgeX, this.transform.GetChild(i).GetComponent<BridgeButtonManager>().BoardX) && ContainsNumber(BridgeY, this.transform.GetChild(i).GetComponent<BridgeButtonManager>().BoardY))
             {
-                Debug.Log("重複");
                 this.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeStartPosition();
             }
             BridgeX[i] = this.transform.GetChild(i).GetComponent<BridgeButtonManager>().BoardX;

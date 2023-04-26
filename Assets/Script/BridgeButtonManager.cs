@@ -29,6 +29,8 @@ public class BridgeButtonManager : MonoBehaviour
         MoveSelectButton.SetActive(false);
         UnityEngine.Random.InitState(System.DateTime.Now.Millisecond*Seed);
         ButtonIntaract = GetComponent<Button>();
+        Board = GameObject.Find("UserInterface/Board");
+        TM = Board.GetComponent<TurnManager>();
         BridgeStartPosition();
     }
 
@@ -44,9 +46,7 @@ public class BridgeButtonManager : MonoBehaviour
 
     public void BridgeStartPosition()
     {
-        Board = GameObject.Find("UserInterface/Board");
         Seed = (int)transform.position.x + (int)transform.position.y;
-        TM = Board.GetComponent<TurnManager>();
         BoardX = UnityEngine.Random.Range(0, 15);
         BoardY = UnityEngine.Random.Range(0, 15);
         this.transform.position = TM.MoveBridge(BoardY, BoardX);
@@ -154,6 +154,7 @@ public class BridgeButtonManager : MonoBehaviour
         // Build and destroy the bridge forward
         BuildAndDestroyArrow.SetActive(false);
         ButtonIntaract.interactable = false;
+        TM.BuildAndDestroyBridge(BoardY, BoardX);
     }
 
     public void BuildAndDestroyBackward()
@@ -161,6 +162,7 @@ public class BridgeButtonManager : MonoBehaviour
         // Build and destroy the bridge backward
         BuildAndDestroyArrow.SetActive(false);
         ButtonIntaract.interactable = false;
+        TM.BuildAndDestroyBridge(BoardY, BoardX);
     }
 
     public void BuildAndDestroyRight()
@@ -168,6 +170,7 @@ public class BridgeButtonManager : MonoBehaviour
         // Build and destroy the bridge right
         BuildAndDestroyArrow.SetActive(false);
         ButtonIntaract.interactable = false;
+        TM.BuildAndDestroyBridge(BoardY, BoardX);
     }
 
     public void BuildAndDestroyLeft()
@@ -175,6 +178,7 @@ public class BridgeButtonManager : MonoBehaviour
         // Build and destroy the bridge left
         BuildAndDestroyArrow.SetActive(false);
         ButtonIntaract.interactable = false;
+        TM.BuildAndDestroyBridge(BoardY, BoardX);
     }
 
 }

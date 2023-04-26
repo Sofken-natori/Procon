@@ -36,6 +36,7 @@ public class TurnManager : MonoBehaviour
     {
         if(BridgeActCount >= PieceNumber)
         {
+            Debug.Log("TurnChange");
             BlueTurn = !BlueTurn;
             BridgeActCount = 0;
             UntapPhase = true;
@@ -52,9 +53,10 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public void BuildAndDestroyBridge()
+    public void BuildAndDestroyBridge(int x,int y)
     {
         BridgeActCount++;
+        Debug.Log(BridgeActCount);
     }
 
     public Vector2 MoveBridge(int x,int y)
@@ -62,6 +64,7 @@ public class TurnManager : MonoBehaviour
         // Set the bridge position
         square = this.transform.GetChild(x).GetChild(y);
         BridgeActCount++;
+        Debug.Log(BridgeActCount);
         return square.position;
     }
 }
