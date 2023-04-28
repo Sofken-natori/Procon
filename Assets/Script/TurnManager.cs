@@ -5,17 +5,21 @@ using UnityEngine.UI;
 
 public class TurnManager : MonoBehaviour
 {
+    [Header("最大ターン数"), SerializeField] int MaxTurnNumber = 1;
     [Header("生成する駒の数"), SerializeField] int PieceNumber = 1;
     [Header("赤い駒のプレハブ"), SerializeField] GameObject RedBridge;
     [Header("青い駒のプレハブ"), SerializeField] GameObject BlueBridge;
     [HideInInspector]public bool BlueTurn = false;
     [HideInInspector]public bool UntapPhase = false;
+    
+    Area area;
     Button RedButton;
     Button BlueButton;
     Transform square;
     GameObject Board;
     int BridgeActCount = 0;
     int BridgestandbyCount = 0;
+    int NowTurn = 0;
     int i = 1;
 
     
@@ -36,10 +40,19 @@ public class TurnManager : MonoBehaviour
     {
         if(BridgeActCount >= PieceNumber)
         {
+            if(!BlueTurn)
+            {
+                NowTurn++;
+            }
             Debug.Log("TurnChange");
             BlueTurn = !BlueTurn;
             BridgeActCount = 0;
             UntapPhase = true;
+        }
+
+        if(NowTurn >= MaxTurnNumber)
+        {
+            Debug.Log("GameSet");
         }
     }
 
@@ -56,15 +69,45 @@ public class TurnManager : MonoBehaviour
     public void BuildAndDestroyBridge(int x,int y)
     {
         BridgeActCount++;
-        Debug.Log(BridgeActCount);
+        area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
+        if(area.RedWall || area.BlueWall)
+        {
+                area.RedWall = false;
+                area.BlueWall = false;
+        }
+        
+        else if(BlueTurn)
+        {
+            area.BlueWall = true;
+        }
+
+        else
+        {
+            area.RedWall = true;
+        }
+    }
+
+    public bool CanMove(int x,int y)
+    {
+        area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
+        if(area.RedWall || area.BlueWall || area.pond || area.Bridge)
+        {
+            return false;
+        }
+
+        else
+        {
+            return true;
+        }
     }
 
     public Vector2 MoveBridge(int x,int y)
     {
         // Set the bridge position
         square = this.transform.GetChild(x).GetChild(y);
+        area = square.GetComponent<Area>();
+        area.Bridge = true;
         BridgeActCount++;
-        Debug.Log(BridgeActCount);
         return square.position;
     }
 }

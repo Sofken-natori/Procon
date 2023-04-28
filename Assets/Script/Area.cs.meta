@@ -3,7 +3,14 @@ guid: 1bb7d817b4feae64c92a42e2a3c106f6
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - TM: {instanceID: 0}
+  - RedAreaMarker: {fileID: 2833893291309368529, guid: 15b2d4bfc4923c4448cf754dfffdf4bd, type: 3}
+  - BlueAreaMarker: {fileID: 7319920866546514989, guid: 3926c021dd5cc3642ac60654280aed58, type: 3}
+  - RedWallMarker: {fileID: 1748629132490672798, guid: 29c889882f408f042b2b4dcb2526d96b, type: 3}
+  - BlueWallMarker: {fileID: 1970440997398075846, guid: 873b60a31ccd2d945bad348c720bf158, type: 3}
+  - CastleMarker: {instanceID: 0}
+  - PondMarker: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
