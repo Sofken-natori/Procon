@@ -58,6 +58,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         BuildAndDestroySelectButton.SetActive(true);
         MoveSelectButton.SetActive(true);
+        MoveArrow.SetActive(false);
+        BuildAndDestroyArrow.SetActive(false);
     }
 
     public void MoveArrowVisible()

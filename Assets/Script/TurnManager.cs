@@ -7,11 +7,14 @@ public class TurnManager : MonoBehaviour
 {
     [Header("最大ターン数"), SerializeField] int MaxTurnNumber = 1;
     [Header("生成する駒の数"), SerializeField] int PieceNumber = 1;
+    [Header("縦のマス数")]public int BoardXMax = 15;
+    [Header("横のマス数")]public int BoardYMax = 15;
     [Header("赤い駒のプレハブ"), SerializeField] GameObject RedBridge;
     [Header("青い駒のプレハブ"), SerializeField] GameObject BlueBridge;
     [HideInInspector]public bool BlueTurn = false;
     [HideInInspector]public bool UntapPhase = false;
-    
+    [HideInInspector]public bool TurnEnd = false;
+
     Area area;
     Button RedButton;
     Button BlueButton;
@@ -21,6 +24,7 @@ public class TurnManager : MonoBehaviour
     int BridgestandbyCount = 0;
     int NowTurn = 0;
     int i = 1;
+
 
     
     void Awake()
@@ -74,16 +78,19 @@ public class TurnManager : MonoBehaviour
         {
                 area.RedWall = false;
                 area.BlueWall = false;
+                area.SwitchArea(x,y);
         }
         
         else if(BlueTurn)
         {
             area.BlueWall = true;
+            area.SwitchArea(x,y);
         }
 
         else
         {
             area.RedWall = true;
+            area.SwitchArea(x,y);
         }
     }
 

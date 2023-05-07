@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - RedWall
+  - BlueWall
   layers:
   - Default
   - TransparentFX
