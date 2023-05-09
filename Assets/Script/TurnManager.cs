@@ -78,19 +78,20 @@ public class TurnManager : MonoBehaviour
         {
                 area.RedWall = false;
                 area.BlueWall = false;
-                area.SwitchArea(x,y);
+                area.RedAreaLeak = true;
+                area.BlueAreaLeak  = true;
         }
         
         else if(BlueTurn)
         {
             area.BlueWall = true;
-            area.SwitchArea(x,y);
+            area.BlueAreaLeak = false;
         }
 
         else
         {
             area.RedWall = true;
-            area.SwitchArea(x,y);
+            area.RedAreaLeak = false;
         }
     }
 

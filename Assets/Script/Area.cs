@@ -45,15 +45,21 @@ public class Area : MonoBehaviour
     (int x, int y) PointPos;
 
     //囲い判定用
-    bool movefoward = false;
-    bool moveback = false;
-    bool moveleft = false;
-    bool moveright = false;
-    bool DeadEnd = false;
+    public bool BlueWallisDown = false;
+    public bool BlueWallisUp = false;
+    public bool BlueWallisLeft = false;
+    public bool BlueWallisRight = false;
+    public bool BlueAreaVerticalSiege = false;
+    public bool BlueAreaHorizontalSiege = false;
+    public bool BlueAreaLeak = true;
 
-    //仮想壁用
-    bool ImaginaryBlueWall = false;
-    bool ImaginaryRedWall = false;
+    public bool RedWallisDown = false;
+    public bool RedWallisUp = false;
+    public bool RedWallisLeft = false;
+    public bool RedWallisRight = false;
+    public bool RedAreaVerticalSiege = false;
+    public bool RedAreaHorizontalSiege = false;
+    public bool RedAreaLeak = true;
 
     // Start is called before the first frame update
     void Start()
@@ -100,387 +106,247 @@ public class Area : MonoBehaviour
     void Update()
     {
         if(!Scapegoat){
-        //周囲に壁がないかを検知
-        if((FWC.BlueWall || BWC.BlueWall) && (LWC.BlueWall || RWC.BlueWall) && !(FWC.BlueWall && BWC.BlueWall) && !(LWC.BlueWall && RWC.BlueWall) )
+        //包囲判定
+
+        if(!RedWall && !BlueWall && (FWC.BlueAreaLeak || BWC.BlueAreaLeak || LWC.BlueAreaLeak || RWC.BlueAreaLeak))
         {
-            ImaginaryBlueWall = true;
-            Debug.Log("(" + ThisPosX + "," + ThisPosY + ")" + "ImaginaryBlueWall On");
+            BlueAreaLeak = true;
         }
         else
         {
-            ImaginaryBlueWall = false;
+            BlueAreaLeak = false;
         }
-
-        if((FWC.RedWall || BWC.RedWall) && (LWC.RedWall || RWC.RedWall) && !(FWC.RedWall && BWC.RedWall) && !(LWC.RedWall && RWC.RedWall))
+        
+        if(FWC.BlueWall || FWC.BlueWallisUp)
         {
-            ImaginaryRedWall = true;
-            Debug.Log("(" + ThisPosX + "," + ThisPosY + ")" + "ImaginaryRedWall On");
+            BlueWallisUp = true;
         }
         else
         {
-            ImaginaryRedWall = false;
+            BlueWallisUp = false;
         }
 
-        }
-    }
-
-    public void SwitchArea(int x,int y)
-    {
-        if(!Scapegoat){
-        /*まず上下1マスに壁があるかを確認する行動を繰り返す。
-          壁がなくなった場合、今度は横で同じ操作を行う。
-          また横方向に壁がなくなった場合縦でいなじことをやる。
-          といったように操作を繰り返し行い、
-          元の場所に戻ってくる、もしくは縦に進めない状況で、横にも進めなかった場合
-          元の場所に帰ってきた場合、i,jを取得しforで中を塗りつぶす
-          行き詰まった状態の場合、何もせず終わる
-          以上のようなスクリプトをかくといい感じかも*/
-
-        /*追記:自分周辺縦横4マスのうち縦どちらか1マス、横どちらか1マスが同じ陣営の壁だった場合
-          その陣営の仮想壁としてフラグを立てて上の処理に組み込んでみる*/
-
-        
-        
-        moveback = true;
-        movefoward = false;
-        moveleft = false;
-        moveright = false;
-        DeadEnd = false;
-        
-        if(BlueWall)
+        if(BWC.BlueWall || BWC.BlueWallisDown)
         {
-
-            
-
-            BlueWalli = x;
-            BlueWallj = y;
-            BlueMaxi = x;
-            BlueMaxj = y;
-            BlueMini = x;
-            BlueMinj = y;
-
-            while(!DeadEnd)
-            {
-
-                PointPos = NeutherWallChecker(BlueWalli,BlueWallj);
-
-                BlueWalli = PointPos.x;
-                BlueWallj = PointPos.y;
-
-                if(BlueWalli == x && BlueWallj == y && !DeadEnd)
-                {
-                    Debug.Log("青包囲");
-                    AreaSiege();
-                    break;
-                }
-            }
-            
-            
+            BlueWallisDown = true;
         }
-
-        else if(RedWall)
+        else
         {
-
-            RedWalli = x;
-            RedWallj = y;
-            RedMaxi = x;
-            RedMaxj = y;
-            RedMini = x;
-            RedMinj = y;
-
-            while(!DeadEnd)
-            {
-
-                NeutherWallChecker(RedWalli,RedWallj);
-
-                RedWalli = PointPos.x;
-                RedWallj = PointPos.y;
-
-                if(RedWalli == x && RedWallj == y && !DeadEnd)
-                {
-                    Debug.Log("赤包囲");
-                    AreaSiege();
-                    break;
-                }
-
-            }
+            BlueWallisDown = false;
         }
+
+        if(LWC.BlueWall || LWC.BlueWallisLeft)
+        {
+            BlueWallisLeft = true;
+        }
+        else
+        {
+            BlueWallisLeft = false;
+        }
+
+        if(RWC.BlueWall || RWC.BlueWallisRight)
+        {
+            BlueWallisRight = true;
+        }
+        else
+        {
+            BlueWallisRight = false;
+        }
+
+        if(BlueWallisDown && BlueWallisUp)
+        {
+            BlueAreaVerticalSiege = true;
+        }
+        else
+        {
+            BlueAreaVerticalSiege = false;
+        }
+
+        if(BlueWallisLeft && BlueWallisRight)
+        {
+            BlueAreaHorizontalSiege = true;
+        }
+        else
+        {
+            BlueAreaHorizontalSiege = false;
+        }
+
+        if(BlueAreaHorizontalSiege && BlueAreaVerticalSiege && !BlueWall && !RedWall)
+        {
+            BlueAreaLeak = false;
+        }
+        else
+        {
+            BlueAreaLeak = true;
+        }
+
+        if(BlueAreaVerticalSiege && BlueAreaHorizontalSiege && !BlueWall && !RedWall)
+        {
+            BlueArea = true;
+        }
+        else
+        {
+            BlueArea = false;
+        }
+
+        if(BlueAreaLeak)
+        {
+            BlueArea = false;
+        }
+
+
+
+
+
+        if(!RedWall && !BlueWall && (FWC.RedAreaLeak || BWC.RedAreaLeak || LWC.RedAreaLeak || RWC.RedAreaLeak))
+        {
+            RedAreaLeak = true;
+        }
+        else
+        {
+            RedAreaLeak = false;
+        }
+
+        if(FWC.RedWall || FWC.RedWallisUp)
+        {
+            RedWallisUp = true;
+        }
+        else
+        {
+            RedWallisUp = false;
+        }
+
+        if(BWC.RedWall || BWC.RedWallisDown)
+        {
+            RedWallisDown = true;
+        }
+        else
+        {
+            RedWallisDown = false;
+        }
+
+        if(LWC.RedWall || LWC.RedWallisLeft)
+        {
+            RedWallisLeft = true;
+        }
+        else
+        {
+            RedWallisLeft = false;
+        }
+
+        if(RWC.RedWall || RWC.RedWallisRight)
+        {
+            RedWallisRight = true;
+        }
+        else
+        {
+            RedWallisRight = false;
+        }
+
+        if(RedWallisDown && RedWallisUp)
+        {
+            RedAreaVerticalSiege = true;
+        }
+        else
+        {
+            RedAreaVerticalSiege = false;
+        }
+
+        if(RedWallisLeft && RedWallisRight)
+        {
+            RedAreaHorizontalSiege = true;
+        }
+        else
+        {
+            RedAreaHorizontalSiege = false;
+        }
+
+        if(RedAreaHorizontalSiege && RedAreaVerticalSiege && !RedWall && !BlueWall)
+        {
+            RedAreaLeak = false;
+        }
+        else
+        {
+            RedAreaLeak = true;
+        }
+
+        if(RedAreaVerticalSiege && RedAreaHorizontalSiege && !RedWall && !BlueWall && !RedAreaLeak)
+        {
+            RedArea = true;
+        }
+        else
+        {
+            RedArea = false;
+        }
+
+        if(RedAreaLeak)
+        {
+            RedArea = false;
+        }
+
         
+
+
+
+        
+
         if (!BlueWall && !RedWall)
         {
             if(BlueArea)
             {
                 BlueAreaMarker.SetActive(true);
-                Debug.Log("青陣地");
             }
             else if(RedArea)
             {
                 RedAreaMarker.SetActive(true);
-                Debug.Log("赤陣地");
+            }
+
+            else
+            {
+                BlueAreaMarker.SetActive(false);
+                RedAreaMarker.SetActive(false);
             }
         }
         
-        else if(BlueWall)
+        if(BlueWall)
         {
             BlueWallMarker.SetActive(true);
         }
-        else if(RedWall)
+
+        else
+        {
+            BlueWallMarker.SetActive(false);
+        }
+
+        if(RedWall)
         {
             RedWallMarker.SetActive(true);
         }
 
-        else if(castle)
+        else
+        {
+            RedWallMarker.SetActive(false);
+        }
+
+        if(castle)
         {
             CastleMarker.SetActive(true);
         }
 
-        else if(pond)
+        else
+        {
+            CastleMarker.SetActive(false);
+        }
+
+        if(pond)
         {
             PondMarker.SetActive(true);
         }
 
         else
         {
-            BlueAreaMarker.SetActive(false);
-            RedAreaMarker.SetActive(false);
-            BlueWallMarker.SetActive(false);
-            RedWallMarker.SetActive(false);
-            CastleMarker.SetActive(false);
             PondMarker.SetActive(false);
         }
     }
     }
-
-    (int , int) NeutherWallChecker(int x,int y)
-    {
-        
-        //まず可能な限り一つ前に進んでいた方向に進む
-        if(TM.BlueTurn)
-        {
-            if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().FWC.BlueWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().FWC.ImaginaryBlueWall) && movefoward)
-            {
-                Debug.Log("前壁あり");
-                movefoward = true;
-                moveback = false;
-                moveleft = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x-1,y);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().BWC.BlueWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().BWC.ImaginaryBlueWall) && moveback)
-            {
-                Debug.Log("後ろ壁あり");
-                moveback = true;
-                movefoward = false;
-                moveleft = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x+1,y);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().LWC.BlueWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().LWC.ImaginaryBlueWall) && moveleft)
-            {
-                Debug.Log("左壁あり");
-                moveleft = true;
-                movefoward = false;
-                moveback = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x,y-1);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.BlueWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.ImaginaryBlueWall) && moveright)
-            {
-                Debug.Log("右壁あり");
-                moveright = true;
-                movefoward = false;
-                moveback = false;
-                moveleft = false;
-                DeadEnd = false;
-                return (x,y+1);
-            }
-
-
-            
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().FWC.BlueWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().FWC.ImaginaryBlueWall) && !moveback)
-            {
-                Debug.Log("前壁あり");
-                movefoward = true;
-                moveback = false;
-                moveleft = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x-1,y);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().BWC.BlueWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().BWC.ImaginaryBlueWall) && !movefoward)
-            {
-                Debug.Log("後ろ壁あり");
-                moveback = true;
-                movefoward = false;
-                moveleft = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x+1,y);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.BlueWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.ImaginaryBlueWall) && !moveright)
-            {
-                Debug.Log("左壁あり");
-                moveleft = true;
-                movefoward = false;
-                moveback = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x,y-1);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.BlueWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.ImaginaryBlueWall) && !moveleft)
-            {
-                Debug.Log("右壁あり");
-                moveright = true;
-                movefoward = false;
-                moveback = false;
-                moveleft = false;
-                DeadEnd = false;
-                return (x,y+1);
-            }
-
-            else
-            {
-                Debug.Log("壁なし");
-                DeadEnd = true;
-                return (x,y);
-            }
-        }
-
-        else
-        {
-            if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().FWC.RedWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().FWC.ImaginaryRedWall) && movefoward)
-            {
-                Debug.Log("前壁あり");
-                movefoward = true;
-                moveback = false;
-                moveleft = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x-1,y);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().BWC.RedWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().BWC.ImaginaryRedWall) && moveback)
-            {
-                Debug.Log("後ろ壁あり");
-                moveback = true;
-                movefoward = false;
-                moveleft = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x+1,y);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().LWC.RedWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().LWC.ImaginaryRedWall) && moveleft)
-            {
-                Debug.Log("左壁あり");
-                moveleft = true;
-                movefoward = false;
-                moveback = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x,y-1);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.RedWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.ImaginaryRedWall) && moveright)
-            {
-                Debug.Log("右壁あり");
-                moveright = true;
-                movefoward = false;
-                moveback = false;
-                moveleft = false;
-                DeadEnd = false;
-                return (x,y+1);
-            }
-
-
-            
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().FWC.RedWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().FWC.ImaginaryRedWall) && !moveback)
-            {
-                Debug.Log("前壁あり");
-                movefoward = true;
-                moveback = false;
-                moveleft = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x-1,y);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().BWC.RedWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().BWC.ImaginaryRedWall) && !movefoward)
-            {
-                Debug.Log("後ろ壁あり");
-                moveback = true;
-                movefoward = false;
-                moveleft = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x+1,y);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.RedWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.ImaginaryRedWall) && !moveright)
-            {
-                Debug.Log("左壁あり");
-                moveleft = true;
-                movefoward = false;
-                moveback = false;
-                moveright = false;
-                DeadEnd = false;
-                return (x,y-1);
-            }
-
-            else if((TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.RedWall || TM.transform.GetChild(x).GetChild(y).GetComponent<Area>().RWC.ImaginaryRedWall) && !moveleft)
-            {
-                Debug.Log("右壁あり");
-                moveright = true;
-                movefoward = false;
-                moveback = false;
-                moveleft = false;
-                DeadEnd = false;
-                return (x,y+1);
-            }
-
-            else
-            {
-                Debug.Log("壁なし");
-                DeadEnd = true;
-                return (x,y);
-            }
-        }
-    }
-
-
-    void AreaSiege()
-    {
-
-        if(TM.BlueTurn)
-        {
-            for(int i = BlueMini; i <= BlueMaxi; i++)
-            {
-                for(int j = BlueMinj; j <= BlueMaxj; j++)
-                {
-                    TM.transform.GetChild(i).GetChild(j).GetComponent<Area>().BlueArea = true;
-                }
-            }
-        }
-        
-        else
-        {
-            for(int i = RedMini; i <= RedMaxi; i++)
-            {
-                for(int j = RedMinj; j <= RedMaxj; j++)
-                {
-                    TM.transform.GetChild(i).GetChild(j).GetComponent<Area>().RedArea = true;
-                }
-            }
-        }
-
-    }
-}
+  }
