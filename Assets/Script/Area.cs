@@ -105,17 +105,9 @@ public class Area : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        #region 城壁判定
         if(!Scapegoat){
         //包囲判定
-
-        if(!RedWall && !BlueWall && (FWC.BlueAreaLeak || BWC.BlueAreaLeak || LWC.BlueAreaLeak || RWC.BlueAreaLeak))
-        {
-            BlueAreaLeak = true;
-        }
-        else
-        {
-            BlueAreaLeak = false;
-        }
         
         if(FWC.BlueWall || FWC.BlueWallisUp)
         {
@@ -171,41 +163,21 @@ public class Area : MonoBehaviour
             BlueAreaHorizontalSiege = false;
         }
 
-        if(BlueAreaHorizontalSiege && BlueAreaVerticalSiege && !BlueWall && !RedWall)
+
+
+        if(BlueAreaHorizontalSiege && BlueAreaVerticalSiege || BlueWall || RedWall)
         {
             BlueAreaLeak = false;
+            Debug.Log(ThisPosX + "," + ThisPosY + "上下左右に壁がある");
         }
         else
         {
             BlueAreaLeak = true;
         }
 
-        if(BlueAreaVerticalSiege && BlueAreaHorizontalSiege && !BlueWall && !RedWall)
-        {
-            BlueArea = true;
-        }
-        else
-        {
-            BlueArea = false;
-        }
-
-        if(BlueAreaLeak)
-        {
-            BlueArea = false;
-        }
 
 
 
-
-
-        if(!RedWall && !BlueWall && (FWC.RedAreaLeak || BWC.RedAreaLeak || LWC.RedAreaLeak || RWC.RedAreaLeak))
-        {
-            RedAreaLeak = true;
-        }
-        else
-        {
-            RedAreaLeak = false;
-        }
 
         if(FWC.RedWall || FWC.RedWallisUp)
         {
@@ -261,35 +233,21 @@ public class Area : MonoBehaviour
             RedAreaHorizontalSiege = false;
         }
 
-        if(RedAreaHorizontalSiege && RedAreaVerticalSiege && !RedWall && !BlueWall)
+        if(RedAreaHorizontalSiege && RedAreaVerticalSiege || BlueWall || RedWall)
         {
             RedAreaLeak = false;
+            Debug.Log(ThisPosX + "," + ThisPosY + "の上下左右に壁がある");
         }
         else
         {
             RedAreaLeak = true;
         }
 
-        if(RedAreaVerticalSiege && RedAreaHorizontalSiege && !RedWall && !BlueWall && !RedAreaLeak)
-        {
-            RedArea = true;
-        }
-        else
-        {
-            RedArea = false;
-        }
-
-        if(RedAreaLeak)
-        {
-            RedArea = false;
-        }
-
-        
+        #endregion
 
 
 
-        
-
+        #region 城壁反映
         if (!BlueWall && !RedWall)
         {
             if(BlueArea)
@@ -348,5 +306,49 @@ public class Area : MonoBehaviour
             PondMarker.SetActive(false);
         }
     }
+    #endregion
+    }
+
+    void LateUpdate()
+    {
+        if(!RedWall && !BlueWall)
+        {
+            if(FWC.BlueAreaLeak || BWC.BlueAreaLeak || LWC.BlueAreaLeak || RWC.BlueAreaLeak)
+            {
+                BlueAreaLeak = true;
+            }
+            else
+            {
+                BlueAreaLeak = false;
+            }
+
+            if(BlueAreaVerticalSiege && BlueAreaHorizontalSiege && !BlueAreaLeak)
+            {
+                BlueArea = true;
+            }
+            else
+            {
+                BlueArea = false;
+            }
+
+
+            if(FWC.RedAreaLeak || BWC.RedAreaLeak || LWC.RedAreaLeak || RWC.RedAreaLeak)
+            {
+                RedAreaLeak = true;
+            }
+            else
+            {
+                RedAreaLeak = false;
+            }
+
+            if(RedAreaVerticalSiege && RedAreaHorizontalSiege && !RedAreaLeak)
+            {
+                RedArea = true;
+            }
+            else
+            {
+                RedArea = false;
+            }
+        }
     }
   }
