@@ -85,8 +85,9 @@ public class BridgeButtonManager : MonoBehaviour
         if(CanMove)
         {
         BoardY--;
-        this.transform.position = TM.MoveBridge(BoardY, BoardX);
         }
+        this.transform.position = TM.MoveBridge(BoardY, BoardX);
+        
     }
 
     public void MoveBackwardBridge()
@@ -98,8 +99,9 @@ public class BridgeButtonManager : MonoBehaviour
         if(CanMove)
         {
             BoardY++;
-            this.transform.position = TM.MoveBridge(BoardY, BoardX);
         }
+        this.transform.position = TM.MoveBridge(BoardY, BoardX);
+        
     }
 
     public void MoveRightBridge()
@@ -111,8 +113,9 @@ public class BridgeButtonManager : MonoBehaviour
         if(CanMove)
         {
             BoardX++;
-            this.transform.position = TM.MoveBridge(BoardY, BoardX);
         }
+        this.transform.position = TM.MoveBridge(BoardY, BoardX);
+        
     }
 
     public void MoveLeftBridge()
@@ -124,8 +127,9 @@ public class BridgeButtonManager : MonoBehaviour
         if(CanMove)
         {
             BoardX--;
-            this.transform.position = TM.MoveBridge(BoardY, BoardX);
         }
+        this.transform.position = TM.MoveBridge(BoardY, BoardX);
+        
     }
 
     public void MoveLeftForwardBridge()
@@ -138,8 +142,9 @@ public class BridgeButtonManager : MonoBehaviour
         {
             BoardX--;
             BoardY--;
-            this.transform.position = TM.MoveBridge(BoardY, BoardX);
         }
+        this.transform.position = TM.MoveBridge(BoardY, BoardX);
+        
     }
 
     public void MoveRightForwardBridge()
@@ -152,8 +157,9 @@ public class BridgeButtonManager : MonoBehaviour
         {
             BoardX++;
             BoardY--;
-            this.transform.position = TM.MoveBridge(BoardY, BoardX);
         }
+        this.transform.position = TM.MoveBridge(BoardY, BoardX);
+        
     }
 
     public void MoveLeftBackwardBridge()
@@ -166,8 +172,8 @@ public class BridgeButtonManager : MonoBehaviour
         {
             BoardX--;
             BoardY++;
-            this.transform.position = TM.MoveBridge(BoardY, BoardX);
         }
+        this.transform.position = TM.MoveBridge(BoardY, BoardX);
     }
 
     public void MoveRightBackwardBridge()
@@ -180,8 +186,9 @@ public class BridgeButtonManager : MonoBehaviour
         {
             BoardX++;
             BoardY++;
-            this.transform.position = TM.MoveBridge(BoardY, BoardX);
         }
+        this.transform.position = TM.MoveBridge(BoardY, BoardX);
+        
     }
 
     public void BuildAndDestroyForward()

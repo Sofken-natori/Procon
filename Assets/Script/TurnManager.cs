@@ -114,8 +114,8 @@ public class TurnManager : MonoBehaviour
         // Set the bridge position
         square = this.transform.GetChild(x).GetChild(y);
         area = square.GetComponent<Area>();
-        area.Bridge = true;
         BridgeActCount++;
+        area.Bridge = true;
         return square.position;
     }
 }
