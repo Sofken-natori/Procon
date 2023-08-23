@@ -17,7 +17,7 @@ namespace KomaKeisan
 
 
 
-        /*  public static State GetKomaState(State komaState)
+          public static State GetKomaState(State komaState)
           {
               return komaState == State.Red ? State.Blue : State.Red;
 
@@ -48,7 +48,7 @@ namespace KomaKeisan
               {
                   for (var y = 0; y < komaStates.GetLength(1); y++)
                   {
-                      // ’u‚¯‚éƒXƒg[ƒ“‚È‚ç’Ç‰Á
+                      // ï¿½uï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½[ï¿½ï¿½ï¿½È‚ï¿½Ç‰ï¿½
                       if (GetTurnKomaIndex(komaStates, putState, x, y).Count > 0)
                       {
                           canPutKoma.Add(new KomaIndex(x, y));
@@ -60,21 +60,21 @@ namespace KomaKeisan
 
           public static List<KomaIndex> GetTurnKomaIndex(State[,] komaStates, State putState, int putX, int putZ)
           {
-              // Šù‚ÉƒXƒg[ƒ“‚ª’u‚©‚ê‚Ä‚¢‚½‚ç‹ó‚Å•Ô‹p
+              // ï¿½ï¿½ï¿½ÉƒXï¿½gï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å•Ô‹p
               var turnKomaIndex = new List<KomaIndex>();
               if (komaStates == null || komaStates[putX, putZ] != State.Empty) return turnKomaIndex;
               public static List<StoneIndex> GetTurnStonesIndex(StoneState[,] stoneStates, StoneState putState, int putX, int putZ)
               {
-                  // Šù‚ÉƒXƒg[ƒ“‚ª’u‚©‚ê‚Ä‚¢‚½‚ç‹ó‚Å•Ô‹p
+                  // ï¿½ï¿½ï¿½ÉƒXï¿½gï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½uï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å•Ô‹p
                   var turnStonesIndex = new List<StoneIndex>();
                   if (stoneStates == null || stoneStates[putX, putZ] != StoneState.Empty) return turnStonesIndex;
 
-                  // 8•ûŒü•ª‚ÌƒXƒg[ƒ“‚ğ’²‚×‚Ä•Ô‹p‚·‚é
+                  // 8ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÌƒXï¿½gï¿½[ï¿½ï¿½ï¿½ğ’²‚×‚Ä•Ô‹pï¿½ï¿½ï¿½ï¿½
 
                   return turnKomaIndex;
           }
 
-        */
+        
 
       /*  public static State[,] GetPutkomaState(State[,] komaStates, State putState, int putX, int putY, List<KomaIndex> turnKomaIndex = null)
         {

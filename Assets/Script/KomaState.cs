@@ -1,16 +1,17 @@
 namespace Koma
 {
     /// <summary>
-    /// ƒXƒg[ƒ“‚Ìó‘Ô
+    /// ï¿½Xï¿½gï¿½[ï¿½ï¿½ï¿½Ìï¿½ï¿½
     /// </summary>
     public enum State
     {
-        Empty = 0, // ‰½‚à–³‚¢
-        Red = 1, // Ô
-        Blue = 2, // Â
-        castle = 3,//é
-        lake = 4,//’r
-        jinti_Red = 5, // w’n
+        Empty = 0, // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        Red = 1, // ï¿½ï¿½
+        Blue = 2, // ï¿½ï¿½
+        castle = 3,//ï¿½ï¿½
+        lake = 4,//ï¿½r
+        jinti_Red = 5, // ï¿½wï¿½n
         jinti_Bule = 6,
+        koma = 7;
     }
 }

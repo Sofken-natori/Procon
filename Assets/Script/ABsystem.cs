@@ -16,8 +16,8 @@ namespace AI
 {
    public class ABsystem : MonoBehaviour
     {
-        //”z—ñ‚Å•]‰¿ŠÖ”‚ğì¬
-       /*   private static readonly int[,] EvaluatekomaStateScore = new[,] {
+        //ï¿½zï¿½ï¿½Å•]ï¿½ï¿½ï¿½Öï¿½ï¿½ï¿½ï¿½ì¬
+          private static readonly int[,] EvaluatekomaStateScore = new[,] {
               {  0, 1,   0,  1,  0,  1, 0,  1, 0, 1 , 0, 1, 0, 1, 0 },
               {  1, 0,   1,  0,  1,  0, 1,  0, 1, 0 , 1, 0, 1, 0, 1 },
               {  0, 1,   0,  1,  0,  1, 0,  1, 0, 1 , 0, 1, 0, 1, 0 },
@@ -60,27 +60,27 @@ namespace AI
               return myscore - enemyscore;
           }
         
-          //’Tõƒp[ƒg
+          //ï¿½Tï¿½ï¿½ï¿½pï¿½[ï¿½g
           public static KomaIndex SearchAlphaBeta(State[,] komaState, State putkomaState, int depth, bool isPrevPassed = false)
           {
               //   var random = new Random();
-              //’Tõ‚µ‚½‹î
+              //ï¿½Tï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
               KomaIndex resultKomaIndex = null;
 
-              // ’u‚­‚±‚Æ‚ª‰Â”\‚ÈƒXƒg[ƒ“‚ğ‘S‚Ä’²‚×‚é
+              // ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Â”\ï¿½ÈƒXï¿½gï¿½[ï¿½ï¿½ï¿½ï¿½Sï¿½Ä’ï¿½ï¿½×‚ï¿½
               var alpha = int.MinValue + 1;
               var beta = int.MaxValue;
 
               var canPutkomaIndex = komaK.GetAllCanPutKomaIndex(komaState, putkomaState);
-              // ’u‚­‚±‚Æ‚ª‰Â”\‚È‹î‚ğ’²‚×‚é
-              //foreach‚Å‚·‚×‚Ä‚Ì‘w‚ğ’Tõ
+              // ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Â”\ï¿½È‹ï¿½ğ’²‚×‚ï¿½
+              //foreachï¿½Å‚ï¿½ï¿½×‚Ä‚Ì‘wï¿½ï¿½Tï¿½ï¿½
               foreach (var putkomaStateIndex in canPutkomaIndex)
               {
-                  // Ÿ‚ÌŠK‘w‚Ìó‘Ô‚ğ’²‚×‚é
+                  // ï¿½ï¿½ï¿½ÌŠKï¿½wï¿½Ìï¿½Ô‚ğ’²‚×‚ï¿½
                   var putkomaStates = komaK.GetPutkomaState(komaState, putkomaState, putkomaStateIndex.X, putkomaStateIndex.Y);
                   var score = -1 * AlphaBetaScore(putkomaStates, komaK.GetKomaState(putkomaState), depth - 1, -beta, -alpha);
 
-                  // Å‘åƒXƒRƒA‚Ìê‡AƒXƒRƒA‚ÆŠY“–ƒCƒ“ƒfƒbƒNƒX‚ğ•Û
+                  // ï¿½Å‘ï¿½Xï¿½Rï¿½Aï¿½Ìê‡ï¿½Aï¿½Xï¿½Rï¿½Aï¿½ÆŠYï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½fï¿½bï¿½Nï¿½Xï¿½ï¿½Ûï¿½
                   if (alpha < score)
                   {
                       alpha = score;
@@ -96,23 +96,23 @@ namespace AI
           public static int AlphaBetaScore(State[,] komaStates, State putkomaState, int depth, int alpha, int beta, bool isPrevPassed = false)
           {
 
-              // —tƒm[ƒh‚Å•]‰¿ŠÖ”‚ğÀ
+              // ï¿½tï¿½mï¿½[ï¿½hï¿½Å•]ï¿½ï¿½ï¿½Öï¿½ï¿½ï¿½ï¿½ï¿½
               if (depth == 0) return EvaluateStoneStates(komaStates, putkomaState);
 
-              // ’u‚­‚±‚Æ‚ª‰Â”\‚ÈƒXƒg[ƒ“‚ğ‘S‚Ä’²‚×‚é
+              // ï¿½uï¿½ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Â”\ï¿½ÈƒXï¿½gï¿½[ï¿½ï¿½ï¿½ï¿½Sï¿½Ä’ï¿½ï¿½×‚ï¿½
               var maxScore = int.MinValue;
               var canPutkomaIndex = komaK.GetAllCanPutKomaIndex(komaStates, putkomaState);
               foreach (var putKomaIndex in canPutkomaIndex)
               {
 
-                  // Ÿ‚ÌŠK‘w‚Ìó‘Ô‚ğ’²‚×‚é
+                  // ï¿½ï¿½ï¿½ÌŠKï¿½wï¿½Ìï¿½Ô‚ğ’²‚×‚ï¿½
                   var putKomaStates = komaK.GetPutkomaState(komaStates, putkomaState, putKomaIndex.X, putKomaIndex.Y);
                   var score = -1 * AlphaBetaScore(putKomaStates, komaK.GetKomaState(putkomaState), depth - 1, -beta, -alpha);
 
-                  // NegaMax’l‚ª’Tõ”ÍˆÍ‚ÌãŒÀ‚æ‚èã‚Ìê‡‚Í}ë‚è
+                  // NegaMaxï¿½lï¿½ï¿½ï¿½Tï¿½ï¿½ï¿½ÍˆÍ‚Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìê‡ï¿½Í}ï¿½ï¿½ï¿½
                   if (score >= beta) return score;
 
-                  // alpha’lAmaxScore‚ğXV
+                  // alphaï¿½lï¿½AmaxScoreï¿½ï¿½ï¿½Xï¿½V
                   alpha = Mathf.Max(alpha, score);
                   maxScore = Mathf.Max(maxScore, score);
 
@@ -120,14 +120,14 @@ namespace AI
               if (maxScore == int.MinValue)
               {
                   //   if (isPrevPassed) return EvaluateStoneStates(komaStates, putkomaState);
-                  // ƒXƒg[ƒ“ó‘Ô‚Í‚»‚Ì‚Ü‚Ü‚ÅAŸ‚ÌŠK‘w‚Ìó‘Ô‚ğ’²‚×‚é
+                  // ï¿½Xï¿½gï¿½[ï¿½ï¿½ï¿½ï¿½Ô‚Í‚ï¿½ï¿½Ì‚Ü‚Ü‚ÅAï¿½ï¿½ï¿½ÌŠKï¿½wï¿½Ìï¿½Ô‚ğ’²‚×‚ï¿½
                   return -1 * AlphaBetaScore(komaStates, komaK.GetKomaState(putkomaState), depth - 1, -beta, -alpha, true);
 
               }
               return maxScore;
 
           }
-          */
+          
 
     }
 }
