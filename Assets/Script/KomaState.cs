@@ -12,6 +12,6 @@ namespace Koma
         lake = 4,//�r
         jinti_Red = 5, // �w�n
         jinti_Bule = 6,
-        koma = 7;
+        koma = 7,
     }
 }

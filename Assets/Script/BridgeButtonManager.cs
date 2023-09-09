@@ -80,11 +80,13 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge forward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY-1,BoardX);
         if(CanMove)
         {
-        BoardY--;
+            BoardY--;
         }
         this.transform.position = TM.MoveBridge(BoardY, BoardX);
         
@@ -94,6 +96,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge backward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY+1,BoardX);
         if(CanMove)
@@ -108,6 +112,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge right
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY,BoardX+1);
         if(CanMove)
@@ -122,6 +128,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge left
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY,BoardX-1);
         if(CanMove)
@@ -136,6 +144,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge left forward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY-1,BoardX-1);
         if(CanMove)
@@ -151,6 +161,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge right forward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY-1,BoardX+1);
         if(CanMove)
@@ -166,6 +178,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge left backward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY+1,BoardX-1);
         if(CanMove)
@@ -180,6 +194,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge right backward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY+1,BoardX+1);
         if(CanMove)
@@ -195,6 +211,7 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Build and destroy the bridge forward
         BuildAndDestroyArrow.SetActive(false);
+        BridgeRester();
         ButtonIntaract.interactable = false;
         TM.BuildAndDestroyBridge(BoardY-1, BoardX);
     }
@@ -203,6 +220,7 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Build and destroy the bridge backward
         BuildAndDestroyArrow.SetActive(false);
+        BridgeRester();
         ButtonIntaract.interactable = false;
         TM.BuildAndDestroyBridge(BoardY+1, BoardX);
     }
@@ -211,6 +229,7 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Build and destroy the bridge right
         BuildAndDestroyArrow.SetActive(false);
+        BridgeRester();
         ButtonIntaract.interactable = false;
         TM.BuildAndDestroyBridge(BoardY, BoardX+1);
     }
@@ -219,8 +238,14 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Build and destroy the bridge left
         BuildAndDestroyArrow.SetActive(false);
+        BridgeRester();
         ButtonIntaract.interactable = false;
         TM.BuildAndDestroyBridge(BoardY, BoardX-1);
     }
 
+    public void BridgeRester()
+    {
+        ButtonIntaract.interactable = false;
+        TM.BridgeRest();
+    }
 }

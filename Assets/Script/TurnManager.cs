@@ -49,6 +49,12 @@ public class TurnManager : MonoBehaviour
                 NowTurn++;
             }
             Debug.Log("TurnChange");
+            CallAreaLeakChecker(true);
+            CallAreaLeakChecker(false);
+            CallSiegeAreaChecker(true);
+            CallSiegeAreaChecker(false);
+            CallAreaLeakReseter(true);
+            CallAreaLeakReseter(false);
             BlueTurn = !BlueTurn;
             BridgeActCount = 0;
             UntapPhase = true;
@@ -114,8 +120,69 @@ public class TurnManager : MonoBehaviour
         // Set the bridge position
         square = this.transform.GetChild(x).GetChild(y);
         area = square.GetComponent<Area>();
-        BridgeActCount++;
+        BridgeRest();
         area.Bridge = true;
         return square.position;
+    }
+
+    public void BridgeRest()
+    {
+        BridgeActCount++;
+    }
+
+    public void isBridgeReseter(int i, int j)
+    {
+        area = this.transform.GetChild(i).GetChild(j).GetComponent<Area>();
+        area.Bridge = false;
+    }
+
+    public void CallAreaLeakChecker(bool isBlue)
+    {
+        for(int i = 0; i < BoardXMax; i++)
+        {
+            for (int j = 0; j < 1; j++)
+            {
+                area = this.transform.GetChild(i).GetChild((BoardYMax - 1) * j).GetComponent<Area>();
+                area.AreaLeak(isBlue);
+            }
+
+            for (int j = 0; j < 1; j++)
+            {
+                area = this.transform.GetChild((BoardXMax - 1) * j).GetChild(i).GetComponent<Area>();
+                area.AreaLeak(isBlue);
+            }
+        }
+    }
+
+    public void CallSiegeAreaChecker(bool isBlue)
+    {
+        for(int i = 0; i < BoardXMax; i++)
+        {
+            for (int j = 0; j < BoardYMax; j++)
+            {
+                area = this.transform.GetChild(i).GetChild(j).GetComponent<Area>();
+                area.SiegeAreaChecker(isBlue);
+            }
+        }
+    }
+
+    public void CallAreaLeakReseter(bool isBlue)
+    {
+        for(int i = 0; i < BoardXMax; i++)
+        {
+            for (int j = 0; j < BoardYMax; j++)
+            {
+                area = this.transform.GetChild(i).GetChild(j).GetComponent<Area>();
+                area.AreaLeakReseter(isBlue);
+            }
+        }
+    }
+
+    public void CallBridgeRester()
+    {
+        for(int i = 0; i < Board.transform.childCount; i++)
+        {
+            Board.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeRester();
+        }
     }
 }

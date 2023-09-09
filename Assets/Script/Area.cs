@@ -5,7 +5,20 @@ using UnityEngine.UI;
 
 public class Area : MonoBehaviour
 {
+    #region デバック用壁出現ツール
+    [Header("青城壁")]public bool BlueWall = false;
+    [Header("赤城壁")]public bool RedWall = false;
+    [Header("デバックモード")]public bool DebugMode = false;
+    #endregion
 
+    #region 囲い判定用
+    [Header("囲い判定用変数")]
+    public bool BlueAreaLeak = false;
+    public bool RedAreaLeak = false;
+    #endregion
+
+
+    #region 変更できる変数
     [Header("赤陣地マーカー"), SerializeField]GameObject RedAreaMarker;
     [Header("青陣地マーカー"), SerializeField]GameObject BlueAreaMarker;
     [Header("赤城壁マーカー"), SerializeField]GameObject RedWallMarker;
@@ -17,49 +30,24 @@ public class Area : MonoBehaviour
     [Header("左壁判定"),SerializeField]Area LWC;
     [Header("右壁判定"),SerializeField]Area RWC;
     [Header("このスクリプト止める"),SerializeField]bool Scapegoat = false;
+    #endregion
 
-
-    public bool BlueArea = false;
-    public bool RedArea = false;
-    public bool BlueWall = false;
-    public bool RedWall = false;
-    public bool castle = false;
-    public bool pond = false;
-    public bool Bridge = false;
+    #region 変更できない変数
+    [HideInInspector]public bool BlueArea = false;
+    [HideInInspector]public bool RedArea = false;
+    [HideInInspector]public bool castle = false;
+    [HideInInspector]public bool pond = false;
+    [HideInInspector]public bool Bridge = false;
 
     TurnManager TM;
-    int BlueWalli;
-    int BlueWallj;
-    int RedWalli;
-    int RedWallj;
-    int RedMaxi;
-    int RedMaxj;
-    int BlueMaxi;
-    int BlueMaxj;
-    int RedMini;
-    int RedMinj;
-    int BlueMini;
-    int BlueMinj;
+    int i;
     int ThisPosX;
     int ThisPosY;
     (int x, int y) PointPos;
+    #endregion
 
-    //囲い判定用
-    public bool BlueWallisDown = false;
-    public bool BlueWallisUp = false;
-    public bool BlueWallisLeft = false;
-    public bool BlueWallisRight = false;
-    public bool BlueAreaVerticalSiege = false;
-    public bool BlueAreaHorizontalSiege = false;
-    public bool BlueAreaLeak = true;
 
-    public bool RedWallisDown = false;
-    public bool RedWallisUp = false;
-    public bool RedWallisLeft = false;
-    public bool RedWallisRight = false;
-    public bool RedAreaVerticalSiege = false;
-    public bool RedAreaHorizontalSiege = false;
-    public bool RedAreaLeak = true;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -102,305 +90,170 @@ public class Area : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        #region 城壁判定
-        if(!Scapegoat){
-        //包囲判定
-        
-        if(FWC.BlueWall || FWC.BlueWallisUp)
+        if(!Scapegoat)
         {
-            BlueWallisUp = true;
-        }
-        else
-        {
-            BlueWallisUp = false;
-        }
-
-        if(BWC.BlueWall || BWC.BlueWallisDown)
-        {
-            BlueWallisDown = true;
-        }
-        else
-        {
-            BlueWallisDown = false;
-        }
-
-        if(LWC.BlueWall || LWC.BlueWallisLeft)
-        {
-            BlueWallisLeft = true;
-        }
-        else
-        {
-            BlueWallisLeft = false;
-        }
-
-        if(RWC.BlueWall || RWC.BlueWallisRight)
-        {
-            BlueWallisRight = true;
-        }
-        else
-        {
-            BlueWallisRight = false;
-        }
-
-        if(BlueWallisDown && BlueWallisUp)
-        {
-            BlueAreaVerticalSiege = true;
-        }
-        else
-        {
-            BlueAreaVerticalSiege = false;
-        }
-
-        if(BlueWallisLeft && BlueWallisRight)
-        {
-            BlueAreaHorizontalSiege = true;
-        }
-        else
-        {
-            BlueAreaHorizontalSiege = false;
-        }
-
-
-
-        if(BlueAreaHorizontalSiege && BlueAreaVerticalSiege || BlueWall || RedWall)
-        {
-            BlueAreaLeak = false;
-
-        }
-        else
-        {
-            BlueAreaLeak = true;
-        }
-
-        if(!CheckAroundArea("blue") && !BlueWall && !RedWall)
-        {
-            BlueAreaLeak = true;
-        }
-        else
-        {
-            BlueAreaLeak = false;
-        }
-
-
-
-
-
-        if(FWC.RedWall || FWC.RedWallisUp)
-        {
-            RedWallisUp = true;
-        }
-        else
-        {
-            RedWallisUp = false;
-        }
-
-        if(BWC.RedWall || BWC.RedWallisDown)
-        {
-            RedWallisDown = true;
-        }
-        else
-        {
-            RedWallisDown = false;
-        }
-
-        if(LWC.RedWall || LWC.RedWallisLeft)
-        {
-            RedWallisLeft = true;
-        }
-        else
-        {
-            RedWallisLeft = false;
-        }
-
-        if(RWC.RedWall || RWC.RedWallisRight)
-        {
-            RedWallisRight = true;
-        }
-        else
-        {
-            RedWallisRight = false;
-        }
-
-        if(RedWallisDown && RedWallisUp)
-        {
-            RedAreaVerticalSiege = true;
-        }
-        else
-        {
-            RedAreaVerticalSiege = false;
-        }
-
-        if(RedWallisLeft && RedWallisRight)
-        {
-            RedAreaHorizontalSiege = true;
-        }
-        else
-        {
-            RedAreaHorizontalSiege = false;
-        }
-
-        if(RedAreaHorizontalSiege && RedAreaVerticalSiege || BlueWall || RedWall)
-        {
-            RedAreaLeak = false;
-
-        }
-        else
-        {
-            RedAreaLeak = true;
-        }
-
-        if(!CheckAroundArea("red") && !BlueWall && !RedWall)
-        {
-            RedAreaLeak = true;
-        }
-        else
-        {
-            RedAreaLeak = false;
-        }
-        
-    }
-    #endregion
-    }
-
-    void LateUpdate()
-    {
-        if(!Scapegoat){
-        if(!RedWall && !BlueWall)
-        {
-            if(FWC.BlueAreaLeak || BWC.BlueAreaLeak || LWC.BlueAreaLeak || RWC.BlueAreaLeak)
+            #region 城壁反映
+            if (!BlueWall && !RedWall)
             {
-                BlueAreaLeak = true;
+                if(BlueArea)
+                {
+                    BlueAreaMarker.SetActive(true);
+                }
+                else if(RedArea)
+                {
+                    RedAreaMarker.SetActive(true);
+                }
+
+                else
+                {
+                    BlueAreaMarker.SetActive(false);
+                    RedAreaMarker.SetActive(false);
+                }
             }
+            
+            if(BlueWall)
+            {
+                BlueWallMarker.SetActive(true);
+            }
+
             else
             {
-                BlueAreaLeak = false;
+                BlueWallMarker.SetActive(false);
             }
 
-            if(BlueAreaVerticalSiege && BlueAreaHorizontalSiege && !BlueAreaLeak)
+            if(RedWall)
+            {
+                RedWallMarker.SetActive(true);
+            }
+
+            else
+            {
+                RedWallMarker.SetActive(false);
+            }
+
+            if(castle)
+            {
+                CastleMarker.SetActive(true);
+            }
+
+            else
+            {
+                CastleMarker.SetActive(false);
+            }
+
+            if(pond)
+            {
+                PondMarker.SetActive(true);
+            }
+
+            else
+            {
+                PondMarker.SetActive(false);
+            }
+                #endregion
+        }
+    }
+
+    public void AreaLeak(bool isBlue)
+    {
+        if(isBlue)
+        {
+            BlueAreaLeak = true;
+            if(!BlueWall)
+            {
+                if(!FWC.BlueAreaLeak)
+                {
+                    FWC.AreaLeak(true);
+                }
+
+                if(!BWC.BlueAreaLeak)
+                {
+                    BWC.AreaLeak(true);
+                }
+
+                if(!LWC.BlueAreaLeak)
+                {
+                    LWC.AreaLeak(true);
+                }
+
+                if(!RWC.BlueAreaLeak)
+                {
+                    RWC.AreaLeak(true);
+                }
+            }
+        }
+
+        else
+        {
+            
+            RedAreaLeak = true;
+            if(!RedWall)
+            {
+                if(!FWC.RedAreaLeak)
+                {
+                    FWC.AreaLeak(false);
+                }
+
+                if(!BWC.RedAreaLeak)
+                {
+                    BWC.AreaLeak(false);
+                }
+
+                if(!LWC.RedAreaLeak)
+                {
+                    LWC.AreaLeak(false);
+                }
+
+                if(!RWC.RedAreaLeak)
+                {
+                    RWC.AreaLeak(false);
+                }
+            }
+        }
+    }
+
+    public void SiegeAreaChecker(bool isBlue)
+    {
+        if(isBlue)
+        {
+            if(!BlueAreaLeak)
             {
                 BlueArea = true;
-            }
-            else
-            {
-                BlueArea = false;
-            }
 
-
-            if(FWC.RedAreaLeak || BWC.RedAreaLeak || LWC.RedAreaLeak || RWC.RedAreaLeak)
-            {
-                RedAreaLeak = true;
+                if(RedAreaLeak)
+                {
+                    RedArea = false;
+                }
             }
-            else
-            {
-                RedAreaLeak = false;
-            }
+        }
 
-            if(RedAreaVerticalSiege && RedAreaHorizontalSiege && !RedAreaLeak)
+        else
+        {
+            if(!RedAreaLeak)
             {
                 RedArea = true;
+
+                if(BlueAreaLeak)
+                {
+                    BlueArea = false;
+                }
             }
-            else
-            {
-                RedArea = false;
-            }
-        }
-
-        #region 城壁反映
-        if (!BlueWall && !RedWall)
-        {
-            if(BlueArea)
-            {
-                BlueAreaMarker.SetActive(true);
-            }
-            else if(RedArea)
-            {
-                RedAreaMarker.SetActive(true);
-            }
-
-            else
-            {
-                BlueAreaMarker.SetActive(false);
-                RedAreaMarker.SetActive(false);
-            }
-        }
-        
-        if(BlueWall)
-        {
-            BlueWallMarker.SetActive(true);
-        }
-
-        else
-        {
-            BlueWallMarker.SetActive(false);
-        }
-
-        if(RedWall)
-        {
-            RedWallMarker.SetActive(true);
-        }
-
-        else
-        {
-            RedWallMarker.SetActive(false);
-        }
-
-        if(castle)
-        {
-            CastleMarker.SetActive(true);
-        }
-
-        else
-        {
-            CastleMarker.SetActive(false);
-        }
-
-        if(pond)
-        {
-            PondMarker.SetActive(true);
-        }
-
-        else
-        {
-            PondMarker.SetActive(false);
-        }
-
-        #endregion
         }
     }
 
-    bool CheckAroundArea(string turn)
+    public void AreaLeakReseter(bool isBlue)
     {
-        if(turn == "blue"){
-            if(((FWC.BlueAreaHorizontalSiege && FWC.BlueAreaVerticalSiege) || FWC.BlueWall) && ((BWC.BlueAreaHorizontalSiege && BWC.BlueAreaVerticalSiege) || BWC.BlueWall) && ((LWC.BlueAreaHorizontalSiege && LWC.BlueAreaVerticalSiege) || LWC.BlueWall) && ((RWC.BlueAreaHorizontalSiege && RWC.BlueAreaVerticalSiege) || RWC.BlueWall))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        else if(turn == "red")
+        if(isBlue)
         {
-            if(((FWC.RedAreaHorizontalSiege && FWC.RedAreaVerticalSiege) || FWC.RedWall) && ((BWC.RedAreaHorizontalSiege && BWC.RedAreaVerticalSiege) || BWC.RedWall) && ((LWC.RedAreaHorizontalSiege && LWC.RedAreaVerticalSiege) || LWC.RedWall) && ((RWC.RedAreaHorizontalSiege && RWC.RedAreaVerticalSiege) || RWC.RedWall))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            BlueAreaLeak = false;
         }
 
-        else 
+        else
         {
-            Debug.Log("turn is not blue or red");
-            return false;
+            RedAreaLeak = false;
         }
-
     }
-  }
+    
+}

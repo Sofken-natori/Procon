@@ -41,6 +41,10 @@
      <Compile Include="Assets\Script\TurnManager.cs" />
      <Compile Include="Assets\Script\Area.cs" />
      <Compile Include="Assets\Script\NeitherWallChacker.cs" />
+     <Compile Include="Assets\Script\komaK.cs" />
+     <Compile Include="Assets\Script\KomaIndex.cs" />
+     <Compile Include="Assets\Script\KomaState.cs" />
+     <Compile Include="Assets\Script\ABsystem.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
