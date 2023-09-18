@@ -14,6 +14,8 @@ public class TurnManager : MonoBehaviour
     [Header("横のマス数")]public int BoardYMax;
     [Header("赤い駒のプレハブ"), SerializeField] GameObject RedBridge;
     [Header("青い駒のプレハブ"), SerializeField] GameObject BlueBridge;
+    [Header("赤陣営のスコア表示"), SerializeField] Text RedScoreText;
+    [Header("青陣営のスコア表示"), SerializeField] Text BlueScoreText;
 
     [Header("陣地のスコア"),SerializeField] int AreaScore = 30;
     [Header("城壁のスコア"),SerializeField] int WallScore = 10;
@@ -66,6 +68,10 @@ public class TurnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        BlueScoreText.text = BlueScore.ToString();
+        RedScoreText.text = RedScore.ToString();
+
+        
         Debug.Log(BridgeActCount);
         if(BridgeActCount >= PieceNumber)
         {
