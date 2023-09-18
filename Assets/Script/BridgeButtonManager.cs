@@ -11,28 +11,21 @@ public class BridgeButtonManager : MonoBehaviour
     [Header("建造、破壊選択ボタン"),SerializeField]GameObject BuildAndDestroySelectButton;
     [Header("移動選択ボタン"),SerializeField]GameObject MoveSelectButton;
     [Header("コマの色は青か"),SerializeField]bool BlueTurn;
-    [HideInInspector]public int BoardX;
-    [HideInInspector]public int BoardY;
-    [HideInInspector]public int Seed;
+    [Header("駒のX位置")]public int BoardX;
+    [Header("駒のY位置")]public int BoardY;
     
     bool CanMove = false;
-    GameObject Board;
     Button ButtonIntaract;
-    TurnManager TM;
+    public TurnManager TM;
     
     
     void Awake()
     {
-        ButtonIntaract = GetComponent<Button>();
         MoveArrow.SetActive(false);
         BuildAndDestroyArrow.SetActive(false);
         BuildAndDestroySelectButton.SetActive(false);
         MoveSelectButton.SetActive(false);
-        UnityEngine.Random.InitState(System.DateTime.Now.Millisecond*Seed);
         ButtonIntaract = GetComponent<Button>();
-        Board = GameObject.Find("UserInterface/Board");
-        TM = Board.GetComponent<TurnManager>();
-        BridgeStartPosition();
     }
 
     void Update()
@@ -47,9 +40,6 @@ public class BridgeButtonManager : MonoBehaviour
 
     public void BridgeStartPosition()
     {
-        Seed = (int)transform.position.x + (int)transform.position.y;
-        BoardX = UnityEngine.Random.Range(0, 15);
-        BoardY = UnityEngine.Random.Range(0, 15);
         this.transform.position = TM.MoveBridge(BoardY, BoardX);
     }
 
@@ -80,11 +70,13 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge forward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY-1,BoardX);
         if(CanMove)
         {
-        BoardY--;
+            BoardY--;
         }
         this.transform.position = TM.MoveBridge(BoardY, BoardX);
         
@@ -94,6 +86,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge backward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY+1,BoardX);
         if(CanMove)
@@ -108,6 +102,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge right
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY,BoardX+1);
         if(CanMove)
@@ -122,6 +118,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge left
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY,BoardX-1);
         if(CanMove)
@@ -136,6 +134,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge left forward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY-1,BoardX-1);
         if(CanMove)
@@ -151,6 +151,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge right forward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY-1,BoardX+1);
         if(CanMove)
@@ -166,6 +168,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge left backward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY+1,BoardX-1);
         if(CanMove)
@@ -180,6 +184,8 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge right backward
         MoveArrow.SetActive(false);
+        BridgeRester();
+        TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY+1,BoardX+1);
         if(CanMove)
@@ -195,6 +201,7 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Build and destroy the bridge forward
         BuildAndDestroyArrow.SetActive(false);
+        BridgeRester();
         ButtonIntaract.interactable = false;
         TM.BuildAndDestroyBridge(BoardY-1, BoardX);
     }
@@ -203,6 +210,7 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Build and destroy the bridge backward
         BuildAndDestroyArrow.SetActive(false);
+        BridgeRester();
         ButtonIntaract.interactable = false;
         TM.BuildAndDestroyBridge(BoardY+1, BoardX);
     }
@@ -211,6 +219,7 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Build and destroy the bridge right
         BuildAndDestroyArrow.SetActive(false);
+        BridgeRester();
         ButtonIntaract.interactable = false;
         TM.BuildAndDestroyBridge(BoardY, BoardX+1);
     }
@@ -219,8 +228,14 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Build and destroy the bridge left
         BuildAndDestroyArrow.SetActive(false);
+        BridgeRester();
         ButtonIntaract.interactable = false;
         TM.BuildAndDestroyBridge(BoardY, BoardX-1);
     }
 
+    public void BridgeRester()
+    {
+        ButtonIntaract.interactable = false;
+        TM.BridgeRest();
+    }
 }

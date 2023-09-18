@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using Koma;
 //using Koma.state;
-using koma.hantei;
+// using Koma.hantei;
 
 namespace KomaKeisan
 {
@@ -63,16 +63,21 @@ namespace KomaKeisan
               // ���ɃX�g�[�����u����Ă������ŕԋp
               var turnKomaIndex = new List<KomaIndex>();
               if (komaStates == null || komaStates[putX, putZ] != State.Empty) return turnKomaIndex;
-              public static List<StoneIndex> GetTurnStonesIndex(StoneState[,] stoneStates, StoneState putState, int putX, int putZ)
-              {
-                  // ���ɃX�g�[�����u����Ă������ŕԋp
-                  var turnStonesIndex = new List<StoneIndex>();
-                  if (stoneStates == null || stoneStates[putX, putZ] != StoneState.Empty) return turnStonesIndex;
-
-                  // 8�������̃X�g�[���𒲂ׂĕԋp����
-
-                  return turnKomaIndex;
+              
+              return turnKomaIndex;
           }
+          
+        //   public static List<StoneIndex> GetTurnStonesIndex(StoneState[,] stoneStates, StoneState putState, int putX, int putZ)
+        //       {
+        //           // ���ɃX�g�[�����u����Ă������ŕԋp
+        //           var turnStonesIndex = new List<StoneIndex>();
+        //           if (stoneStates == null || stoneStates[putX, putZ] != StoneState.Empty) return turnStonesIndex;
+
+        //           // 8�������̃X�g�[���𒲂ׂĕԋp����
+
+        //           return turnKomaIndex;
+        //       }
+
 
         
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Koma;
-using koma.hantei;
+// using koma.hantei;
 using KomaKeisan;
 //using System.Threading.Tasks;
 //using UniRx.Async;
