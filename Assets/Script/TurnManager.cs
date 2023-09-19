@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class TurnManager : MonoBehaviour
 {
@@ -10,12 +12,14 @@ public class TurnManager : MonoBehaviour
     [Header("マップのCSVファイル名"),SerializeField] string MapCSV;
     [Header("最大ターン数"), SerializeField] int MaxTurnNumber;
     [Header("生成する駒の数"), SerializeField] int PieceNumber;
+    [Header("青のターンかどうか")]public bool BlueTurn = true;
     [Header("縦のマス数")]public int BoardXMax;
     [Header("横のマス数")]public int BoardYMax;
     [Header("赤い駒のプレハブ"), SerializeField] GameObject RedBridge;
     [Header("青い駒のプレハブ"), SerializeField] GameObject BlueBridge;
     [Header("赤陣営のスコア表示"), SerializeField] Text RedScoreText;
     [Header("青陣営のスコア表示"), SerializeField] Text BlueScoreText;
+    [Header("現在のターン表示"), SerializeField] Text TurnText;
 
     [Header("陣地のスコア"),SerializeField] int AreaScore = 30;
     [Header("城壁のスコア"),SerializeField] int WallScore = 10;
@@ -24,7 +28,6 @@ public class TurnManager : MonoBehaviour
 
     [HideInInspector]public int BlueScore = 0;
     [HideInInspector]public int RedScore = 0;
-    [HideInInspector]public bool BlueTurn = false;
     [HideInInspector]public bool UntapPhase = false;
     [HideInInspector]public bool TurnEnd = false;
     [HideInInspector]public List<string[]> MapData = new List<string[]>();
@@ -62,6 +65,7 @@ public class TurnManager : MonoBehaviour
         CallAreaDeployer();
         Debug.Log("AreaDeployed");
         PieceNumber /= 2;
+        UntapPhase = true;
         Debug.Log("----------------------------------------------------InitEnd----------------------------------------------------");
     }
 
@@ -70,6 +74,7 @@ public class TurnManager : MonoBehaviour
     {
         BlueScoreText.text = BlueScore.ToString();
         RedScoreText.text = RedScore.ToString();
+        TurnText.text = NowTurn.ToString();
 
         
         Debug.Log(BridgeActCount);
@@ -95,6 +100,23 @@ public class TurnManager : MonoBehaviour
         if(NowTurn >= MaxTurnNumber)
         {
             Debug.Log("GameSet");
+
+            if(BlueScore > RedScore)
+            {
+                Debug.Log("BlueWin");
+            }
+
+            else if(BlueScore < RedScore)
+            {
+                Debug.Log("RedWin");
+            }
+
+            else
+            {
+                Debug.Log("Draw");
+            }
+
+            SceneManager.LoadScene("StageSelectScene");
         }
     }
 
@@ -110,7 +132,6 @@ public class TurnManager : MonoBehaviour
 
     public void BuildAndDestroyBridge(int x,int y)
     {
-        BridgeActCount++;
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
         if(area.RedWall || area.BlueWall)
         {
@@ -152,7 +173,6 @@ public class TurnManager : MonoBehaviour
         // Set the bridge position
         square = this.transform.GetChild(x).GetChild(y);
         area = square.GetComponent<Area>();
-        BridgeRest();
         area.Bridge = true;
         return square.position;
     }

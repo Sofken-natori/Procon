@@ -1515,16 +1515,19 @@ MonoBehaviour:
   MapCSV: A15
   MaxTurnNumber: 100
   PieceNumber: 1
+  BlueTurn: 0
   BoardXMax: 15
   BoardYMax: 15
   RedBridge: {fileID: 6137180533846073905, guid: cd0f4ea0b50cc0240b7ea23dd7020962, type: 3}
   BlueBridge: {fileID: 3203326786964445952, guid: f6c7ef49a6cf48c4fafd41da3f22768f, type: 3}
+  RedScoreText: {fileID: 827095872}
+  BlueScoreText: {fileID: 820806734}
+  TurnText: {fileID: 1173357524}
   AreaScore: 30
   WallScore: 10
   CastleScore: 100
   BlueScore: 0
   RedScore: 0
-  BlueTurn: 0
   UntapPhase: 0
   TurnEnd: 0
 --- !u!1001 &1592732237
@@ -1783,7 +1786,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1662560921}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1529054292}
+        m_TargetAssemblyTypeName: TurnManager, Assembly-CSharp
+        m_MethodName: CallBridgeRester
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1662560921
 MonoBehaviour:
   m_ObjectHideFlags: 0
