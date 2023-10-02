@@ -1,67 +1,71 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
+
 
 namespace ServerConnector
 {
     public class Info
     {
-        public int id{get; set;}
-        public int turn{get; set;}
-        public int mason{get; set;}
-        public class Board
-        {
-            
-            public int[,] structure{get;set;}
-            public int[,] mason {get;set;}
-            public int[,] walls {get;set;}
-            public int[,] territories {get;set;}
+        public int id;
+        public int turn;
+        public int mason;
+        public string[] log;
+    }
 
-        }
-        public string[] log {get;set;}
+    public class Board
+    {        
+        public int[,] structure;
+        public int[,] mason;
+        public int[,] walls;
+        public int[,] territories;
     }
 
 
-    public class ServerConnector
+    public class InfoConnector
     {
-        public Info GetMatchesInfo(string CallAPIURL)
+        public string CallAPIURL = "http://localhost:3000";
+        public string token = "first";
+        public async UniTask<Info> GetMatchesInfo()
         {
-            return StartCoroutine(GetInfo(CallAPIURL + "/matches"));
+            return await GetInfo(UnityWebRequest.Get(CallAPIURL + "/matches"));
         }
 
-        public Info GetMatchInfo(string CallAPIURL)
+        public async UniTask<Info> GetMatchInfo(int id)
         {
-            return StartCoroutine(GetInfo(CallAPIURL + "/match/" + id));
+            return await GetInfo(UnityWebRequest.Get(CallAPIURL + "/matches/" + id));
         }
         
-        public Info PostMatchInfo(string CallAPIURL)
+
+
+        public async UniTask<Info> GetInfo(UnityWebRequest request)
         {
-            return StartCoroutine(PostInfo(CallAPIURL + "/match" + id));
-        }
+            request.SetRequestHeader("procon-token", token);
+            var info = await request.SendWebRequest();
+            Info res = null;
 
+            if (request.error != null)
+            {
+                Debug.LogError(request.error);
+                return res;
+            }
 
-
-        public IEnumerator GetInfo(string endPoint)
-        {
             try
             {
-                var request = Unity.UnityEngine.Networking.UnityWebRequest.Get(endPoint);
-
-                yield return request.SendWebRequest();
-
-                var JSON = request.downloadHandler.text;
-                var info = JsonUtility.FromJson<Info>(JSON);
-                
-
-                return info;
+                var JSON = info.downloadHandler.text;
+                res = JsonUtility.FromJson<Info>(JSON);
             }
             catch (System.Exception e)
             {
                 Debug.LogError(e);
             }
 
-            return null;
+            return res;
         }
+
     }
 
     

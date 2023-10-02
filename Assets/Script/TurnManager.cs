@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using ServerConnector;
+using Cysharp.Threading.Tasks;
 
 public class TurnManager : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class TurnManager : MonoBehaviour
     [Header("赤陣営のスコア表示"), SerializeField] Text RedScoreText;
     [Header("青陣営のスコア表示"), SerializeField] Text BlueScoreText;
     [Header("現在のターン表示"), SerializeField] Text TurnText;
+    [Header("Http通信のID")]public int id;
 
     [Header("陣地のスコア"),SerializeField] int AreaScore = 30;
     [Header("城壁のスコア"),SerializeField] int WallScore = 10;
@@ -118,6 +121,16 @@ public class TurnManager : MonoBehaviour
 
             SceneManager.LoadScene("StageSelectScene");
         }
+    }
+
+    public void FixedUpdate()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("StageSelectScene");
+        }
+
+        CallServerInfoGet(id);
     }
 
     public void Bridgestandby()
@@ -308,5 +321,12 @@ public class TurnManager : MonoBehaviour
         {
             Board.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeRester();
         }
+    }
+
+    public async void CallServerInfoGet(int id)
+    {
+        InfoConnector infoConnector = new InfoConnector();
+        var info = await infoConnector.GetMatchInfo(id);
+        Debug.Log(info);
     }
 }
