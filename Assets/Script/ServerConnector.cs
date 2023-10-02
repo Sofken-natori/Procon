@@ -12,17 +12,22 @@ namespace ServerConnector
     {
         public int id;
         public int turn;
-        public int mason;
+
         public string[] log;
+
+        public class Board
+        {   
+            public int width;
+            public int height;
+            public int mason;
+            public int[,] structures;
+            public int[,] masons;
+            public int[,] walls;
+            public int[,] territories;
+        }
     }
 
-    public class Board
-    {        
-        public int[,] structure;
-        public int[,] mason;
-        public int[,] walls;
-        public int[,] territories;
-    }
+    
 
 
     public class InfoConnector
@@ -31,19 +36,20 @@ namespace ServerConnector
         public string token = "first";
         public async UniTask<Info> GetMatchesInfo()
         {
-            return await GetInfo(UnityWebRequest.Get(CallAPIURL + "/matches"));
+            Debug.Log(CallAPIURL + "/matches?token=" + token);
+            return await GetInfo(UnityWebRequest.Get(CallAPIURL + "/matches?token=" + token));
         }
 
         public async UniTask<Info> GetMatchInfo(int id)
         {
-            return await GetInfo(UnityWebRequest.Get(CallAPIURL + "/matches/" + id));
+            Debug.Log(CallAPIURL + "/matches/" + id + "?token=" + token);
+            return await GetInfo(UnityWebRequest.Get(CallAPIURL + "/matches/" + id + "?token=" + token));
         }
         
 
 
         public async UniTask<Info> GetInfo(UnityWebRequest request)
         {
-            request.SetRequestHeader("procon-token", token);
             var info = await request.SendWebRequest();
             Info res = null;
 

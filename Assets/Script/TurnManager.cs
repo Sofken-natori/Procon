@@ -22,7 +22,7 @@ public class TurnManager : MonoBehaviour
     [Header("赤陣営のスコア表示"), SerializeField] Text RedScoreText;
     [Header("青陣営のスコア表示"), SerializeField] Text BlueScoreText;
     [Header("現在のターン表示"), SerializeField] Text TurnText;
-    [Header("Http通信のID")]public int id;
+    [Header("Http通信のID")]public int id = 10;
 
     [Header("陣地のスコア"),SerializeField] int AreaScore = 30;
     [Header("城壁のスコア"),SerializeField] int WallScore = 10;
@@ -325,8 +325,9 @@ public class TurnManager : MonoBehaviour
 
     public async void CallServerInfoGet(int id)
     {
+        Info info = new Info();
         InfoConnector infoConnector = new InfoConnector();
-        var info = await infoConnector.GetMatchInfo(id);
-        Debug.Log(info);
+        info = await infoConnector.GetMatchInfo(id);
+        Debug.Log(info.Board.mason);
     }
 }

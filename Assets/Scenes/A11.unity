@@ -1159,7 +1159,7 @@ MonoBehaviour:
   RedScoreText: {fileID: 1743067098}
   BlueScoreText: {fileID: 1249786328}
   TurnText: {fileID: 436716529}
-  id: 0
+  id: 10
   AreaScore: 30
   WallScore: 10
   CastleScore: 100
