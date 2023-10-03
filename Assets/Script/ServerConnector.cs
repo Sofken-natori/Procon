@@ -45,6 +45,12 @@ namespace ServerConnector
             Debug.Log(CallAPIURL + "/matches/" + id + "?token=" + token);
             return await GetInfo(UnityWebRequest.Get(CallAPIURL + "/matches/" + id + "?token=" + token));
         }
+
+        public async Unitask<Info> PostMatchesInfo()
+        {
+            Debug.Log(CallAPIURL + "/matches/" + id + "?token=" + token);
+            await PostInfo(UnityWebRequest.Post(CallAPIURL + "/matches/" + id + "?token=" + token));
+        }
         
 
 
@@ -72,6 +78,15 @@ namespace ServerConnector
             return res;
         }
 
+        public async void PostInfo(UnityWebRequest request)
+        {
+            var info = await request.SendWebRequest();
+
+            if (request.error != null)
+            {
+                Debug.LogError(request.error);
+            }
+        }
     }
 
     
