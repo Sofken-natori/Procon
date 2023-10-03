@@ -28,6 +28,10 @@ public class TurnManager : MonoBehaviour
     [Header("城壁のスコア"),SerializeField] int WallScore = 10;
     [Header("城のスコア"),SerializeField] int CastleScore = 100;
 
+    
+    [Header("青いコマの置き場所"),SerializeField]GameObject BlueBridges;
+    [Header("赤いコマの置き場所"),SerializeField]GameObject RedBridges;
+
 
     [HideInInspector]public int BlueScore = 0;
     [HideInInspector]public int RedScore = 0;
@@ -39,7 +43,6 @@ public class TurnManager : MonoBehaviour
     Button RedButton;
     Button BlueButton;
     Transform square;
-    GameObject Board;
     int BridgeActCount = 0;
     int BridgestandbyCount = 0;
     int NowTurn = 0;
@@ -48,7 +51,6 @@ public class TurnManager : MonoBehaviour
     
     void Awake()
     {
-        Board = GameObject.Find("BoardBridge");
 
         ConnectArea();
 
@@ -231,7 +233,7 @@ public class TurnManager : MonoBehaviour
     {
         if(isBlue)
         {
-            GameObject Bridge = Instantiate(BlueBridge, new Vector2(x,y), Quaternion.identity, Board.transform);
+            GameObject Bridge = Instantiate(BlueBridge, new Vector2(x,y), Quaternion.identity, BlueBridges.transform);
             BridgeButtonManager BBM = Bridge.GetComponent<BridgeButtonManager>();
             BBM.TM = this;
             BBM.BoardX = x;
@@ -241,7 +243,7 @@ public class TurnManager : MonoBehaviour
 
         else
         {
-            GameObject Bridge = Instantiate(RedBridge, new Vector2(x,y), Quaternion.identity, Board.transform);
+            GameObject Bridge = Instantiate(RedBridge, new Vector2(x,y), Quaternion.identity, RedBridges.transform);
             BridgeButtonManager RBM = Bridge.GetComponent<BridgeButtonManager>();
             RBM.TM = this;
             RBM.BoardX = x;
@@ -317,9 +319,20 @@ public class TurnManager : MonoBehaviour
 
     public void CallBridgeRester()
     {
-        for(int i = 0; i < Board.transform.childCount; i++)
+        if(BlueTurn)
         {
-            Board.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeRester();
+            for(int i = 0; i < BlueBridges.transform.childCount; i++)
+            {
+                BlueBridges.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeRester();
+            }
+        }
+        
+        else
+        {
+            for(int i = 0; i < RedBridges.transform.childCount; i++)
+            {
+                RedBridges.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeRester();
+            }
         }
     }
 
@@ -328,6 +341,6 @@ public class TurnManager : MonoBehaviour
         Info info = new Info();
         InfoConnector infoConnector = new InfoConnector();
         info = await infoConnector.GetMatchInfo(id);
-        Debug.Log(info.Board.mason);
+        Debug.Log(info.id);
     }
 }
