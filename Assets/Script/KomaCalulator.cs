@@ -1,720 +1,949 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Index;
+using UnityEngine.UI;
+using Koma;
 using state;
 using UnityEditor;
 using UnityEditorInternal;
 using static UnityEditor.VersionControl.Asset;
 using System.Runtime;
+using  System.Linq;
 
 public class KomaCalulator : MonoBehaviour
 {
-
+  
     TurnManager TM;
     GameObject Board;
-    GameObject obj;
+    GameObject montes;
+    public GameObject obj;
     GameObject mon;
     GameObject Boards;
-    
-          public int[,] Ban;
-    bool isOnce = true;
-    bool O = true;
+    public Text txt;
+    public int[,] Ban;
     Monte monte;
     Area area;
-    int NowTurn;
-   public bool AIBlueTurn;
-   public int PlayerCount = 0;
+    public bool AIBlueTurn;
+    public int PlayerCount = 0;
     bool CanMove = false;
-    bool NotBuild;
-    BridgeButtonManager bb;
-    BridgeButtonManager bb2;
-    [HideInInspector] public int BoardX;
-    [HideInInspector] public int BoardY;
-    int Movecount;
-    // Start is called before the first frame update
+    public BridgeButtonManager BBB;
+  public  BridgeButtonManager[] BB = new BridgeButtonManager[12];
+   public int[] X = new int[12];
+   public int[] Y = new int[12];
+    public int[] BanX = new int[12];
+    public int[] BanY = new int[12];
+   public BridgeButtonManager[] bb;
     void Start()
     {
+      
         Board = GameObject.Find("UserInterface/Board");
         Boards = GameObject.Find("BoardBridge");
-       // obj = GameObject.Find("BlueBridge(Clone)");
-        // obj2 = GameObject.Find("BlueBridge(Clone)");
         mon = Boards.transform.GetChild(0).gameObject;
         TM = Board.GetComponent<TurnManager>();
-        
-        // bb2 = obj2.GetComponent<BridgeButtonManager>();
+        bb = new BridgeButtonManager[12];
         Ban = new int[TM.BoardXMax, TM.BoardYMax];
         area = Board.GetComponent<Area>();
         monte = mon.GetComponent<Monte>();
+      
+        CheckPosition();
     }
-    private void Update()
+    public void Update()
     {
-
-        AIBanState();
-        for (int y = 0; y < TM.BoardYMax; y++)
-        {//Add commit push
-            for (int x = 0; x < TM.BoardXMax; x++)
-            {
-                if (Ban[x, y] == 10)
-                {
-                    AIAreaCheckBlue(x ,y);
-                }
-                if (Ban[x ,y] == -10)
-                {
-                    AIAreaCheckRed(x, y);
-                }
-            }
-        }
+       
     }
-    public List<KomaIndex> GetAllCanBuildKoma()
+    //エリア判定
+    //配列判定
+    //alpha-beta
+
+    public void AIAreaCheckBlue(int[,] ban)
     {
-
-
-        var canPutStones = new List<KomaIndex>();
-
-        // var putStoneStates = States;
-        //Debug.Log(putStoneStates);
-        for (var y = 0; y < TM.BoardYMax; y++)
+        for (int i = 0; i < TM.BoardXMax; i++)
         {
-            for (var x = 0; x < TM.BoardXMax; x++)
+            for (int j = 0; j < 1; j++)
             {
-                area = Board.transform.GetChild(x).GetChild(y).GetComponent<Area>();
-                if (area.RedWall == true)
-                {
+                AIAreaCheckBlueAround(0, i, true,  ban);
+            }
 
-                }
-                else if (area.BlueWall == true)
-                {
-                    //  putStoneStates = state.State.Blue;
+            for (int j = 0; j < 1; j++)
+            {
+                AIAreaCheckBlueAround(i, 0, true , ban);
+            }
+            for (int k = TM.BoardYMax - 1; k < TM.BoardYMax; k++)
+            {
+                AIAreaCheckBlueAround(k, i, true , ban);
+            }
+            for (int l = TM.BoardYMax - 1; l < TM.BoardYMax; l++)
+            {
+                AIAreaCheckBlueAround(i, l, true , ban);
+            }
 
-                }
-                else if (area.pond == true)
-                {
 
+        }
+     
+        for (int Y = 0; Y < TM.BoardYMax; Y++)
+        {
+            for (int X = 0; X < TM.BoardXMax; X++)
+            {
+                if (Ban[X, Y] == 0 || Ban[X, Y] == 100)
+                {
+                    Ban[X, Y] += 30;
+                    RedAndBlue();
                 }
-                else if (area.castle == true)
+                else if ( Ban[X, Y] == 10)
+                {
+                    Ban[X, Y] = 10;
+                }
+                else if (Ban[X, Y] == -30)
                 {
 
                 }
                 else
                 {
-
-                    canPutStones.Add(new KomaIndex(x, y));
-                    Debug.Log(12);
-
+                    Ban[X, Y] -= 2;
                 }
-                Debug.Log(bb.BoardX);
-                Debug.Log(TM.BoardXMax);
-                Debug.Log(TM.BoardYMax);
-
             }
         }
 
-        return canPutStones;
     }
-   public void AIAreaCheckRed(int x , int y)
+    public void RedAndBlue()
     {
-
-        while (true)
-        {
-
-        }
         
-      
-       //エリア判定
-       //職人判定
-       //駒移動,置くときのターンの移転
-       //alpha-beta
     }
-    public void AIAreaCheckBlue(int x , int y)
+    public void AIAreaCheckBlueAround(int x, int y, bool Blue , int[,] Ban)
     {
-        while (true)
+
+        if (Blue)
         {
 
+            //エリアの上からをどうするか
+            //alpha-beta
+            //評価関数
+            //配列とMonteの整備
+            if (Ban[x, y] != 2 && Ban[x, y] != 10 && Ban[x , y] != 30 && Ban[x ,y] != -30 && Ban[x ,y] != 130 && Ban[x ,y] != 15 )
+            {
+                //NowTurn++;
+                Ban[x, y] += 2;
+                if (y != TM.BoardYMax - 1)
+                {
+                    AIAreaCheckBlueAround(x, y + 1, true , Ban);
+                }
+                if (y != 0)
+                {
+
+                    AIAreaCheckBlueAround(x, y - 1, true , Ban);
+                }
+                if (x != 0)
+                {
+
+                    AIAreaCheckBlueAround(x - 1, y, true , Ban);
+                }
+                if (x != TM.BoardXMax - 1)
+                {
+
+                    AIAreaCheckBlueAround(x + 1, y, true , Ban);
+                }
+            }
+        }
+        else
+        {
+            if (Ban[x, y] != 2 && Ban[x, y] != 10)
+            {
+               
+                Ban[x, y] += 2;
+                if (y != TM.BoardYMax - 1)
+                {
+                    AIAreaCheckBlueAround(x, y + 1, false, Ban);
+                }
+                if (y != 0)
+                {
+
+                    AIAreaCheckBlueAround(x, y - 1, false, Ban);
+                }
+                if (x != 0)
+                {
+
+                    AIAreaCheckBlueAround(x - 1, y, false, Ban);
+                }
+                if (x != TM.BoardXMax - 1)
+                {
+
+                    AIAreaCheckBlueAround(x + 1, y, false, Ban);
+                }
+            }
         }
     }
-    public int AreaMathChengh(int x, int y)
+
+    public int AreaMathChengh(int x, int y )
     {
-        area = TM.transform.GetChild(x).GetChild(y).GetComponent<Area>();
+        area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
         if (area.BlueWall)
         {
-            Debug.Log("Blue");
+         
             return 10;
-            //if
+        
         }
         else if (area.RedWall)
         {
-            Debug.Log("Red");
+           
             return -10;
-            //if
+           
         }
         else if (area.RedArea)
         {
-            Debug.Log("RedA");
+           
             return -30;
-            //if
+           
         }
         else if (area.BlueArea)
         {
-            Debug.Log("BlueA");
+         
             return 30;
         }
         else if (area.pond)
         {
-            Debug.Log("Ike");
+           // Debug.Log("Ike");
             return -1;
         }
         else if (area.castle)
         {
-            Debug.Log("castle");
+            // Debug.Log("castle");
             return 100;
         }
-        
-            if (area.Bridge)
-            {
-                Debug.Log("Bluek");
-               
-                return 5;
-            }
-        
-      
-            if (area.Bridge)
-            {
-                Debug.Log("Redk");
-          
-                return -5;
-            }
-        
+        else if (area.Bridge)
+        {
+            // Debug.Log("Bluek");
+
+            return 11;
+        }
         else
         {
-            Debug.Log("tyu");
+            //  Debug.Log("tyu");
             return 0;
         }
-        
+
 
     }
-    public void AIBanState()
+    public int[,] AIBanState()
     {
-
+       txt.text = "";
+     
         for (int y = 0; y < TM.BoardYMax; y++)
         {
+           txt.text += "\n";
             for (int x = 0; x < TM.BoardXMax; x++)
             {
-
-                Ban[x, y] = AreaMathChengh(x, y);
-
+                Ban[x, y] = AreaMathChengh(y, x);
+             txt.text += Ban[x, y].ToString() + "  ";
             }
         }
+        return Ban;
 
     }
-    
-    public void Randam(int N )
+    #region モンテカルロ法用ランダム
+    public int[,] AIdown(int N)
     {
-        Debug.Log("aaaaaaaaaaaaaaaaaaaaa");
+        /* bool can = AICanMove(bb[N].BoardY + 1, bb[N].BoardX);
+
+         if (can)
+         {
+
+             Ban[bb[N].BoardY, bb[N].BoardX] -= 11;
+             Ban[bb[N].BoardY + 1, bb[N].BoardX] += 11;
+             bb[N].BoardY += 1;
+
+         }
+        */
+        bool can = AICanMove(Y[N] + 1, X[N]);
+
+        if (can)
+        {
+
+            Ban[Y[N], X[N]] -= 11;
+            Ban[Y[N] +1, X[N]] += 11;
+            Y[N] += 1;
+
+        }
+        return Ban;
+
+    }
+    public int[,] AIRight(int N)
+    {
+
+        /*   bool can = AICanMove(bb[N].BoardY, bb[N].BoardX - 1);
+           if (can)
+           {
+
+               Ban[bb[N].BoardY, bb[N].BoardX - 1] += 11;
+               Ban[bb[N].BoardY, bb[N].BoardX] -= 11;
+               bb[N].BoardX -= 1;
+           }
+        */
+        bool can = AICanMove(Y[N], X[N]-1);
+
+        if (can)
+        {
+
+            Ban[Y[N], X[N]] -= 11;
+            Ban[Y[N] , X[N]-1] += 11;
+            X[N] -= 1;
+        }
+        return Ban;
+    }
+    public int[,] AILeft(int N)
+    {
+
+        /*  bool can = AICanMove(bb[N].BoardY , bb[N].BoardX + 1);
+          if (can)
+          {
+
+              Ban[bb[N].BoardY , bb[N].BoardX + 1] += 11;
+              Ban[bb[N].BoardY, bb[N].BoardX] -= 11;
+              bb[N].BoardX += 1;
+          }
+        */
+        bool can = AICanMove(Y[N] , X[N]+1);
+
+        if (can)
+        {
+
+            Ban[Y[N], X[N]] -= 11;
+            Ban[Y[N] , X[N]+1] += 11;
+            X[N] += 1;
+
+        }
+        return Ban;
+    }
+    public int[,] AIUP(int N)
+    {
+
+        /*  bool can = AICanMove(bb[N].BoardY - 1, bb[N].BoardX);
+          if (can)
+          {
+
+              Ban[bb[N].BoardY - 1, bb[N].BoardX] += 11;
+              Ban[bb[N].BoardY, bb[N].BoardX] -= 11;
+              bb[N].BoardY -= 1;
+          }
+        */
+        bool can = AICanMove(Y[N] - 1, X[N]);
+
+        if (can)
+        {
+          
+            Ban[Y[N], X[N]] -= 11;
+            Ban[Y[N] - 1, X[N]] += 11;
+            Y[N] -= 1;
+
+        }
+        return Ban;
+    }
+    public int[,] AIHidarisita(int N)
+    {
+
+        /* bool can = AICanMove(bb[N].BoardY + 1, bb[N].BoardX - 1);
+         if (can)
+         {
+
+             Ban[bb[N].BoardY + 1, bb[N].BoardX - 1] += 11;
+             Ban[bb[N].BoardY, bb[N].BoardX] -= 11;
+             bb[N].BoardY += 1;
+             bb[N].BoardX -= 1;
+         }
+        */
+        bool can = AICanMove(Y[N] + 1, X[N] -1);
+
+        if (can)
+        {
+           
+            Ban[Y[N], X[N]] -= 11;
+            Ban[Y[N] + 1, X[N] -1] += 11;
+            Y[N] += 1;
+            X[N] -= 1;
+        }
+        return Ban;
+    }
+    public int[,] AIMigisita(int N)
+    {
+        /*  bool can = AICanMove(bb[N].BoardY + 1, bb[N].BoardX + 1);
+          if (can)
+          {
+
+              Ban[bb[N].BoardY + 1, bb[N].BoardX + 1] += 11;
+              Ban[bb[N].BoardY, bb[N].BoardX] -= 11;
+              bb[N].BoardY += 1;
+              bb[N].BoardX += 1;
+          }
+        */
+        bool can = AICanMove(Y[N] + 1, X[N] +1);
+
+        if (can)
+        {
+           
+            Ban[Y[N], X[N]] -= 11;
+            Ban[Y[N] + 1, X[N]+1] += 11;
+            Y[N] += 1;
+            X[N] += 1;
+
+        }
+        return Ban;
+    }
+    public int[,] AImigiue(int N)
+    {
+
+        /*  bool can = AICanMove(bb[N].BoardY - 1, bb[N].BoardX + 1);
+          if (can)
+          {
+
+              Ban[bb[N].BoardY - 1, bb[N].BoardX + 1] += 11;
+              Ban[bb[N].BoardY, bb[N].BoardX] -= 11;
+              bb[N].BoardY -= 1;
+              bb[N].BoardX += 1;
+          }
+        */
+        bool can = AICanMove(Y[N] - 1, X[N] + 1);
+
+        if (can)
+        {
+           
+            Ban[Y[N], X[N]] -= 11;
+            Ban[Y[N] - 1, X[N] +1] += 11;
+            Y[N] -= 1;
+            X[N] += 1;
+        }
+        return Ban;
+    }
+    public int[,] AIhidariue(int N)
+    {
+
+        /*  bool can = AICanMove(bb[N].BoardY - 1, bb[N].BoardX - 1);
+          if (can)
+          {
+
+              Ban[bb[N].BoardY - 1, bb[N].BoardX - 1] += 11;
+              Ban[bb[N].BoardY, bb[N].BoardX] -= 11;
+              bb[N].BoardY -= 1;
+              bb[N].BoardX -= 1;
+
+          }
+        */
+        bool can = AICanMove(Y[N] - 1, X[N]-1);
+
+        if (can)
+        {
+        
+            Ban[Y[N], X[N]] -= 11;
+            Ban[Y[N] - 1, X[N] -1] += 11;
+            Y[N] -= 1;
+            X[N] -= 1;
+        }
+        return Ban;
+    }
+    public int[,] BuildDown(int N)
+    {
+        int can = AICanBuildDestoroy(Y[N] + 1, X[N] );
+        if (can == 1)
+        {
+            Ban[Y[N] + 1, X[N]] = 0;
+        }
+        else if (can == 2)
+        {
+            Ban[Y[N] + 1, X[N]] = 10;
+
+        }
+        else if (can == -2)
+        {
+            Ban[Y[N] + 1, X[N]] = -10;
+        }
+        return Ban;
+    }
+    public int[,] BuildUp(int N)
+    {
+        int can = AICanBuildDestoroy(Y[N] - 1, X[N]);
+        if (can == 1)
+        {
+            Ban[Y[N] - 1, X[N]] = 0;
+          
+            PlayerCount++;
+
+        }
+        else if (can == 2)
+        {
+
+            Ban[Y[N] - 1, X[N]] = 10;
+          
+            PlayerCount++;
+        }
+        else if (can == -2)
+        {
+
+            Ban[Y[N] - 1, X[N]] = -10;
+    
+            PlayerCount++;
+        }
+        return Ban;
+    }
+    public int[,] BuildLeft(int N)
+    {
+        int can = AICanBuildDestoroy(Y[N], X[N] - 1);
+        if (can == 1)
+        {
+            Ban[Y[N], X[N] - 1] = 0;
+            PlayerCount++;
+        }
+        else if (can == 2)
+        {
+            Ban[Y[N], X[N] - 1] = 10;
+            PlayerCount++;
+        }
+        else if (can == -2)
+        {
+            Ban[Y[N], X[N] - 1] = -10;
+            PlayerCount++;
+        }
+        //  break;
+        return Ban;
+    }
+    public int[,] BuildRight(int N)
+    {
+        int can = AICanBuildDestoroy(Y[N], X[N] + 1);
+        if (can == 1)
+        {
+            Ban[Y[N], X[N] + 1] = 0;
+
+        }
+        else if (can == 2)
+        {
+            Ban[Y[N], X[N] + 1] = 10;
+        }
+        else if (can == -2)
+        {
+            Ban[Y[N], X[N] + 1] = -10;
+        }
+        return Ban;
+    }
+
+    public int[,] Randam(int N)
+    {
         if (AIBlueTurn == false)
         {
-            N += TM.PieceNumber;
+            N += TM.PieceNumber;  
         }
-        obj = Boards.transform.GetChild(N).gameObject;
-        bb = obj.GetComponent<BridgeButtonManager>();
-        for (; ; )
-        {
-           int rnd = Random.Range(9, 13);
+        int rnd = Random.Range(1, 13);
             if (rnd == 1)
             {
-                //  bg_Red.MoveForwardBridge();
-                //  bg_Red.BridgeRester();
-                bool can = AICanMove(bb.BoardX + 1, bb.BoardY);
-                if (can)
-                {
-                    Ban[bb.BoardX, bb.BoardY] -= 11;
-                    Ban[bb.BoardX + 1, bb.BoardY] += 11;
-                    PlayerCount++;
-                    
-                }
-                //  continue;
-                break;
+               Ban = AIdown(N);
+                PlayerCount++;
+                return Ban;
 
             }
             if (rnd == 2)
             {
-                //bg_Red.MoveBackwardBridge();
-                //bg_Red.BridgeRester();
-                bool can = AICanMove(bb.BoardX, bb.BoardY + 1);
-                if (can)
-                {
-                    Ban[bb.BoardX, bb.BoardY + 1] += 11;
-                    Ban[bb.BoardX, bb.BoardY] -= 11;
-                    PlayerCount++;
-                }
-                break;
+                AILeft(N);
+                PlayerCount++;
+                return Ban;
             }
             if (rnd == 3)
             {
-                //bg_Red.MoveRightBridge();
-                //bg_Red.BridgeRester();
-                bool can = AICanMove(bb.BoardX + 1, bb.BoardY);
-                if (can)
-                {
-                    Ban[bb.BoardX + 1, bb.BoardY] += 11;
-                    Ban[bb.BoardX, bb.BoardY] -= 11;
-                    PlayerCount++;
-                }
-                break;
+                AIRight(N);
+                PlayerCount++;
+                return Ban;
             }
             if (rnd == 4)
             {
-                //bg_Red.MoveRightBridge();
-                // bg_Red.BridgeRester();
-                bool can = AICanMove(bb.BoardX - 1, bb.BoardY);
-                if (can)
-                {
-                    Ban[bb.BoardX - 1, bb.BoardY] += 11;
-                    Ban[bb.BoardX, bb.BoardY] -= 11;
-                    PlayerCount++;
-                }
-                break;
+                AIUP(N);
+                PlayerCount++;
+                return Ban;
             }
             if (rnd == 5)
             {
-                bool can = AICanMove(bb.BoardX - 1, bb.BoardY - 1);
-                if (can)
-                {
-                    Ban[bb.BoardX - 1, bb.BoardY - 1] += 11;
-                    Ban[bb.BoardX, bb.BoardY] -= 11;
-                    PlayerCount++;
-                }
-                //bg_Red.MoveLeftBridge();
-                //bg_Red.BridgeRester();
-                break;
+                AIHidarisita(N);
+                PlayerCount++;
+                return Ban;
             }
             if (rnd == 6)
             {
-                //bg_Red.MoveLeftForwardBridge();
-                //bg_Red.BridgeRester();
-                bool can =AICanMove(bb.BoardX - 1, bb.BoardY + 1);
-                if (can)
-                {
-                    Ban[bb.BoardX - 1, bb.BoardY + 1] += 11;
-                    Ban[bb.BoardX, bb.BoardY] -= 11;
-                    PlayerCount++;
-                }
-                break;
+                AIMigisita(N);
+                PlayerCount++;
+                return Ban;
             }
             if (rnd == 7)
             {
-                //bg_Red.MoveRightForwardBridge();
-                //bg_Red.BridgeRester();
-                bool can = AICanMove(bb.BoardX + 1, bb.BoardY - 1);
-                if (can)
-                {
-                    Ban[bb.BoardX + 1, bb.BoardY - 1] += 11;
-                    Ban[bb.BoardX, bb.BoardY] -= 11;
-                    PlayerCount++;
-                }
-                break;
+                AIhidariue(N);
+                PlayerCount++;
+                return Ban;
             }
             if (rnd == 8)
             {
-                //bg_Red.MoveRightBackwardBridge();
-                //bg_Red.BridgeRester();
-                bool can = AICanMove(bb.BoardX + 1, bb.BoardY + 1);
-                if (can)
-                {
-                    Ban[bb.BoardX + 1, bb.BoardY + 1] += 11;
-                    Ban[bb.BoardX, bb.BoardY] -= 11;
-                    PlayerCount++;
-                }
-                break;
+                AImigiue(N);
+                PlayerCount++;
+                return Ban;
 
             }
             if (rnd == 9)
             {
-                // bg_Red.BuildAndDestroyForward();
-                // bg_Red.BridgeRester();
-                int can = AICanBuildDestoroy(bb.BoardX + 1, bb.BoardY);
-                if (can == 1)
-                {
-                    Ban[bb.BoardX + 1, bb.BoardY] = 0;
-                    PlayerCount++;
-                }
-                if (can == 2)
-                {
-                    Ban[bb.BoardX + 1, bb.BoardY] = 10;
-                    PlayerCount++;
-                }
-                if (can == -2)
-                {
-                    Ban[bb.BoardX + 1, bb.BoardY] = -10;
-                    PlayerCount++;
-                }
-                break;
+                BuildUp(N);
+                PlayerCount++;
+                return Ban;
             }
             if (rnd == 10)
             {
-                //   bg_Red.BuildAndDestroyBackward();
-                // bg_Red.BridgeRester();
-                // break;
-                int can = AICanBuildDestoroy(bb.BoardX - 1, bb.BoardY);
-                if (can == 1)
-                {
-                    Ban[bb.BoardX - 1, bb.BoardY] = 0;
-                    PlayerCount++;
-
-                }
-                if (can == 2)
-                {
-                    Ban[bb.BoardX - 1, bb.BoardY] = 10;
-                    PlayerCount++;
-                }
-                if (can == -2)
-                {
-                    Ban[bb.BoardX - 1, bb.BoardY] = -10;
-                    PlayerCount++;
-                }
-                break;
+                BuildDown(N);
+                PlayerCount++;
+                return Ban;
             }
             if (rnd == 11)
             {
-                //bg_Red.BuildAndDestroyRight();
-                //bg_Red.BridgeRester();
-                int can = AICanBuildDestoroy(bb.BoardX, bb.BoardY + 1);
-                if (can == 1)
-                {
-                    Ban[bb.BoardX, bb.BoardY + 1] = 0;
-                    PlayerCount++;
-
-                }
-                if (can == 2)
-                {
-                    Ban[bb.BoardX, bb.BoardY + 1] = 10;
-                    PlayerCount++;
-                }
-                if (can == -2)
-                {
-                    Ban[bb.BoardX, bb.BoardY + 1] = -10;
-                    PlayerCount++;
-                }
-
-                break;
+                BuildRight(N);
+                PlayerCount++;
+                return Ban;
             }
             if (rnd == 12)
             {
-                //bg_Red.BuildAndDestroyLeft();
-                //bg_Red.BridgeRester();
-                int can = AICanBuildDestoroy(bb.BoardX, bb.BoardY - 1);
-                if (can == 1)
-                {
-                    Ban[bb.BoardX, bb.BoardY - 1] = 0;
-                    PlayerCount++;
+                BuildLeft(N);
+                PlayerCount++;
+                return Ban;
 
-                }
-                if (can == 2)
+            }
+        PlayerCount++;
+        return Ban;
+
+    }
+    #endregion
+    public bool AICanMove(int x, int y)
+    {
+        if (x >= 0 && y >= 0 && x < TM.BoardXMax && y < TM.BoardYMax && Ban[x, y] != -1 && Ban[x, y] != 10 && Ban[x, y] != -10 &&   Ban[x, y] != 11 )
+        {
+            return true;
+        }
+        return false;
+    }
+    public int AICanBuildDestoroy(int x, int y)
+    {
+        if (x >= 0 && y >= 0 && x < TM.BoardXMax && y < TM.BoardYMax && Ban[x, y] != 100 && Ban[x, y] != 11)
+        {
+            if (Ban[x, y] == 10 || Ban[x, y] == -10)
+            {
+                return 1;
+            }
+            else if (AIBlueTurn)
+            {
+
+                return 2;
+            }
+            else if (!AIBlueTurn)
+            {
+
+                return -2;
+            }
+        }
+        
+        return 0;
+    }
+    public bool AIScoreCheck(int[,] ban)
+    {
+      //  txt.text = "";
+    
+        var myscore = 0;
+        var enemyscore = 0;
+        for (int y = 0; y < TM.BoardYMax; y++)
+        {
+           // txt.text += "\n";
+            for (int x = 0; x < TM.BoardXMax; x++)
+            {
+                area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
+                if (ban[y, x] == 10)
                 {
-                    Ban[bb.BoardX, bb.BoardY - 1] = 10;
-                    PlayerCount++;
+                    myscore += 10;
                 }
-                if (can == -2)
+                else if (ban[y, x] == -10)
                 {
-                    Ban[bb.BoardX, bb.BoardY - 1] = -10;
-                    PlayerCount++;
+                    //  area.RedWall = true;
+                    enemyscore += 10;
                 }
-                break;
+                else if (ban[y, x] == 15)
+                {
+                    myscore += 30;
+                    enemyscore += 30;
+                }
+                else if (ban[y, x] == 30)
+                {
+                  myscore += 30;
+                }
+                else if (ban[y ,x] == -30)
+                {
+                  enemyscore += 30;
+                }
+                else if (ban[y, x] == 130)
+                {
+                    myscore += 100;
+                }
+                else if (ban[y, x] == -130)
+                {
+                    enemyscore += 100;
+                }
+              //  txt.text += Ban[y, x].ToString() + "  ";
 
             }
         }
+
+
+        if (myscore > enemyscore)
+        {
+
+            return true;
+        }
+        return false;
     }
-    public bool AICanMove(int x, int y)
-    {   
-        if (Ban[x, y] == -1 || Ban[x, y] == 10 || Ban[x, y] == -10 || Ban[x, y] == -11 || Ban[x, y] == 11 || x > TM.BoardXMax || y > TM.BoardYMax)
+
+    
+    public List<KomaIndex> GetCanMoveIndex(int N)
+    {
+        Debug.Log(X[N]);//1
+        Debug.Log(Y[N]);//2
+        var CanMoves = new List<KomaIndex>();
+        CanMove = AICanMoves(Y[N] , X[N]+1);
+        if (CanMove)
+        {
+
+            CanMoves.Add(new KomaIndex(X[N] +1, Y[N] ));
+        }
+        CanMove = AICanMoves(Y[N] , X[N] -1);
+        if (CanMove)
+        {
+
+            CanMoves.Add(new KomaIndex(X[N] - 1, Y[N]));
+        }
+        CanMove = AICanMoves(Y[N] +1, X[N] );
+        if (CanMove)
+        {
+
+            CanMoves.Add(new KomaIndex(X[N] , Y[N] +1));
+        }
+        CanMove = AICanMoves(Y[N] - 1, X[N]);
+        if (CanMove)
+        {
+
+            CanMoves.Add(new KomaIndex(X[N] , Y[N] -1));
+        }
+        CanMove = AICanMoves(Y[N] - 1, X[N] - 1);
+
+        if (CanMove)
+        {
+
+            CanMoves.Add(new KomaIndex(X[N] - 1, Y[N] - 1));
+        }
+        CanMove = AICanMoves(Y[N] - 1, X[N] + 1);
+        if (CanMove)
+        {
+            CanMoves.Add(new KomaIndex(X[N] + 1, Y[N] - 1));
+        }
+        CanMove = AICanMoves(Y[N] + 1, X[N] - 1);
+        if (CanMove)
+        {
+
+            CanMoves.Add(new KomaIndex(X[N] - 1, Y[N] + 1));
+        }
+        CanMove = AICanMoves(Y[N] + 1, X[N] + 1);
+        if (CanMove)
+        {
+
+            CanMoves.Add(new KomaIndex(X[N] + 1, Y[N] + 1));
+        }
+    
+        return CanMoves;
+    }
+    public bool CanBuild(int x, int y)
+    {
+        if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0 )
+        {
+            return false;
+        }
+        area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
+        if (area.castle || area.Bridge )
         {
             return false;
         }
         return true;
     }
-    public int AICanBuildDestoroy(int x, int y)
+    public bool AICanMoves(int x, int y)
     {
+        if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0)
+        {
+            return false;
+        }
+        area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
+        if (area.Bridge || area.pond)
+        {
+            return false;
+        }
        
-        if (Ban[x, y] == 100 || Ban[x, y] == 11 || Ban[x, y] == -11)
-        {
-            return 0;
-        }
-        if (Ban[x, y] == 10 || Ban[x, y] == -10)
-        {
-            return 1;
-        }
-        if (TM.BlueTurn)
-        {
-            return 2;
-            //Ban[bg.BoardX, bg.BoardY] += 
-        }
-        else {
-            return -2;
-        }
+        return true;
     }
-    public int AIScoreCheck()
+    public List<KomaIndex> BanCanMove(int[,] ban ,int N)
     {
-        var myscore = 0;
-        var enemyscore = 0;
-        for (int y = 0; y < TM.BoardYMax; y++)
-        {
-            for (int x = 0; x < TM.BoardXMax; x++)
+        var CanMoves = new List<KomaIndex>();
+            bool CanMove = AICan(ban, X[N] + 1, Y[N]);
+            if (CanMove)
             {
-                if(Ban[x ,y] == 10)
-                {
-                    myscore += 10;
-                }
-                if (Ban[x,y] == -10)
-                {
-                    enemyscore += 10;
-                }
-                if (Ban[x,y] == 100)
-                {
-
-                }
-                
-
+                CanMoves.Add(new KomaIndex(X[N] + 1, Y[N]));
             }
-        }
-        
-        return enemyscore -  myscore;
-    }
-  /*  public int AIAreaCheck()
-    {
-        for (int y = 0; y < TM.BoardYMax; y++)
-        {
-            for (int x = 0; x < TM.BoardXMax; x++)
+            CanMove = AICan(ban, X[N] - 1, Y[N]);
+            if (CanMove)
             {
-
-                
-
+                CanMoves.Add(new KomaIndex(X[N] - 1, Y[N]));
             }
-        }
-    }
-    public bool AIAreaCheckUp()
-    {
-         for (int x = 0; x < TM.BoardXMax; x++)
+            CanMove = AICan(ban, X[N], Y[N] - 1);
+            if (CanMove)
             {
-
-
-
+                CanMoves.Add(new KomaIndex(X[N], Y[N] - 1));
             }
+            CanMove = AICan(ban, X[N], Y[N] + 1);
+            if (CanMove)
+            {
+                CanMoves.Add(new KomaIndex(X[N], Y[N] + 1));
+            }
+            CanMove = AICan(ban, X[N] + 1, Y[N] + 1);
+            if (CanMove)
+            {
+                CanMoves.Add(new KomaIndex(X[N] + 1, Y[N] + 1));
+            }
+            CanMove = AICan(ban, X[N] - 1, Y[N] - 1);
+            if (CanMove)
+            {
+                CanMoves.Add(new KomaIndex(X[N] - 1, Y[N] - 1));
+            }
+            CanMove = AICan(ban, X[N] - 1, Y[N] + 1);
+            if (CanMove)
+            {
+                CanMoves.Add(new KomaIndex(X[N] - 1, Y[N] + 1));
+            }
+            CanMove = AICan(ban, X[N] + 1, Y[N] - 1);
+            if (CanMove)
+            {
+                CanMoves.Add(new KomaIndex(X[N] + 1, Y[N] - 1));
+            }
+            return CanMoves;
         
     }
-  */
-    public void GetPutkomaState()
+    public List<KomaIndex> BanCanBuild(int[,] ban , int N)
     {
-        for (var i = 0; i < 30;)
+        var CanMoves = new List<KomaIndex>();
+        bool CanMove = AIBuild(ban, X[N] + 1, Y[N]);
+        if (CanMove)
         {
-
-            CanMove = TM.CanMove(bb.BoardY, bb.BoardX + 1);
-            if (CanMove)
-            {
-                bb.BuildAndDestroyRight();
-                //bb.BoardX -= 1;
-                break;
-
-            }
-            // bb.BoardX -= 1;
-            CanMove = TM.CanMove(bb.BoardY, bb.BoardX - 1);
-            if (CanMove)
-            {
-                Debug.Log(8);
-                bb.BuildAndDestroyLeft();
-                // bb.BoardX += 1;
-                break;
-
-            }
-            //  bb.BoardX += 1;
-            //  bb.BoardX += 1;
-            CanMove = TM.CanMove(bb.BoardY + 1, bb.BoardX);
-            if (CanMove)
-            {
-                bb.BuildAndDestroyBackward();
-                break;
-
-            }
-            CanMove = TM.CanMove(bb.BoardY - 1, bb.BoardX);
-            if (CanMove)
-            {
-
-                bb.BuildAndDestroyForward();
-                break;
-
-            }
-            if (TM.BoardYMax - bb.BoardY < 5 || TM.BoardXMax - bb.BoardX < 5)
-            {
-
-                bb.MoveRightForwardBridge();
-                break;
-
-            }
-            else
-            {
-                bb.MoveRightBackwardBridge();
-                break;
-
-            }
-
+            CanMoves.Add(new KomaIndex(X[N] + 1, Y[N]));
         }
+        CanMove = AIBuild(ban, X[N] - 1, Y[N]);
+        if (CanMove)
+        {
+            CanMoves.Add(new KomaIndex(X[N] - 1, Y[N]));
+        }
+        CanMove = AIBuild(ban, X[N], Y[N] - 1);
+        if (CanMove)
+        {
+            CanMoves.Add(new KomaIndex(X[N], Y[N] - 1));
+        }
+        CanMove = AIBuild(ban, X[N], Y[N] + 1);
+        if (CanMove)
+        {
+            CanMoves.Add(new KomaIndex(X[N], Y[N] + 1));
+        }
+      
+        return CanMoves;
+    }
+    public bool AICan(int[,] ban,int x , int y)
+    {
+        if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0)
+        {
+            return false;
+        }
+        else if (ban[x ,y] == 10 || ban[x ,y] == -10 || ban[x ,y] == 11|| ban[x ,y] == -1 )
+        {
+            return false;
+        }
+        return true;
+    }
+    public bool AIBuild(int[,] ban, int x, int y)
+    {
+        if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0)
+        {
+            return false;
+        }
+        else if ( ban[x, y] == 11 || ban[x, y] == 100 )
+        {
+            return false;
+        }
+        return true;
+    }
+    public int[,] Build(int x, int y , int[,] ban , bool Blue)
+    {
+
+       
+        if(ban[x, y] == 10)
+        {
+            ban[x ,y] = 0;
+        }
+        if (Blue)
+        {
+            ban[x, y] = 10;
+        }
+        else
+        {
+            ban[x, y] = -10;
+        }
+        return ban;
+    }
+    public int[,] Move(int x , int y,int[,] ban ,int N )
+    {   ban[X[N], Y[N]] = 0;
+        ban[x, y] = 11;
+        return ban;
+    }
+    public List<KomaIndex> GetCanBuild(int N)
+    {
+
+        var CanMoves = new List<KomaIndex>();
+        CanMove = CanBuild(Y[N] + 1, X[N]);
+        if (CanMove)
+        {
+            CanMoves.Add(new KomaIndex(X[N] + 1, Y[N]));        
+        }
+        CanMove = CanBuild(Y[N] - 1, X[N]);
+        if (CanMove)
+        {
+            CanMoves.Add(new KomaIndex(X[N] - 1, Y[N]));
+        }
+        CanMove = CanBuild(Y[N], X[N] + 1);
+        if (CanMove)
+        {
+            CanMoves.Add(new KomaIndex(X[N], Y[N] + 1));
+        }
+        CanMove = CanBuild(Y[N], X[N] - 1);
+        if (CanMove)
+        {
+            CanMoves.Add(new KomaIndex(X[N], Y[N] - 1));
+        }
+        return CanMoves;
 
     }
-    public List<KomaIndex> GetPutkomaStates()
+    public void CheckPosition()
     {
-        var canPutStones = new List<KomaIndex>();
-
-        var Index = new List<KomaIndex>();
-        int x = bb.BoardX;
-        int y = bb.BoardY;
-
-        area = Board.transform.GetChild(x).GetChild(y).GetComponent<Area>();
-        Debug.Log(x);
-        CanMove = TM.CanMove(x + 1, y);
-        if (CanMove)
+        for (int n = 0; n < TM.PieceNumber * 2; n++)
         {
-            // bb2.BuildAndDestroyRight();
-            //bb.BoardX -= 1;
-            canPutStones.Add(new KomaIndex(x, y));
-            //Index.Add(new KomaIndex(x, y));
-            Debug.Log("eeeee");
-
-
-        }
-        CanMove = TM.CanMove(x - 1, y);
-        if (CanMove)
-        {
-            // bb2.BuildAndDestroyRight();
-            //bb.BoardX -= 1;
-            canPutStones.Add(new KomaIndex(x, y));
-            //Index.Add(new KomaIndex(x, y));
-            Debug.Log("hidari");
-
-
-        }
-        CanMove = TM.CanMove(x, y + 1);
-        if (CanMove)
-        {
-            // bb2.BuildAndDestroyRight();
-            //bb.BoardX -= 1;
-            canPutStones.Add(new KomaIndex(x, y));
-            //Index.Add(new KomaIndex(x, y));
-            Debug.Log("ue");
-
-        }
-        CanMove = TM.CanMove(x, y - 1);
-        if (CanMove)
-        {
-            // bb2.BuildAndDestroyRight();
-            //bb.BoardX -= 1;
-            canPutStones.Add(new KomaIndex(x, y));
-            //Index.Add(new KomaIndex(x, y));
-            Debug.Log("eeeee");
-
-        }
-        CanMove = TM.CanMove(x - 1, y - 1);
-        if (CanMove)
-        {
-            // bb2.BuildAndDestroyRight();
-            //bb.BoardX -= 1;
-            canPutStones.Add(new KomaIndex(x, y));
-            //Index.Add(new KomaIndex(x, y));
-            Debug.Log("eeeee");
-
-        }
-        CanMove = TM.CanMove(x + 1, y - 1);
-        if (CanMove)
-        {
-            // bb2.BuildAndDestroyRight();
-            //bb.BoardX -= 1;
-            canPutStones.Add(new KomaIndex(x, y));
-            //Index.Add(new KomaIndex(x, y));
-            Debug.Log("eeeee");
-
-        }
-        CanMove = TM.CanMove(x - 1, y + 1);
-        if (CanMove)
-        {
-            // bb2.BuildAndDestroyRight();
-            //bb.BoardX -= 1;
-            canPutStones.Add(new KomaIndex(x, y));
-            //Index.Add(new KomaIndex(x, y));
-            Debug.Log("eeeee");
-
-        }
-        CanMove = TM.CanMove(x + 1, y + 1);
-        if (CanMove)
-        {
-            // bb2.BuildAndDestroyRight();
-            //bb.BoardX -= 1;
-            canPutStones.Add(new KomaIndex(x, y));
-            //Index.Add(new KomaIndex(x, y));
-            Debug.Log("eeeee");
-
-        }
-        return canPutStones;
-
-
-    }
-    public int Win_Blue()
-    {
-        int Count = 0;
-        Count++;
-        return Count;
-    }
-    public int Win_Red()
-    {
-        int Count = 0;
-        Count++;
-        return Count;
-    }
-    public void GetPutkomaState2(int x, int y)
-    {
-        for (var i = 0; i < 30;)
-        {
-            CanMove = TM.CanMove(bb2.BoardY, bb2.BoardX + 1);
-            if (CanMove)
-            {
-                bb2.BuildAndDestroyRight();
-                //bb.BoardX -= 1;
-                break;
-
-            }
-            // bb.BoardX -= 1;
-            CanMove = TM.CanMove(bb2.BoardY, bb2.BoardX - 1);
-            if (CanMove)
-            {
-                Debug.Log(8);
-                bb2.BuildAndDestroyLeft();
-                // bb.BoardX += 1;
-                break;
-            }
-            //  bb.BoardX += 1;
-            //  bb.BoardX += 1;
-            CanMove = TM.CanMove(bb2.BoardY + 1, bb2.BoardX);
-            if (CanMove)
-            {
-                bb2.BuildAndDestroyBackward();
-                break;
-            }
-            CanMove = TM.CanMove(bb2.BoardY - 1, bb2.BoardX);
-            if (CanMove)
-            {
-
-                bb2.BuildAndDestroyForward();
-                break;
-            }
-            if (TM.BoardYMax - bb2.BoardY < 2 || TM.BoardXMax - bb2.BoardX < 2)
-            {
-
-                bb2.MoveRightForwardBridge();
-                break;
-            }
-            else
-            {
-                bb2.MoveRightBackwardBridge();
-                break;
-            }
+               montes = Boards.transform.GetChild(n).gameObject;
+              BBB = montes.GetComponent<BridgeButtonManager>();
+             //   Debug.Log(BBB.BoardX);
+             //   Debug.Log(BBB.BoardY);
+              X[n]  =   BBB.BoardX;
+              Y[n]  =   BBB.BoardY;
+            BanX[n] = BBB.BoardX;
+            BanY[n] = BBB.BoardY;
+            //   BBB.BoardX = Y[n];
+            //   BBB.BoardY = X[n];
+            // BB[n].BoardY = Y[n];
+            // Debug.Log(montes);
         }
     }
+ 
+
 }
  

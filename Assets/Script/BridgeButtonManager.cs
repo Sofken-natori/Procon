@@ -15,7 +15,7 @@ public class BridgeButtonManager : MonoBehaviour
     [Header("駒のY位置")]public int BoardY;
     
     bool CanMove = false;
-    Button ButtonIntaract;
+    public Button ButtonIntaract;
     public TurnManager TM;
     
     
@@ -33,6 +33,7 @@ public class BridgeButtonManager : MonoBehaviour
         if ((BlueTurn && TM.BlueTurn || !BlueTurn && !TM.BlueTurn) && TM.UntapPhase)
         {
             // Myturn
+
             ButtonIntaract.interactable = true;
             TM.Bridgestandby();
         }
@@ -118,7 +119,7 @@ public class BridgeButtonManager : MonoBehaviour
     {
         // Move the bridge left
         MoveArrow.SetActive(false);
-        BridgeRester();
+        BridgeRester();       //1   2
         TM.isBridgeReseter(BoardY,BoardX);
         ButtonIntaract.interactable = false;
         CanMove = TM.CanMove(BoardY,BoardX-1);

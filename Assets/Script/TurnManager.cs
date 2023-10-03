@@ -5,13 +5,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEditorInternal;
+using Koma;
+using System.Reflection;
 
 public class TurnManager : MonoBehaviour
 {
 
     [Header("マップのCSVファイル名"),SerializeField] string MapCSV;
-    [Header("最大ターン数"), SerializeField] int MaxTurnNumber;
-    [Header("生成する駒の数"), SerializeField] int PieceNumber;
+    [Header("最大ターン数"), SerializeField]public int MaxTurnNumber;
+    [Header("生成する駒の数"), SerializeField]public int PieceNumber;
     [Header("青のターンかどうか")]public bool BlueTurn = true;
     [Header("縦のマス数")]public int BoardXMax;
     [Header("横のマス数")]public int BoardYMax;
@@ -25,7 +28,6 @@ public class TurnManager : MonoBehaviour
     [Header("城壁のスコア"),SerializeField] int WallScore = 10;
     [Header("城のスコア"),SerializeField] int CastleScore = 100;
 
-
     [HideInInspector]public int BlueScore = 0;
     [HideInInspector]public int RedScore = 0;
     [HideInInspector]public bool UntapPhase = false;
@@ -33,20 +35,30 @@ public class TurnManager : MonoBehaviour
     [HideInInspector]public List<string[]> MapData = new List<string[]>();
 
     Area area;
-    Button RedButton;
-    Button BlueButton;
+     KomaCalulator kc;
+    Monte monte;
+    Alpha alpha;
+    BridgeButtonManager[] bb = new BridgeButtonManager[6];
     Transform square;
     GameObject Board;
-    int BridgeActCount = 0;
+    GameObject koma;
+    public int BridgeActCount = 0;
     int BridgestandbyCount = 0;
-    int NowTurn = 0;
+   public int NowTurn = 0;
     TextAsset csvFile;
+    private void Start()
+    {
+        koma = GameObject.Find("Board");
+        monte =  koma.GetComponent<Monte>();
+        kc = koma.GetComponent<KomaCalulator>();
+       alpha = koma.GetComponent<Alpha>();
+        kc.AIBanState();
+    }
 
-    
     void Awake()
     {
-        Board = GameObject.Find("BoardBridge");
 
+        Board = GameObject.Find("BoardBridge");
         ConnectArea();
 
         Debug.Log("PieceDeployed");
@@ -75,14 +87,22 @@ public class TurnManager : MonoBehaviour
         BlueScoreText.text = BlueScore.ToString();
         RedScoreText.text = RedScore.ToString();
         TurnText.text = NowTurn.ToString();
-
-        
-        Debug.Log(BridgeActCount);
+      
+    //   Debug.Log(BridgeActCount);
         if(BridgeActCount >= PieceNumber)
         {
             if(!BlueTurn)
             {
-                NowTurn++;
+                NowTurn++;   
+            }
+            if (BlueTurn)
+            {
+                //NowTurn++;
+                //NowTurn++;
+                // 各種ボタン設定
+                //赤もできるようにする。
+                //別シーンで勝利までループする
+                //alpha-beta
             }
             Debug.Log("TurnChange");
             CallAreaLeakChecker(true);
@@ -103,6 +123,7 @@ public class TurnManager : MonoBehaviour
 
             if(BlueScore > RedScore)
             {
+               
                 Debug.Log("BlueWin");
             }
 
@@ -115,11 +136,11 @@ public class TurnManager : MonoBehaviour
             {
                 Debug.Log("Draw");
             }
-
+            
             SceneManager.LoadScene("StageSelectScene");
         }
     }
-
+   
     public void Bridgestandby()
     {
         BridgestandbyCount++;
@@ -127,9 +148,11 @@ public class TurnManager : MonoBehaviour
         {
             UntapPhase = false;
             BridgestandbyCount = 0;
+       
         }
     }
-
+  
+ 
     public void BuildAndDestroyBridge(int x,int y)
     {
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
@@ -156,6 +179,7 @@ public class TurnManager : MonoBehaviour
 
     public bool CanMove(int x,int y)
     {
+     
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
         if(area.RedWall || area.BlueWall || area.pond || area.Bridge)
         {
@@ -306,7 +330,68 @@ public class TurnManager : MonoBehaviour
     {
         for(int i = 0; i < Board.transform.childCount; i++)
         {
+
+           
+
             Board.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeRester();
         }
+        if (BlueTurn)
+        {
+            
+           for (int N = 0; N < Board.transform.childCount/2; N++)
+            {
+             monte.MonteCarloSearch(N);
+              
+            }
+         
+           // kc.CheckPosition();
+        }
+        if (!BlueTurn)
+        {
+            if (NowTurn >= MaxTurnNumber * 0.8)
+            {
+                /*   kc.AIBanState();
+                 var Index =  kc.GetCanMoveIndex(3);
+                   foreach(var i in Index)
+                   {
+                       Debug.Log(i.X);
+                       Debug.Log(i.Y);
+                   }
+                */
+                //var Index = monte.MonteCarloSearch(3);
+                //   GameObject koma = Board.transform.GetChild(3).gameObject;
+                //   koma.transform.position = MoveBridge(Index.Y, Index.X);
+                /*  for (int N =3; N < Board.transform.childCount ; N++)
+                   {
+
+                       KomaIndex Index = null;
+                       Index =  monte.MonteCarloSearch(N);
+                       GameObject koma = Board.transform.GetChild(N).gameObject;
+                       BridgeButtonManager[] bb = new BridgeButtonManager[6];
+                       bb[N] = koma.GetComponent<BridgeButtonManager>();
+                       bb[N].BoardX = Index.X;
+                       bb[N].BoardY = Index.Y;
+                       koma.transform.position = MoveBridge(Index.Y, Index.X);
+                 );
+                }
+                 */
+            }
+            else
+            {
+               
+                // kc.GetCanMoveIndex(1);
+                for (int N = PieceNumber; N < Board.transform.childCount; N++)
+                {
+                    // GameObject koma = Board.transform.GetChild(N).gameObject;
+                      int[,] Ban = kc.AIBanState();
+                         monte.MonteCarloSearch(N);
+              
+                    // alpha.AlphaBeta(3, Ban, kc.Y[N], kc.X[N], N);
+            
+                }
+            }
+        }
     }
+    
+  
 }
