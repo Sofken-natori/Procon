@@ -81,8 +81,6 @@ public class TurnManager : MonoBehaviour
         RedScoreText.text = RedScore.ToString();
         TurnText.text = NowTurn.ToString();
 
-        
-        Debug.Log(BridgeActCount);
         if(BridgeActCount >= PieceNumber)
         {
             if(!BlueTurn)
@@ -132,7 +130,8 @@ public class TurnManager : MonoBehaviour
             SceneManager.LoadScene("StageSelectScene");
         }
 
-        CallServerInfoGet(id);
+        CallMatchInfoGet(id);
+        CallMatchesInfoGet(id);
     }
 
     public void Bridgestandby()
@@ -336,11 +335,17 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public async void CallServerInfoGet(int id)
-    {
-        Info info = new Info();
+    public async void CallMatchInfoGet(int id)
+    { 
         InfoConnector infoConnector = new InfoConnector();
-        info = await infoConnector.GetMatchInfo(id);
-        Debug.Log(info.id);
+        MatchInfo info = await infoConnector.GetMatchInfo(id);
+        Debug.Log(info.board.mason);
+    }
+
+    public async void CallMatchesInfoGet(int id)
+    {
+        InfoConnector infoConnector = new InfoConnector();
+        MatchesInfo info = await infoConnector.GetMatchesInfo();
+        Debug.Log(info.matches[0].id);
     }
 }

@@ -4,65 +4,112 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
-
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace ServerConnector
 {
-    public class Info
+
+    public class MatchesInfo
+    {
+        public Match[] matches;
+    }
+
+    public class Match
+    {
+        public int id;
+        public int turns;
+        public int turnSeconds;
+        public Bonus bonus;
+        public InitBoard board;
+        public string oponent;
+        public bool first;
+    }
+
+    public class MatchInfo
     {
         public int id;
         public int turn;
+        
+        public NowBoard board;
 
-        public string[] log;
+        public Log[] logs;
+    }
 
-        public class Board
-        {   
-            public int width;
-            public int height;
-            public int mason;
-            public int[,] structures;
-            public int[,] masons;
-            public int[,] walls;
-            public int[,] territories;
-        }
+    public class NowBoard
+    {
+
+        public int width;
+        public int height;
+        public int mason;
+        public int[,] structures;
+        public int[,] masons;
+        public int[,] walls;
+        public int[,] territories;
+    }
+
+    public class InitBoard
+    {
+        public int width;
+        public int height;
+        public int mason;
+        public int[,] structures;
+        public int[,] masons;
     }
 
     
+    public class Bonus
+    {
+        public int wall;
+        public int territory;
+        public int castle;
+    }
+
+    public class Log
+    {
+        public int turn;
+        public Action[] actions;
+
+    }
+
+    public class Action
+    {
+        public bool succeeded;
+        public int type;
+        public int dir;
+    }
+
+    public class Move
+    {
+        public int dir;
+        public int type;
+    }
+
 
 
     public class InfoConnector
     {
         public string CallAPIURL = "http://localhost:3000";
-        public string token = "FirstAttacker";
-        public async UniTask<Info> GetMatchesInfo()
+        public string token = "first";
+        public async UniTask<MatchesInfo> GetMatchesInfo()
         {
-            Debug.Log(CallAPIURL + "/matches?token=" + token);
-            return await GetInfo(UnityWebRequest.Get(CallAPIURL + "/matches?token=" + token));
-        }
+            UnityWebRequest req = UnityWebRequest.Get(CallAPIURL + "/matches?token=" + token);
+            var info = await req.SendWebRequest();
+            MatchesInfo res = new MatchesInfo();
 
-        public async UniTask<Info> GetMatchInfo(int id)
-        {
-            Debug.Log(CallAPIURL + "/matches/" + id + "?token=" + token);
-            return await GetInfo(UnityWebRequest.Get(CallAPIURL + "/matches/" + id + "?token=" + token));
-        }
-        
-
-
-        public async UniTask<Info> GetInfo(UnityWebRequest request)
-        {
-            var info = await request.SendWebRequest();
-            Info res = null;
-
-            if (request.error != null)
+            if (req.error != null)
             {
-                Debug.LogError(request.error);
+                Debug.LogError(req.error);
                 return res;
             }
 
             try
             {
                 var JSON = info.downloadHandler.text;
-                res = JsonUtility.FromJson<Info>(JSON);
+                Debug.Log(JSON);
+                JObject obj = JObject.Parse(JSON);
+                res.matches = obj["matches"].ToObject<Match[]>();
+                Debug.Log(res);
             }
             catch (System.Exception e)
             {
@@ -70,6 +117,51 @@ namespace ServerConnector
             }
 
             return res;
+        }
+
+        public async UniTask<MatchInfo> GetMatchInfo(int id)
+        {
+            UnityWebRequest req = UnityWebRequest.Get(CallAPIURL + "/matches/" + id + "?token=" + token);
+            var info = await req.SendWebRequest();
+            MatchInfo res = new MatchInfo();
+
+            if (req.error != null)
+            {
+                Debug.LogError(req.error);
+                return res;
+            }
+            try
+            {
+                var JSON = info.downloadHandler.text;
+                JObject obj = JObject.Parse(JSON);
+                res.id = obj["id"].Value<int>();
+                res.turn = obj["turn"].Value<int>();
+                res.board = obj["board"].ToObject<NowBoard>();
+                res.logs = obj["logs"].ToObject<Log[]>();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError(e);
+            }
+
+            return res;
+        }
+
+        public async void PostMatchInfo(int id, Move[] move)
+        {
+            string reqJson = JsonConvert.SerializeObject(move);
+            UnityWebRequest req = UnityWebRequest.Post(CallAPIURL + "/matches/" + id + "?token=" + token, reqJson);
+            var res = await req.SendWebRequest();
+            if (req.error != null)
+            {
+                Debug.LogError(req.error);
+                return;
+            }
+
+
+            JObject obj = JObject.Parse(res.downloadHandler.text);
+            string resJSON = obj["accepted_at"].Value<string>();
+            Debug.Log(resJSON);
         }
 
        
