@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using ServerConnector;
 using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 
 public class TurnManager : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class TurnManager : MonoBehaviour
     [Header("青陣営のスコア表示"), SerializeField] Text BlueScoreText;
     [Header("現在のターン表示"), SerializeField] Text TurnText;
     [Header("Http通信のID")]public int id = 10;
+    [Header("通信を行うか"),SerializeField]bool host = true;
 
     [Header("陣地のスコア"),SerializeField] int AreaScore = 30;
     [Header("城壁のスコア"),SerializeField] int WallScore = 10;
@@ -47,6 +49,8 @@ public class TurnManager : MonoBehaviour
     int BridgestandbyCount = 0;
     int NowTurn = 0;
     TextAsset csvFile;
+    MatchesInfo matchesInfo;
+    MatchInfo matchInfo;
 
     
     void Awake()
@@ -127,11 +131,16 @@ public class TurnManager : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("Interrupt");
             SceneManager.LoadScene("StageSelectScene");
         }
 
-        CallMatchInfoGet(id);
-        CallMatchesInfoGet(id);
+        if(host)
+        {
+            CallMatchInfoGet(id);
+            CallAreaApply(matchInfo);
+            CallMatchesInfoGet(id);
+        }
     }
 
     public void Bridgestandby()
@@ -185,6 +194,7 @@ public class TurnManager : MonoBehaviour
     public Vector2 MoveBridge(int x,int y)
     {
         // Set the bridge position
+        Debug.Log("BridgeMove Called");
         square = this.transform.GetChild(x).GetChild(y);
         area = square.GetComponent<Area>();
         area.Bridge = true;
@@ -211,6 +221,8 @@ public class TurnManager : MonoBehaviour
                 square = this.transform.GetChild(i).GetChild(j);
                 area = square.GetComponent<Area>();
                 area.AreaDeployer(MapData[i][j]);
+                area.BlueBridges = BlueBridges;
+                area.RedBridges = RedBridges;
             }
         }
     }
@@ -338,14 +350,24 @@ public class TurnManager : MonoBehaviour
     public async void CallMatchInfoGet(int id)
     { 
         InfoConnector infoConnector = new InfoConnector();
-        MatchInfo info = await infoConnector.GetMatchInfo(id);
-        Debug.Log(info.board.mason);
+        matchInfo = await infoConnector.GetMatchInfo(id);
     }
 
     public async void CallMatchesInfoGet(int id)
     {
         InfoConnector infoConnector = new InfoConnector();
-        MatchesInfo info = await infoConnector.GetMatchesInfo();
-        Debug.Log(info.matches[0].id);
+        matchesInfo = await infoConnector.GetMatchesInfo();
+    }
+
+    public void CallAreaApply(MatchInfo info)
+    {
+         for(int i = 0; i <  BoardYMax; i++)
+        {
+            for(int j = 0; j <  BoardXMax; j++)
+            {
+                area = this.transform.GetChild(i).GetChild(j).GetComponent<Area>();
+                area.AreaApply(info.board);
+            }
+        }
     }
 }

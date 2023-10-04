@@ -238,4 +238,11 @@ public class BridgeButtonManager : MonoBehaviour
         ButtonIntaract.interactable = false;
         TM.BridgeRest();
     }
+
+    public void BridgeApplyer(int x,int y)
+    {
+        BoardX = x;
+        BoardY = y;
+        this.transform.position = TM.MoveBridge(BoardY,BoardX);
+    }
 }
