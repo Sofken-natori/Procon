@@ -57,13 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\KomaIndex.cs" />
-    <Compile Include="Assets\Script\Scene.cs" />
-    <Compile Include="Assets\Script\ABsystem.cs" />
     <Compile Include="Assets\Script\BridgeButtonManager.cs" />
-    <Compile Include="Assets\Script\State.cs" />
     <Compile Include="Assets\Script\TurnManager.cs" />
     <Compile Include="Assets\Script\Monte.cs" />
-    <Compile Include="Assets\Script\KomaState.cs" />
     <Compile Include="Assets\Script\Area.cs" />
     <Compile Include="Assets\Script\Alpha.cs" />
     <Compile Include="Assets\Script\NeitherWallChacker.cs" />
