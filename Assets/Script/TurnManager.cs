@@ -51,6 +51,7 @@ public class TurnManager : MonoBehaviour
     TextAsset csvFile;
     MatchesInfo matchesInfo;
     MatchInfo matchInfo;
+    PostInfo postInfo;
 
     
     void Awake()
@@ -140,6 +141,8 @@ public class TurnManager : MonoBehaviour
             CallMatchInfoGet(id);
             CallAreaApply(matchInfo);
             CallMatchesInfoGet(id);
+            GetBridgeMoves();
+            CallPostMatchInfo(postInfo);
         }
     }
 
@@ -153,7 +156,7 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public void BuildAndDestroyBridge(int x,int y)
+    public int BuildAndDestroyBridge(int x,int y)
     {
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
         if(area.RedWall || area.BlueWall)
@@ -162,18 +165,21 @@ public class TurnManager : MonoBehaviour
                 area.BlueWall = false;
                 area.RedAreaLeak = true;
                 area.BlueAreaLeak  = true;
+                return 3;
         }
         
         else if(BlueTurn)
         {
             area.BlueWall = true;
             area.BlueAreaLeak = false;
+            return 2;
         }
 
         else
         {
             area.RedWall = true;
             area.RedAreaLeak = false;
+            return 2;
         }
     }
 
@@ -369,5 +375,23 @@ public class TurnManager : MonoBehaviour
                 area.AreaApply(info.board);
             }
         }
+    }
+
+    public async void GetBridgeMoves()
+    {
+        postInfo = new PostInfo();
+        postInfo.turn = matchInfo.turn;
+        for(int i = 0;i < BlueBridges.transform.childCount; i++)
+        {
+            Move BridgeMove = BlueBridges.transform.GetChild(i).GetComponent<BridgeButtonManager>().GetMove();
+            Debug.Log(BridgeMove);
+            postInfo.moves.Add(BridgeMove);
+        }
+    }
+
+    public void CallPostMatchInfo(PostInfo info)
+    {
+        InfoConnector infoConnector = new InfoConnector();
+        infoConnector.PostMatchInfo(id, info);
     }
 }

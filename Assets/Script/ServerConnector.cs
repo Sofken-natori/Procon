@@ -57,6 +57,12 @@ namespace ServerConnector
         public int[,] masons;
     }
 
+    public class PostInfo
+    {
+        public int turn;
+        public List<Move> moves;
+    }
+
     
     public class Bonus
     {
@@ -106,10 +112,8 @@ namespace ServerConnector
             try
             {
                 var JSON = info.downloadHandler.text;
-                Debug.Log(JSON);
                 JObject obj = JObject.Parse(JSON);
                 res.matches = obj["matches"].ToObject<Match[]>();
-                Debug.Log(res);
             }
             catch (System.Exception e)
             {
@@ -147,7 +151,7 @@ namespace ServerConnector
             return res;
         }
 
-        public async void PostMatchInfo(int id, Move[] move)
+        public async void PostMatchInfo(int id, PostInfo move)
         {
             string reqJson = JsonConvert.SerializeObject(move);
             UnityWebRequest req = UnityWebRequest.Post(CallAPIURL + "/matches/" + id + "?token=" + token, reqJson);
@@ -162,6 +166,8 @@ namespace ServerConnector
             JObject obj = JObject.Parse(res.downloadHandler.text);
             string resJSON = obj["accepted_at"].Value<string>();
             Debug.Log(resJSON);
+
+            return;
         }
 
        
