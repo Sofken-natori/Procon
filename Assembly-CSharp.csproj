@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Script\KomaIndex.cs" />
     <Compile Include="Assets\Script\Scene.cs" />
+    <Compile Include="Assets\Script\ABsystem.cs" />
     <Compile Include="Assets\Script\BridgeButtonManager.cs" />
     <Compile Include="Assets\Script\State.cs" />
     <Compile Include="Assets\Script\TurnManager.cs" />

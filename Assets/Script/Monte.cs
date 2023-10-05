@@ -59,10 +59,14 @@ public class Monte : MonoBehaviour
         {
             for (int n = 0; n < tm.PieceNumber * 2; n++)
             {
-                koma = koma_Bridge.transform.GetChild(n).gameObject;
+                koma = tm.BlueBridges.transform.GetChild(n).gameObject;
+                GameObject koma_Red = tm.RedBridges.transform.GetChild(n).gameObject;
                 kc.bb[n] = koma.GetComponent<BridgeButtonManager>();
-                      kc.X[n] = kc.bb[n].BoardX;
-                      kc.Y[n] = kc.bb[n].BoardY;
+                kc.BlueX[n] = kc.bb[n].BoardX;
+                kc.BlueY[n] = kc.bb[n].BoardY;
+                kc.bb[n] = koma_Red.GetComponent<BridgeButtonManager>();
+                kc.RedX[n] = kc.bb[n].BoardX;
+                kc.RedY[n] = kc.bb[n].BoardY;
             }
             int[,] Ban = kc.AIBanState();
             for (NowTurn = 0; NowTurn <tm.MaxTurnNumber;)
@@ -71,7 +75,7 @@ public class Monte : MonoBehaviour
                 kc.PlayerCount = 0;
                 for (; kc.PlayerCount < tm.PieceNumber; N++)// 
                 {
-                    Ban = kc.Randam(N);
+                    Ban = kc.Randam(N , kc.AIBlueTurn);
                 }
                 NowTurn++;
                 kc.AIBlueTurn = !kc.AIBlueTurn;
@@ -81,19 +85,30 @@ public class Monte : MonoBehaviour
             {
                 BlueWinCount++;
             }
-         
+            for (int n = 0; n < tm.PieceNumber * 2; n++)
+            {
+                koma = tm.BlueBridges.transform.GetChild(n).gameObject;
+               GameObject koma_Red = tm.RedBridges.transform.GetChild(n).gameObject;
+                kc.bb[n] = koma.GetComponent<BridgeButtonManager>();
+                kc.BlueX[n] = kc.bb[n].BoardX;
+                kc.BlueY[n] = kc.bb[n].BoardY;
+                kc.bb[n] = koma_Red.GetComponent<BridgeButtonManager>();
+                kc.RedX[n] = kc.bb[n].BoardX;
+                kc.RedY[n] = kc.bb[n].BoardY;
+            }
 
         }
 
         return BlueWinCount;
     }
-    public KomaIndex MonteCarloSearch(int N)
+    public KomaIndex MonteCarloSearch(int N, bool Blue)
     {
         KomaIndex koma = null;
         int Max = -1;
         int BuildMax = -1;
-        var  CanMove = kc.GetCanMoveIndex(N);
-        var CanBuild = kc.GetCanBuild(N);
+        var  CanMove = kc.GetCanMoveIndex(N ,Blue);
+        var CanBuild = kc.GetCanBuild(N, Blue);
+       
         foreach (var Can in CanMove )
         {
          
@@ -124,20 +139,36 @@ public class Monte : MonoBehaviour
         {
             KomaIndex Index;
             Index = koma;
-            GameObject komas = koma_Bridge.transform.GetChild(N).gameObject;
+            GameObject komas = tm.BlueBridges.transform.GetChild(N).gameObject;
             kc.bb[N] = komas.GetComponent<BridgeButtonManager>();
-            komas.GetComponent<BridgeButtonManager>();//  7        9
+            komas.GetComponent<BridgeButtonManager>();//  ê‘î≈Ç‡çÏÇÈ
             komas.transform.position = tm.MoveBridge(Index.Y, Index.X);
-            for(int n = 0;  n < tm.PieceNumber * 2; n++)
+            for(int n = 0;  n < tm.BlueBridges.transform.childCount; n++)
             {
-                GameObject komar = koma_Bridge.transform.GetChild(n).gameObject;
+                GameObject komar = tm.BlueBridges.transform.GetChild(n).gameObject;
                 BridgeButtonManager[] bbb = new BridgeButtonManager[12];
                 bbb[n] = komar.GetComponent<BridgeButtonManager>();
-                kc.X[n] = bbb[n].BoardX;
-                kc.Y[n] = bbb[n].BoardY;
+                kc.BlueX[n] = bbb[n].BoardX;
+                kc.BlueY[n] = bbb[n].BoardY;
             }
-            kc.X[N] = Index.X;
-            kc.Y[N] = Index.Y;
+            for(int n = 0; n < tm.RedBridges.transform.childCount; n++)
+            {
+                GameObject komar = tm.RedBridges.transform.GetChild(n).gameObject;
+                BridgeButtonManager[] bbb = new BridgeButtonManager[12];
+                bbb[n] = komar.GetComponent<BridgeButtonManager>();
+                kc.RedX[n] = bbb[n].BoardX;
+                kc.RedY[n] = bbb[n].BoardY;
+            }
+            if (Blue)
+            {
+                kc.BlueX[N] = Index.X;
+                kc.BlueY[N] = Index.Y;
+            }
+            else
+            {
+                kc.RedX[N] = Index.X;
+                kc.RedX[N] = Index.X;
+            }
             kc.bb[N].BoardX = Index.X;
             kc.bb[N].BoardY = Index.Y;
         }

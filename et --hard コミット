@@ -1,0 +1,14 @@
+[33m9242e9a2[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/ScoreAdd[m[33m, [m[1;32mfeature/alpha-beta[m[33m, [m[1;32malpha[m[33m)[m HEAD@{0}: checkout: moving from feature/alpha-beta to feature/ScoreAdd
+[33m9242e9a2[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/ScoreAdd[m[33m, [m[1;32mfeature/alpha-beta[m[33m, [m[1;32malpha[m[33m)[m HEAD@{1}: reset: moving to 9242e9a25b33b6dd71e3c78499440f1604d089bf
+[33m7f38cf3f[m[33m ([m[1;31morigin/feature/ScoreAdd[m[33m, [m[1;32malpha-beta[m[33m)[m HEAD@{2}: checkout: moving from alpha-beta to feature/alpha-beta
+[33m7f38cf3f[m[33m ([m[1;31morigin/feature/ScoreAdd[m[33m, [m[1;32malpha-beta[m[33m)[m HEAD@{3}: checkout: moving from alpha-nega to alpha-beta
+[33m4ecbec9c[m[33m ([m[1;31morigin/alpha-nega[m[33m, [m[1;32malpha-nega[m[33m)[m HEAD@{4}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Merge made by the 'ort' strategy.
+[33m7e586d31[m HEAD@{5}: commit: alpha-beta制作
+[33m3c7d4632[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/alpha-beta[m[33m)[m HEAD@{6}: checkout: moving from alpha-nega to alpha-nega
+[33m3c7d4632[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/alpha-beta[m[33m)[m HEAD@{7}: checkout: moving from alpha to alpha-nega
+[33m9242e9a2[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/ScoreAdd[m[33m, [m[1;32mfeature/alpha-beta[m[33m, [m[1;32malpha[m[33m)[m HEAD@{8}: checkout: moving from feature/ScoreAdd to alpha
+[33m9242e9a2[m[33m ([m[1;36mHEAD -> [m[1;32mfeature/ScoreAdd[m[33m, [m[1;32mfeature/alpha-beta[m[33m, [m[1;32malpha[m[33m)[m HEAD@{9}: commit: alpha-beta制作
+[33ma74c772d[m HEAD@{10}: commit: alpha-beta制作
+[33m630bcf83[m HEAD@{11}: commit: 位置情報用
+[33m7f38cf3f[m[33m ([m[1;31morigin/feature/ScoreAdd[m[33m, [m[1;32malpha-beta[m[33m)[m HEAD@{12}: checkout: moving from master to feature/ScoreAdd
+[33m53f44142[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{13}: commit (initial): 一度コマが通ったマスが通れなくなるバグを修正しました。

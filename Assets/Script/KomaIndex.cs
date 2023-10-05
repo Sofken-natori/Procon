@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 
 namespace Koma
@@ -8,11 +9,14 @@ namespace Koma
     {
         public int X { get; private set; }
         public int Y { get; private set; }
-        public KomaIndex(int x, int y )
+
+       public bool Build{ get; private set; }
+        public KomaIndex(int x, int y , bool Builds)
         {
             X = x;
             Y = y;
-
+           Build = Builds;
+           
         }
 
       
