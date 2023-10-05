@@ -6,6 +6,66 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/StageSelectScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/A11.unity
+    guid: ff33119da1571e3478fc68c81328ae72
+  - enabled: 1
+    path: Assets/Scenes/A13.unity
+    guid: 5473eb8c3f5804145aae7c33da1d0ef4
+  - enabled: 1
+    path: Assets/Scenes/A15.unity
+    guid: a722988f95929494da5af31eecb2be0b
+  - enabled: 1
+    path: Assets/Scenes/A17.unity
+    guid: 47cc27cdb5fd5924b814d31872f3d573
+  - enabled: 1
+    path: Assets/Script/New Scene.unity
+    guid: 94171de8e181e584a8ba6b74c66c2997
+  - enabled: 1
+    path: Assets/Scenes/A21.unity
+    guid: a4309d8b4ea675c47b696094a7c61a37
+  - enabled: 1
+    path: Assets/Scenes/A25.unity
+    guid: dffc24a5cff10924e9a3dc6f63fb5a88
+  - enabled: 1
+    path: Assets/Scenes/B11.unity
+    guid: 6883114d047cf0946b26ae4601ee6917
+  - enabled: 1
+    path: Assets/Scenes/B13.unity
+    guid: aea93f361dd0f2249b62ef686a63aaca
+  - enabled: 1
+    path: Assets/Scenes/B15.unity
+    guid: fa4c5c1cebcfb4e428a0d522c967dd8b
+  - enabled: 1
+    path: Assets/Scenes/B17.unity
+    guid: a7cfb0e4a8c1cab4baed609c6905704b
+  - enabled: 1
+    path: Assets/Scenes/B21.unity
+    guid: 9645b8ef7fa93b94192f0df9073dafe9
+  - enabled: 1
+    path: Assets/Scenes/B25.unity
+    guid: 7ddcccadc23be6f44bafdd8a0e560d3f
+  - enabled: 1
+    path: Assets/Scenes/C11.unity
+    guid: aad40ae5cb57f204a9706e679f997e0a
+  - enabled: 1
+    path: Assets/Scenes/DontDestroyOnLoad().unity
+    guid: dee96ab4bf5db484fb382a5c5a1a722b
+  - enabled: 1
+    path: Assets/Scenes/C13.unity
+    guid: 623ff98dd3a49ee45aaacfa7c6d8c003
+  - enabled: 1
+    path: Assets/Scenes/C15.unity
+    guid: b52ccf2fdfe59ab4aae38813e685b054
+  - enabled: 1
+    path: Assets/Scenes/C17.unity
+    guid: a6e384a148c052742862ae14fc2fafb1
+  - enabled: 1
+    path: Assets/Scenes/C21.unity
+    guid: ac5ecbb094e7a3644826122109332859
+  - enabled: 1
+    path: Assets/Scenes/C25.unity
+    guid: 969a85061faf9474b8e05d3690b5c5dd
   m_configObjects: {}
