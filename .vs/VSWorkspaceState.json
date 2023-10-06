@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Assets",
+    "\\Assets\\Script"
   ],
-  "SelectedNode": "\\ProconSimulator.sln",
+  "SelectedNode": "\\Assets\\Script\\TurnManager.cs",
   "PreviewInSolutionExplorer": false
 }

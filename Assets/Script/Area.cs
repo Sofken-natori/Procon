@@ -1,3 +1,4 @@
+using ServerConnector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,6 +28,8 @@ public class Area : MonoBehaviour
     [Header("青城壁マーカー"), SerializeField]GameObject BlueWallMarker;
     [Header("城マーカー"), SerializeField]GameObject CastleMarker;
     [Header("池マーカー"), SerializeField]GameObject PondMarker;
+    [Header("青いコマの置き場所"), SerializeField]public GameObject BlueBridges;
+    [Header("赤いコマの置き場所"), SerializeField]public GameObject RedBridges;
     [Header("上壁判定"),SerializeField]Area FWC;
     [Header("下壁判定"),SerializeField]Area BWC;
     [Header("左壁判定"),SerializeField]Area LWC;
@@ -326,5 +329,89 @@ public class Area : MonoBehaviour
         }
 
         return ScoreIndex;
-    }    
+    }
+
+    public void AreaApply(NowBoard board)
+    {
+        switch (board.structures[ThisPosX,ThisPosY])
+        {
+            case 0:
+                pond = false;
+                castle = false;
+                break;
+            case 1:
+                pond = true;
+                castle = false;
+                break;
+            case 2:
+                pond = false;
+                castle = true;
+                break;
+            default:
+                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.walls[ThisPosY, ThisPosX]);
+                break;
+        }
+
+        switch(board.masons[ThisPosX,ThisPosY])
+        {
+            case 0:
+                break;
+            default:
+                if (board.masons[ThisPosX,ThisPosY] > 0)
+                {
+                    BlueBridges.transform.GetChild(board.masons[ThisPosX, ThisPosY] - 1).GetComponent<BridgeButtonManager>().BridgeApplyer(ThisPosX,ThisPosY);
+                    break;
+                }
+
+                else
+                {
+                    RedBridges.transform.GetChild((board.masons[ThisPosX,ThisPosY] * -1) - 1).GetComponent<BridgeButtonManager>().BridgeApplyer(ThisPosX,ThisPosY);
+                    break;
+                }
+        }       
+
+        switch(board.walls[ThisPosY, ThisPosX])
+        {
+            case 0:
+                BlueWall = false;
+                RedWall = false;
+                break;
+            case 1:
+                BlueWall = true;
+                RedWall = false;
+                break;
+            case 2:
+                BlueWall = false;
+                RedWall = true;
+                break;
+            default:
+                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.walls[ThisPosY, ThisPosX]);
+                break;
+
+        }
+
+        switch(board.territories[ThisPosY, ThisPosX])
+        {
+            case 0:
+                BlueArea = false;
+                RedArea = false;
+                break;
+            case 1:
+                BlueArea = true;
+                RedArea = false;
+                break;
+            case 2:
+                BlueArea = false;
+                RedArea = true;
+                break;
+            case 3:
+                BlueArea = true;
+                RedArea = true;
+                break;
+            default:
+                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.territories[ThisPosY, ThisPosX]);
+                break;
+        }
+        return;
+    }
 }
