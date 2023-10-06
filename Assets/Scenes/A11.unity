@@ -152,9 +152,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 151643813}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4a0c806cdb89c5439464a9426f33897, type: 3}
+  m_Script: {fileID: 11500000, guid: b62b09359c41ba947b7363dce00069c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnManager: {fileID: 0}
+  txt: {fileID: 0}
+  Move: 0
 --- !u!114 &151643815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +229,9 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
-  m_Children: []
+  m_Children:
+  - {fileID: 359761543}
+  - {fileID: 857541455}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -513,6 +518,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2301303294314879638, guid: 20f3c4293213f444793513bd78ea632f, type: 3}
   m_PrefabInstance: {fileID: 283112153}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &359761542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 359761543}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &359761543
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359761542}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -45.663086, y: 266.63538, z: -26.133747}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 151643818}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &436716527
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,6 +689,36 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2301303294314879638, guid: 20f3c4293213f444793513bd78ea632f, type: 3}
   m_PrefabInstance: {fileID: 703269906}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &857541454
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 857541455}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &857541455
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 857541454}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -45.663086, y: 266.63538, z: -26.133747}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 151643818}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &866598194
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,6 +1169,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1795932994}
   - component: {fileID: 1795932995}
+  - component: {fileID: 1795932998}
+  - component: {fileID: 1795932997}
+  - component: {fileID: 1795932996}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -1159,13 +1227,100 @@ MonoBehaviour:
   RedScoreText: {fileID: 1743067098}
   BlueScoreText: {fileID: 1249786328}
   TurnText: {fileID: 436716529}
+  id: 10
   AreaScore: 30
   WallScore: 10
   CastleScore: 100
+  BlueBridges: {fileID: 359761542}
+  RedBridges: {fileID: 857541454}
   BlueScore: 0
   RedScore: 0
   UntapPhase: 0
   TurnEnd: 0
+  NowTurn: 0
+--- !u!114 &1795932996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795932993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bcd20f50537da646a078976873bcc61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 0}
+  txt: {fileID: 0}
+  AIBlueTurn: 0
+  PlayerCount: 0
+  BBB: {fileID: 0}
+  bbb:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  BB:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  RedX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  RedY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  BlueY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  BlueX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  BanX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  BanY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  bb: []
+--- !u!114 &1795932997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795932993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b62b09359c41ba947b7363dce00069c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnManager: {fileID: 0}
+  txt: {fileID: 0}
+  Move: 0
+--- !u!114 &1795932998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795932993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eefc3e93acb5234a9ad75ef919eab3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bg: {fileID: 0}
+  bg_Red: {fileID: 0}
+  NowTurn: 0
+  koma: {fileID: 0}
+  koma_Bridge: {fileID: 0}
+  koma_Red: {fileID: 0}
 --- !u!1001 &1809253123
 PrefabInstance:
   m_ObjectHideFlags: 0
