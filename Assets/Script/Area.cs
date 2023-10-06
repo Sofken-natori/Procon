@@ -56,7 +56,8 @@ public class Area : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if(!Scapegoat){
+      
+        if (!Scapegoat){
         //初期化
         BlueAreaMarker.SetActive(false);
         RedAreaMarker.SetActive(false);
@@ -94,7 +95,7 @@ public class Area : MonoBehaviour
 
         }
     }
-
+   
     void Update()
     {
         if(!Scapegoat)
@@ -221,7 +222,7 @@ public class Area : MonoBehaviour
                 }
             }
         }
-
+        
         else
         {
             

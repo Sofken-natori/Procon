@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4C573138-E68A-2945-7733-FD627566946C}</ProjectGuid>
+    <ProjectGuid>{120E54D6-8776-A169-69E1-1AEC83EBC617}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -53,19 +53,37 @@
     <UnityVersion>2020.3.40f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\Evaluation Functions.cs" />
     <Compile Include="Assets\Script\KomaIndex.cs" />
-    <Compile Include="Assets\Script\ABsystem.cs" />
     <Compile Include="Assets\Script\BridgeButtonManager.cs" />
-    <Compile Include="Assets\Script\komaK.cs" />
-    <Compile Include="Assets\Script\ServerConnector.cs" />
     <Compile Include="Assets\Script\TurnManager.cs" />
-    <Compile Include="Assets\Script\KomaState.cs" />
+    <Compile Include="Assets\Script\Monte.cs" />
     <Compile Include="Assets\Script\Area.cs" />
+    <Compile Include="Assets\Script\Alpha.cs" />
     <Compile Include="Assets\Script\NeitherWallChacker.cs" />
     <Compile Include="Assets\Script\ChangeScene.cs" />
+    <Compile Include="Assets\Script\KomaCalulator.cs" />
+    <Compile Include="Assets\Map\A11.cs" />
+    <Compile Include="Assets\Map\A13.cs" />
+    <Compile Include="Assets\Map\A15.cs" />
+    <Compile Include="Assets\Map\A17.cs" />
+    <Compile Include="Assets\Map\A21.cs" />
+    <Compile Include="Assets\Map\A25.cs" />
+    <Compile Include="Assets\Map\B11.cs" />
+    <Compile Include="Assets\Map\B13.cs" />
+    <Compile Include="Assets\Map\B15.cs" />
+    <Compile Include="Assets\Map\B17.cs" />
+    <Compile Include="Assets\Map\B21.cs" />
+    <Compile Include="Assets\Map\B25.cs" />
+    <Compile Include="Assets\Map\C11.cs" />
+    <Compile Include="Assets\Map\C13.cs" />
+    <Compile Include="Assets\Map\C15.cs" />
+    <Compile Include="Assets\Map\C17.cs" />
+    <Compile Include="Assets\Map\C21.cs" />
+    <Compile Include="Assets\Map\C25.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

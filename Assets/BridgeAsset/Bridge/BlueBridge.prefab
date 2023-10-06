@@ -148,7 +148,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6550841565901541095
 RectTransform:
   m_ObjectHideFlags: 0
@@ -715,7 +715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3203326786561434949
 RectTransform:
   m_ObjectHideFlags: 0
@@ -915,7 +915,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 91.546, y: 143.88062}
+  m_AnchoredPosition: {x: 703.65607, y: 834.54395}
   m_SizeDelta: {x: 170.1216, y: 34.1331}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3203326786964445955
@@ -1029,9 +1029,10 @@ MonoBehaviour:
   BuildAndDestroySelectButton: {fileID: 608802848419827670}
   MoveSelectButton: {fileID: 6191522810712467265}
   BlueTurn: 1
-  BoardX: 0
-  BoardY: 0
-  Seed: 0
+  BoardX: 2
+  BoardY: 1
+  ButtonIntaract: {fileID: 0}
+  TM: {fileID: 0}
 --- !u!1 &3203326787472128472
 GameObject:
   m_ObjectHideFlags: 0

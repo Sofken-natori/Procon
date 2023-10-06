@@ -347,7 +347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0c806cdb89c5439464a9426f33897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TM: {fileID: 0}
 --- !u!114 &132781978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1557,6 +1556,9 @@ GameObject:
   m_Component:
   - component: {fileID: 778604331}
   - component: {fileID: 778604332}
+  - component: {fileID: 778604335}
+  - component: {fileID: 778604334}
+  - component: {fileID: 778604333}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -1636,6 +1638,74 @@ MonoBehaviour:
   RedScore: 0
   UntapPhase: 0
   TurnEnd: 0
+  BridgeActCount: 0
+  NowTurn: 0
+--- !u!114 &778604333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778604330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bcd20f50537da646a078976873bcc61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 0}
+  txt: {fileID: 0}
+  AIBlueTurn: 0
+  PlayerCount: 0
+  BBB: {fileID: 0}
+  BB:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  X: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  Y: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  bb: []
+  BoardX: 0
+  BoardY: 0
+--- !u!114 &778604334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778604330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eefc3e93acb5234a9ad75ef919eab3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bg: {fileID: 0}
+  bg_Red: {fileID: 0}
+  NowTurn: 0
+  koma: {fileID: 0}
+  koma_Bridge: {fileID: 0}
+  koma_Red: {fileID: 0}
+  sceneName: 
+--- !u!114 &778604335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778604330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70eff26c02aea7f45866c4e5379f0dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &778754578
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/A17.unity
     guid: 47cc27cdb5fd5924b814d31872f3d573
   - enabled: 1
+    path: Assets/Script/New Scene.unity
+    guid: 94171de8e181e584a8ba6b74c66c2997
+  - enabled: 1
     path: Assets/Scenes/A21.unity
     guid: a4309d8b4ea675c47b696094a7c61a37
   - enabled: 1
@@ -47,6 +50,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/C11.unity
     guid: aad40ae5cb57f204a9706e679f997e0a
+  - enabled: 1
+    path: Assets/Scenes/DontDestroyOnLoad().unity
+    guid: dee96ab4bf5db484fb382a5c5a1a722b
   - enabled: 1
     path: Assets/Scenes/C13.unity
     guid: 623ff98dd3a49ee45aaacfa7c6d8c003

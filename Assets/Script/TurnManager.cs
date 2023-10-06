@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking.Match;
+using System.Runtime;
+using System.Runtime.Serialization;
 using ServerConnector;
 using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
@@ -12,12 +15,12 @@ using System.Threading.Tasks;
 public class TurnManager : MonoBehaviour
 {
 
-    [Header("マップのCSVファイル名"),SerializeField] string MapCSV;
-    [Header("最大ターン数"), SerializeField] int MaxTurnNumber;
-    [Header("生成する駒の数"), SerializeField] int PieceNumber;
-    [Header("青のターンかどうか")]public bool BlueTurn = true;
-    [Header("縦のマス数")]public int BoardXMax;
-    [Header("横のマス数")]public int BoardYMax;
+    [Header("マップのCSVファイル名"), SerializeField] string MapCSV;
+    [Header("最大ターン数"), SerializeField] public int MaxTurnNumber;
+    [Header("生成する駒の数"), SerializeField] public int PieceNumber;
+    [Header("青のターンかどうか")] public bool BlueTurn = true;
+    [Header("縦のマス数")] public int BoardXMax;
+    [Header("横のマス数")] public int BoardYMax;
     [Header("赤い駒のプレハブ"), SerializeField] GameObject RedBridge;
     [Header("青い駒のプレハブ"), SerializeField] GameObject BlueBridge;
     [Header("赤陣営のスコア表示"), SerializeField] Text RedScoreText;
@@ -26,34 +29,38 @@ public class TurnManager : MonoBehaviour
     [Header("Http通信のID")]public int id = 10;
     [Header("通信を行うか"),SerializeField]bool host = true;
 
-    [Header("陣地のスコア"),SerializeField] int AreaScore = 30;
-    [Header("城壁のスコア"),SerializeField] int WallScore = 10;
-    [Header("城のスコア"),SerializeField] int CastleScore = 100;
+    [Header("陣地のスコア"), SerializeField] int AreaScore = 30;
+    [Header("城壁のスコア"), SerializeField] int WallScore = 10;
+    [Header("城のスコア"), SerializeField] int CastleScore = 100;
 
     
     [Header("青いコマの置き場所"),SerializeField]GameObject BlueBridges;
     [Header("赤いコマの置き場所"),SerializeField]GameObject RedBridges;
 
 
-    [HideInInspector]public int BlueScore = 0;
-    [HideInInspector]public int RedScore = 0;
-    [HideInInspector]public bool UntapPhase = false;
-    [HideInInspector]public bool TurnEnd = false;
-    [HideInInspector]public List<string[]> MapData = new List<string[]>();
+    [HideInInspector] public int BlueScore = 0;
+    [HideInInspector] public int RedScore = 0;
+    [HideInInspector] public bool UntapPhase = false;
+    [HideInInspector] public bool TurnEnd = false;
+    [HideInInspector] public List<string[]> MapData = new List<string[]>();
 
     Area area;
     Button RedButton;
     Button BlueButton;
     Transform square;
+    Text text;
     int BridgeActCount = 0;
     int BridgestandbyCount = 0;
-    int NowTurn = 0;
+    public int NowTurn = 0;
     TextAsset csvFile;
     MatchesInfo matchesInfo;
     MatchInfo matchInfo;
     PostInfo postInfo;
 
-    
+     void Start()
+    {
+      
+    }
     void Awake()
     {
 
@@ -64,7 +71,7 @@ public class TurnManager : MonoBehaviour
         StringReader reader = new StringReader(csvFile.text);
         Debug.Log("CSVReaded");
 
-        while(reader.Peek() != -1)
+        while (reader.Peek() != -1)
         {
             string line = reader.ReadLine();
             MapData.Add(line.Split(','));
@@ -86,9 +93,9 @@ public class TurnManager : MonoBehaviour
         RedScoreText.text = RedScore.ToString();
         TurnText.text = NowTurn.ToString();
 
-        if(BridgeActCount >= PieceNumber)
+        if (BridgeActCount >= PieceNumber)
         {
-            if(!BlueTurn)
+            if (!BlueTurn)
             {
                 NowTurn++;
             }
@@ -105,16 +112,16 @@ public class TurnManager : MonoBehaviour
             UntapPhase = true;
         }
 
-        if(NowTurn >= MaxTurnNumber)
+        if (NowTurn >= MaxTurnNumber)
         {
             Debug.Log("GameSet");
 
-            if(BlueScore > RedScore)
+            if (BlueScore > RedScore)
             {
                 Debug.Log("BlueWin");
             }
 
-            else if(BlueScore < RedScore)
+            else if (BlueScore < RedScore)
             {
                 Debug.Log("RedWin");
             }
@@ -149,7 +156,7 @@ public class TurnManager : MonoBehaviour
     public void Bridgestandby()
     {
         BridgestandbyCount++;
-        if(BridgestandbyCount >= PieceNumber)
+        if (BridgestandbyCount >= PieceNumber)
         {
             UntapPhase = false;
             BridgestandbyCount = 0;
@@ -159,7 +166,7 @@ public class TurnManager : MonoBehaviour
     public void BuildAndDestroyBridge(int x,int y, int n = -1, bool isBlue = false)
     {
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
-        if(area.RedWall || area.BlueWall)
+        if (area.RedWall || area.BlueWall)
         {
                 area.RedWall = false;
                 area.BlueWall = false;
@@ -177,8 +184,8 @@ public class TurnManager : MonoBehaviour
                     }
                 }
         }
-        
-        else if(BlueTurn)
+
+        else if (BlueTurn)
         {
             area.BlueWall = true;
             area.BlueAreaLeak = false;
@@ -199,10 +206,10 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public bool CanMove(int x,int y)
+    public bool CanMove(int x, int y)
     {
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
-        if(area.RedWall || area.BlueWall || area.pond || area.Bridge)
+        if (area.RedWall || area.BlueWall || area.pond || area.Bridge)
         {
             return false;
         }
@@ -239,9 +246,10 @@ public class TurnManager : MonoBehaviour
 
     public void CallAreaDeployer()
     {
-        for(int i = 0; i < BoardYMax; i++)
+        for (int i = 0; i < BoardYMax; i++)
         {
-            for(int j = 0; j < BoardXMax; j++)
+           
+            for (int j = 0; j < BoardXMax; j++)
             {
                 square = this.transform.GetChild(i).GetChild(j);
                 area = square.GetComponent<Area>();
@@ -254,9 +262,9 @@ public class TurnManager : MonoBehaviour
 
     public void ConnectArea()
     {
-        for(int i = 0; i < BoardYMax; i++)
+        for (int i = 0; i < BoardYMax; i++)
         {
-            for(int j = 0; j < BoardXMax; j++)
+            for (int j = 0; j < BoardXMax; j++)
             {
                 square = this.transform.GetChild(i).GetChild(j);
                 area = square.GetComponent<Area>();
@@ -265,9 +273,9 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public void BridgeDeployer (bool isBlue,int x, int y)
+    public void BridgeDeployer(bool isBlue, int x, int y)
     {
-        if(isBlue)
+        if (isBlue)
         {
             GameObject Bridge = Instantiate(BlueBridge, new Vector2(x,y), Quaternion.identity, BlueBridges.transform);
             BridgeButtonManager BBM = Bridge.GetComponent<BridgeButtonManager>();
@@ -293,7 +301,7 @@ public class TurnManager : MonoBehaviour
 
     public void CallAreaLeakChecker(bool isBlue)
     {
-        for(int i = 0; i < BoardXMax; i++)
+        for (int i = 0; i < BoardXMax; i++)
         {
             for (int j = 0; j < 1; j++)
             {
@@ -311,7 +319,7 @@ public class TurnManager : MonoBehaviour
 
     public void CallSiegeAreaChecker(bool isBlue)
     {
-        for(int i = 0; i < BoardXMax; i++)
+        for (int i = 0; i < BoardXMax; i++)
         {
             for (int j = 0; j < BoardYMax; j++)
             {
@@ -323,7 +331,7 @@ public class TurnManager : MonoBehaviour
 
     public void CallAreaLeakReseter(bool isBlue)
     {
-        for(int i = 0; i < BoardXMax; i++)
+        for (int i = 0; i < BoardXMax; i++)
         {
             for (int j = 0; j < BoardYMax; j++)
             {
@@ -337,13 +345,13 @@ public class TurnManager : MonoBehaviour
     {
         BlueScore = 0;
         RedScore = 0;
-        (int Blue,int Red) ScoreIndex = (0,0);
-        for(int i = 0; i < BoardXMax; i++)
+        (int Blue, int Red) ScoreIndex = (0, 0);
+        for (int i = 0; i < BoardXMax; i++)
         {
             for (int j = 0; j < BoardYMax; j++)
             {
-                ScoreIndex = this.transform.GetChild(i).GetChild(j).GetComponent<Area>().AddScore(AreaScore,WallScore,CastleScore);
-            
+                ScoreIndex = this.transform.GetChild(i).GetChild(j).GetComponent<Area>().AddScore(AreaScore, WallScore, CastleScore);
+
                 BlueScore += ScoreIndex.Blue;
                 RedScore += ScoreIndex.Red;
             }
@@ -355,69 +363,83 @@ public class TurnManager : MonoBehaviour
 
     public void CallBridgeRester()
     {
-        if(BlueTurn)
+        AB();
+        if (BlueTurn)
         {
-            for(int i = 0; i < BlueBridges.transform.childCount; i++)
+            for (int i = 0; i < BlueBridges.transform.childCount; i++)
             {
                 BlueBridges.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeRester();
             }
         }
-        
+
         else
         {
-            for(int i = 0; i < RedBridges.transform.childCount; i++)
+            for (int i = 0; i < RedBridges.transform.childCount; i++)
             {
                 RedBridges.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeRester();
             }
         }
     }
-
-    public async void CallMatchInfoGet(int id)
-    { 
-        InfoConnector infoConnector = new InfoConnector();
-        matchInfo = await infoConnector.GetMatchInfo(id);
-    }
-
-    public async void CallMatchesInfoGet(int id)
+    public void AB()
     {
-        InfoConnector infoConnector = new InfoConnector();
-        matchesInfo = await infoConnector.GetMatchesInfo();
-    }
+        KomaCalulator komaCalulator;
+        Monte monte;
+        //ターン確認
+        Alpha a;
+        komaCalulator = this.transform.GetComponent<KomaCalulator>();
+        monte = this.transform.GetComponent<Monte>();
+        a = this.transform.GetComponent<Alpha>();
+        int[,] ban = komaCalulator.AIBanState();
 
-    public void CallAreaApply(MatchInfo info)
-    {
-         for(int i = 0; i <  BoardYMax; i++)
+        // a.AlphaBeta(2, ban, 0, true);
+        if (BlueTurn)
         {
-            for(int j = 0; j <  BoardXMax; j++)
+
+            for (int N = 0; N < BlueBridges.transform.childCount; N++)
             {
-                area = this.transform.GetChild(i).GetChild(j).GetComponent<Area>();
-                area.AreaApply(info.board);
+                monte.MonteCarloSearch(N, true);
+
+            }
+        }
+        if (!BlueTurn)
+        {
+            if (NowTurn >= MaxTurnNumber * 0.8)
+            {
+
+                for (int N = 0; N < RedBridges.transform.childCount; N++)
+                {
+                    monte.MonteCarloSearch(N, false);
+
+                }
+
+            }
+            else
+            {
+
+                int[,] Ban = komaCalulator.AIBanState();
+                for (int N = 0; N < RedBridges.transform.childCount; N++)
+                {
+                    a.AlphaBeta(2, Ban, N, false);
+                    for (int n = 0; n < RedBridges.transform.childCount; n++)
+                    {
+                      
+                   
+                    }
+
+                }
+
             }
         }
     }
-
-    public void GetBridgeMoves()
-    {
-        postInfo = new PostInfo();
-        postInfo.turn = matchInfo.turn + 1;
-        if(postInfo.turn % 2 == 0)
-        {
-            postInfo.turn++;
-        }
-        for(int i = 0;i < BlueBridges.transform.childCount; i++)
-        {
-            Move BridgeMove = new Move
-            {
-                dir = BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().MoveDirection,
-                type = BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().ActionType
-            };
-            postInfo.actions.Add(BridgeMove);
-        }
-    }
-
-    public void CallPostMatchInfo(PostInfo info)
-    {
-        InfoConnector infoConnector = new InfoConnector();
-        infoConnector.PostMatchInfo(id, info);
-    }
+ 
+    
 }
+               
+               
+             
+ 
+
+
+
+
+

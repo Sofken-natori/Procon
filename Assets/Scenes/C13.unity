@@ -276,7 +276,6 @@ GameObject:
   - component: {fileID: 151531909}
   - component: {fileID: 151531908}
   - component: {fileID: 151531907}
-  - component: {fileID: 151531906}
   m_Layer: 5
   m_Name: BoardBridge
   m_TagString: Untagged
@@ -284,19 +283,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &151531906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151531905}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4a0c806cdb89c5439464a9426f33897, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TM: {fileID: 0}
 --- !u!114 &151531907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1470,6 +1456,8 @@ MonoBehaviour:
   RedScore: 0
   UntapPhase: 0
   TurnEnd: 0
+  BridgeActCount: 0
+  NowTurn: 0
 --- !u!1 &1337219589
 GameObject:
   m_ObjectHideFlags: 0
