@@ -156,7 +156,7 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public int BuildAndDestroyBridge(int x,int y)
+    public void BuildAndDestroyBridge(int x,int y, int n = -1, bool isBlue = false)
     {
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
         if(area.RedWall || area.BlueWall)
@@ -165,21 +165,37 @@ public class TurnManager : MonoBehaviour
                 area.BlueWall = false;
                 area.RedAreaLeak = true;
                 area.BlueAreaLeak  = true;
-                return 3;
+                if(n > -1)
+                {
+                    if(isBlue)
+                    {
+                        BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 3;
+                    }
+                    else
+                    {
+                        RedBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 3;
+                    }
+                }
         }
         
         else if(BlueTurn)
         {
             area.BlueWall = true;
             area.BlueAreaLeak = false;
-            return 2;
+            if(n > -1)
+            {
+                BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 2;
+            }
         }
 
         else
         {
             area.RedWall = true;
             area.RedAreaLeak = false;
-            return 2;
+            if(n > -1)
+            {
+                RedBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 2;
+            }
         }
     }
 
@@ -197,13 +213,16 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public Vector2 MoveBridge(int x,int y)
+    public Vector2 MoveBridge(int x,int y,int n = -1)
     {
         // Set the bridge position
-        Debug.Log("BridgeMove Called");
         square = this.transform.GetChild(x).GetChild(y);
         area = square.GetComponent<Area>();
         area.Bridge = true;
+        if(n > -1)
+        {
+            BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 1;
+        }
         return square.position;
     }
 
@@ -377,15 +396,22 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public async void GetBridgeMoves()
+    public void GetBridgeMoves()
     {
         postInfo = new PostInfo();
-        postInfo.turn = matchInfo.turn;
+        postInfo.turn = matchInfo.turn + 1;
+        if(postInfo.turn % 2 == 0)
+        {
+            postInfo.turn++;
+        }
         for(int i = 0;i < BlueBridges.transform.childCount; i++)
         {
-            Move BridgeMove = BlueBridges.transform.GetChild(i).GetComponent<BridgeButtonManager>().GetMove();
-            Debug.Log(BridgeMove);
-            postInfo.moves.Add(BridgeMove);
+            Move BridgeMove = new Move
+            {
+                dir = BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().MoveDirection,
+                type = BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().ActionType
+            };
+            postInfo.actions.Add(BridgeMove);
         }
     }
 

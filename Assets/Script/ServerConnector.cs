@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using Cysharp.Threading.Tasks;
@@ -60,7 +61,7 @@ namespace ServerConnector
     public class PostInfo
     {
         public int turn;
-        public List<Move> moves;
+        public List<Move> actions = new List<Move>();
     }
 
     
@@ -97,6 +98,8 @@ namespace ServerConnector
     {
         public string CallAPIURL = "http://localhost:3000";
         public string token = "first";
+
+
         public async UniTask<MatchesInfo> GetMatchesInfo()
         {
             UnityWebRequest req = UnityWebRequest.Get(CallAPIURL + "/matches?token=" + token);
@@ -152,9 +155,16 @@ namespace ServerConnector
         }
 
         public async void PostMatchInfo(int id, PostInfo move)
-        {
-            string reqJson = JsonConvert.SerializeObject(move);
-            UnityWebRequest req = UnityWebRequest.Post(CallAPIURL + "/matches/" + id + "?token=" + token, reqJson);
+        { 
+            string reqStr = JsonConvert.SerializeObject(move);
+            var reqJson = Encoding.UTF8.GetBytes(reqStr);
+            Debug.Log(reqJson);
+            UnityWebRequest req = new UnityWebRequest(CallAPIURL + "/matches/" + id + "?token=" + token, UnityWebRequest.kHttpVerbPOST)
+            {
+                uploadHandler = new UploadHandlerRaw(reqJson),
+                downloadHandler = new DownloadHandlerBuffer()
+            };
+            req.SetRequestHeader("Content-Type", "application/json");
             var res = await req.SendWebRequest();
             if (req.error != null)
             {
@@ -168,17 +178,6 @@ namespace ServerConnector
             Debug.Log(resJSON);
 
             return;
-        }
-
-       
-    }
-
-    
-    
-
-
-    
-
-     
+        }  
+    } 
 }
-

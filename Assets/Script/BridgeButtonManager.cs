@@ -223,7 +223,7 @@ public class BridgeButtonManager : MonoBehaviour
         BuildAndDestroyArrow.SetActive(false);
         BridgeRester();
         ButtonIntaract.interactable = false;
-        ActionType = TM.BuildAndDestroyBridge(BoardY-1, BoardX);
+        TM.BuildAndDestroyBridge(BoardY-1, BoardX);
         
     }
 
@@ -233,7 +233,7 @@ public class BridgeButtonManager : MonoBehaviour
         BuildAndDestroyArrow.SetActive(false);
         BridgeRester();
         ButtonIntaract.interactable = false;
-        ActionType = TM.BuildAndDestroyBridge(BoardY+1, BoardX);
+        TM.BuildAndDestroyBridge(BoardY+1, BoardX);
     }
 
     public void BuildAndDestroyRight()
@@ -242,7 +242,7 @@ public class BridgeButtonManager : MonoBehaviour
         BuildAndDestroyArrow.SetActive(false);
         BridgeRester();
         ButtonIntaract.interactable = false;
-        ActionType = TM.BuildAndDestroyBridge(BoardY, BoardX+1);
+        TM.BuildAndDestroyBridge(BoardY, BoardX+1);
     }
 
     public void BuildAndDestroyLeft()
@@ -251,7 +251,7 @@ public class BridgeButtonManager : MonoBehaviour
         BuildAndDestroyArrow.SetActive(false);
         BridgeRester();
         ButtonIntaract.interactable = false;
-        ActionType = ActionType = TM.BuildAndDestroyBridge(BoardY, BoardX-1);
+        TM.BuildAndDestroyBridge(BoardY, BoardX-1);
     }
 
     public void BridgeRester()

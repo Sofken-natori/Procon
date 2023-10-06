@@ -411,8 +411,6 @@ public class Area : MonoBehaviour
                 Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.territories[ThisPosY, ThisPosX]);
                 break;
         }
-
-        Debug.Log("AreaApplyed");
         return;
     }
 }
