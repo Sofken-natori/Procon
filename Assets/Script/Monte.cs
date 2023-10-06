@@ -57,23 +57,23 @@ public class Monte : MonoBehaviour
         int BlueWinCount = 0;       
        for (int m = 0; m < X; m++)
         {
-            for (int n = 0; n < tm.PieceNumber * 2; n++)
+            for (int n = 0; n < tm.BlueBridges.transform.childCount; n++)
             {
-                koma = tm.BlueBridges.transform.GetChild(n).gameObject;
-                GameObject koma_Red = tm.RedBridges.transform.GetChild(n).gameObject;
-                kc.bb[n] = koma.GetComponent<BridgeButtonManager>();
-                kc.BlueX[n] = kc.bb[n].BoardX;
-                kc.BlueY[n] = kc.bb[n].BoardY;
-                kc.bb[n] = koma_Red.GetComponent<BridgeButtonManager>();
+                GameObject komaR = tm.RedBridges.transform.GetChild(n).gameObject;
+                GameObject komaB = tm.BlueBridges.transform.GetChild(n).gameObject;
+                kc.bb[n] = komaR.GetComponent<BridgeButtonManager>();
                 kc.RedX[n] = kc.bb[n].BoardX;
                 kc.RedY[n] = kc.bb[n].BoardY;
+                kc.bb[n] = komaB.GetComponent<BridgeButtonManager>();
+                kc.BlueX[n] = kc.bb[n].BoardX;
+                kc.BlueY[n] = kc.bb[n].BoardY;
             }
             int[,] Ban = kc.AIBanState();
             for (NowTurn = 0; NowTurn <tm.MaxTurnNumber;)
             {
                 int N = 0;
                 kc.PlayerCount = 0;
-                for (; kc.PlayerCount < tm.PieceNumber; N++)// 
+                for (; kc.PlayerCount < tm.RedBridges.transform.childCount; N++)// 
                 {
                     Ban = kc.Randam(N , kc.AIBlueTurn);
                 }
@@ -85,16 +85,16 @@ public class Monte : MonoBehaviour
             {
                 BlueWinCount++;
             }
-            for (int n = 0; n < tm.PieceNumber * 2; n++)
+            for (int n = 0; n < tm.BlueBridges.transform.childCount; n++)
             {
-                koma = tm.BlueBridges.transform.GetChild(n).gameObject;
-               GameObject koma_Red = tm.RedBridges.transform.GetChild(n).gameObject;
-                kc.bb[n] = koma.GetComponent<BridgeButtonManager>();
-                kc.BlueX[n] = kc.bb[n].BoardX;
-                kc.BlueY[n] = kc.bb[n].BoardY;
-                kc.bb[n] = koma_Red.GetComponent<BridgeButtonManager>();
+                GameObject komaR = tm.RedBridges.transform.GetChild(n).gameObject;
+                GameObject komaB = tm.BlueBridges.transform.GetChild(n).gameObject;
+                kc.bb[n] = komaR.GetComponent<BridgeButtonManager>();
                 kc.RedX[n] = kc.bb[n].BoardX;
                 kc.RedY[n] = kc.bb[n].BoardY;
+                kc.bb[n] = komaB.GetComponent<BridgeButtonManager>();
+                kc.BlueX[n] = kc.bb[n].BoardX;
+                kc.BlueY[n] = kc.bb[n].BoardY;
             }
 
         }
@@ -134,6 +134,22 @@ public class Monte : MonoBehaviour
         if(BuildMax > Max)
         {
             tm.BuildAndDestroyBridge(koma.Y, koma.X);
+            for (int n = 0; n < tm.BlueBridges.transform.childCount; n++)
+            {
+                GameObject komar = tm.BlueBridges.transform.GetChild(n).gameObject;
+                BridgeButtonManager[] bbb = new BridgeButtonManager[12];
+                bbb[n] = komar.GetComponent<BridgeButtonManager>();
+                kc.BlueX[n] = bbb[n].BoardX;
+                kc.BlueY[n] = bbb[n].BoardY;
+            }
+            for (int n = 0; n < tm.RedBridges.transform.childCount; n++)
+            {
+                GameObject komar = tm.RedBridges.transform.GetChild(n).gameObject;
+                BridgeButtonManager[] bbb = new BridgeButtonManager[12];
+                bbb[n] = komar.GetComponent<BridgeButtonManager>();
+                kc.RedX[n] = bbb[n].BoardX;
+                kc.RedY[n] = bbb[n].BoardY;
+            }
         }
         else
         {

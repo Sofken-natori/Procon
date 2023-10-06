@@ -44,12 +44,16 @@ public class TurnManager : MonoBehaviour
     Button RedButton;
     Button BlueButton;
     Transform square;
+    Text text;
     int BridgeActCount = 0;
     int BridgestandbyCount = 0;
     public int NowTurn = 0;
     TextAsset csvFile;
 
-
+     void Start()
+    {
+      
+    }
     void Awake()
     {
 
@@ -206,6 +210,7 @@ public class TurnManager : MonoBehaviour
     {
         for (int i = 0; i < BoardYMax; i++)
         {
+           
             for (int j = 0; j < BoardXMax; j++)
             {
                 square = this.transform.GetChild(i).GetChild(j);
@@ -318,6 +323,7 @@ public class TurnManager : MonoBehaviour
 
     public void CallBridgeRester()
     {
+        AB();
         if (BlueTurn)
         {
             for (int i = 0; i < BlueBridges.transform.childCount; i++)
@@ -333,6 +339,9 @@ public class TurnManager : MonoBehaviour
                 RedBridges.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeRester();
             }
         }
+    }
+    public void AB()
+    {
         KomaCalulator komaCalulator;
         Monte monte;
         //ターン確認
@@ -342,7 +351,7 @@ public class TurnManager : MonoBehaviour
         a = this.transform.GetComponent<Alpha>();
         int[,] ban = komaCalulator.AIBanState();
 
-        a.AlphaBeta(2, ban, 0, true);
+        // a.AlphaBeta(2, ban, 0, true);
         if (BlueTurn)
         {
 
@@ -366,15 +375,24 @@ public class TurnManager : MonoBehaviour
             }
             else
             {
+
                 int[,] Ban = komaCalulator.AIBanState();
                 for (int N = 0; N < RedBridges.transform.childCount; N++)
                 {
                     a.AlphaBeta(2, Ban, N, false);
+                    for (int n = 0; n < RedBridges.transform.childCount; n++)
+                    {
+                      
+                   
+                    }
 
                 }
+
             }
         }
     }
+ 
+    
 }
                
                

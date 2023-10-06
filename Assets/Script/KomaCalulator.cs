@@ -28,6 +28,7 @@ public class KomaCalulator : MonoBehaviour
     public int PlayerCount = 0;
     bool CanMove = false;
     public BridgeButtonManager BBB;
+    public BridgeButtonManager[] bbb = new BridgeButtonManager[12];
   public  BridgeButtonManager[] BB = new BridgeButtonManager[12];
     public KomaIndex[] komaIndex = new KomaIndex[12];
    public int[] RedX = new int[12];
@@ -229,15 +230,15 @@ public class KomaCalulator : MonoBehaviour
     }
     public int[,] AIBanState()
     {
-      txt.text = "";
+     // txt.text = "";
      
         for (int y = 0; y < TM.BoardYMax; y++)
         {
-          txt.text += "\n";
+       //   txt.text += "\n";
             for (int x = 0; x < TM.BoardXMax; x++)
             {
                 Ban[x, y] = AreaMathChengh(y, x);
-            txt.text += Ban[x, y].ToString() + "  ";
+          //  txt.text += Ban[x, y].ToString() + "  ";
             }
         }
         return Ban;
@@ -248,6 +249,7 @@ public class KomaCalulator : MonoBehaviour
     {
         if (Bule)
         {
+           
             bool can = AICanMove(BlueX[N] + 1, BlueY[N]);
 
             if (can)
@@ -255,7 +257,7 @@ public class KomaCalulator : MonoBehaviour
 
                 Ban[BlueX[N], BlueY[N]] -= 11;
                 Ban[BlueX[N] + 1, BlueY[N]] += 11;
-                BlueY[N] += 1;
+                BlueX[N] += 1;
                 return Ban;
             }
         }
@@ -268,7 +270,7 @@ public class KomaCalulator : MonoBehaviour
 
                     Ban[RedX[N], RedY[N]] -= 11;
                     Ban[RedX[N] + 1, RedY[N]] += 11;
-                    RedY[N] += 1;
+                    RedX[N] += 1;
                     return Ban;
                 }
 
@@ -290,7 +292,7 @@ public class KomaCalulator : MonoBehaviour
 
                 Ban[BlueX[N], BlueY[N]] -= 11;
                 Ban[BlueX[N], BlueY[N] - 1] += 11;
-                BlueX[N] -= 1;
+                BlueY[N] -= 1;
             }
         }
         else
@@ -302,7 +304,7 @@ public class KomaCalulator : MonoBehaviour
 
                 Ban[RedX[N], RedY[N]] -= 11;
                 Ban[RedX[N], RedY[N] - 1] += 11;
-                RedX[N] -= 1;
+                RedY[N] -= 1;
             }
         }
         return Ban;
@@ -320,7 +322,7 @@ public class KomaCalulator : MonoBehaviour
 
                 Ban[BlueX[N], BlueY[N]] -= 11;
                 Ban[BlueX[N], BlueY[N] + 1] += 11;
-                BlueX[N] += 1;
+                BlueY[N] += 1;
 
             }
         }
@@ -333,7 +335,7 @@ public class KomaCalulator : MonoBehaviour
 
                 Ban[RedX[N], RedY[N]] -= 11;
                 Ban[RedX[N], RedY[N] + 1] += 11;
-                RedX[N] += 1;
+                RedY[N] += 1;
 
             }
         }
@@ -496,7 +498,7 @@ public class KomaCalulator : MonoBehaviour
         }
         else
         {
-            bool can = AICanMove(RedX[N] - 1, RedY[N] +- 1);
+            bool can = AICanMove(RedX[N] - 1, RedY[N] - 1);
 
             if (can)
             {
@@ -563,11 +565,11 @@ public class KomaCalulator : MonoBehaviour
             int can = AICanBuildDestoroy(RedX[N], RedY[N] - 1);
             if (can == 1)
             {
-                Ban[RedX[N], RedY[N] + 1] = 0;
+                Ban[RedX[N], RedY[N] - 1] = 0;
             }
             else if (can == 2)
             {
-                Ban[RedX[N], RedY[N] + 1] = -10;
+                Ban[RedX[N], RedY[N] - 1] = -10;
 
             }
         }
@@ -642,10 +644,7 @@ public class KomaCalulator : MonoBehaviour
 
     public int[,] Randam(int N, bool Blue)
     {
-        if (AIBlueTurn == false)
-        {
-            N += TM.PieceNumber;  
-        }
+     
         if (Blue)
         {
             int rnd = UnityEngine.Random.Range(1, 13);
@@ -720,6 +719,85 @@ public class KomaCalulator : MonoBehaviour
             if (rnd == 12)
             {
                 BuildLeft(N, true);
+                PlayerCount++;
+                return Ban;
+
+            }
+        }
+        else
+        {
+            int rnd = UnityEngine.Random.Range(1, 13);
+            if (rnd == 1)
+            {
+                Ban = AIdown(N, false);
+                PlayerCount++;
+                return Ban;
+
+            }
+            if (rnd == 2)
+            {
+                AILeft(N, false);
+                PlayerCount++;
+                return Ban;
+            }
+            if (rnd == 3)
+            {
+                AIRight(N, false);
+                PlayerCount++;
+                return Ban;
+            }
+            if (rnd == 4)
+            {
+                AIUP(N, false);
+                PlayerCount++;
+                return Ban;
+            }
+            if (rnd == 5)
+            {
+                AIHidarisita(N, false);
+                PlayerCount++;
+                return Ban;
+            }
+            if (rnd == 6)
+            {
+                AIMigisita(N, false);
+                PlayerCount++;
+                return Ban;
+            }
+            if (rnd == 7)
+            {
+                AIhidariue(N, false);
+                PlayerCount++;
+                return Ban;
+            }
+            if (rnd == 8)
+            {
+                AImigiue(N, false);
+                PlayerCount++;
+                return Ban;
+
+            }
+            if (rnd == 9)
+            {
+                BuildUp(N, false);
+                PlayerCount++;
+                return Ban;
+            }
+            if (rnd == 10)
+            {
+                BuildDown(N,false);
+                PlayerCount++;
+                return Ban;
+            }
+            if (rnd == 11)
+            {
+                BuildRight(N, false);
+                PlayerCount++;
+                return Ban;
+            }
+            if (rnd == 12)
+            {
+                BuildLeft(N, false);
                 PlayerCount++;
                 return Ban;
 
@@ -1005,6 +1083,8 @@ public class KomaCalulator : MonoBehaviour
         var CanMoves = new List<KomaIndex>();
         if (Blue)
         {
+          //  Debug.Log(BlueX[N]);
+          //  Debug.Log(BlueY[N]);
             bool CanMove = AICan(ban, BlueX[N] + 1, BlueY[N]);
             if (CanMove)
             {

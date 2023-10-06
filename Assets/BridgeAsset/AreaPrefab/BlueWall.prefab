@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3523549823352287985}
   - component: {fileID: 1970440997398075846}
   - component: {fileID: 1500790952544779594}
+  - component: {fileID: 3027604806202260974}
   m_Layer: 5
   m_Name: BlueWall
   m_TagString: BlueWall
@@ -102,3 +103,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 99.09357, y: 99.20636}
   m_EdgeRadius: 0
+--- !u!114 &3027604806202260974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8237616843702972255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb7d817b4feae64c92a42e2a3c106f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BlueWall: 0
+  RedWall: 0
+  pond: 0
+  castle: 0
+  DebugMode: 0
+  BlueAreaLeak: 0
+  RedAreaLeak: 0
+  RedAreaMarker: {fileID: 0}
+  BlueAreaMarker: {fileID: 0}
+  RedWallMarker: {fileID: 0}
+  BlueWallMarker: {fileID: 0}
+  CastleMarker: {fileID: 0}
+  PondMarker: {fileID: 0}
+  FWC: {fileID: 0}
+  BWC: {fileID: 0}
+  LWC: {fileID: 0}
+  RWC: {fileID: 0}
+  Scapegoat: 0
+  BlueArea: 0
+  RedArea: 0
+  Bridge: 0
+  TM: {fileID: 0}
