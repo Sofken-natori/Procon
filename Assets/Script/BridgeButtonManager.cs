@@ -21,6 +21,7 @@ public class BridgeButtonManager : MonoBehaviour
     
     
     bool CanMove = false;
+    [System.NonSerialized]public int BridgeID = -1;
     public Button ButtonIntaract;
     public TurnManager TM;
     

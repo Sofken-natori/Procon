@@ -359,13 +359,17 @@ public class Area : MonoBehaviour
             default:
                 if (board.masons[ThisPosX,ThisPosY] > 0)
                 {
-                    BlueBridges.transform.GetChild(board.masons[ThisPosX, ThisPosY] - 1).GetComponent<BridgeButtonManager>().BridgeApplyer(ThisPosX,ThisPosY);
+                    BridgeButtonManager bbm = BlueBridges.transform.GetChild(board.masons[ThisPosX, ThisPosY] - 1).GetComponent<BridgeButtonManager>();
+                    bbm.BridgeApplyer(ThisPosX,ThisPosY);
+                    bbm.BridgeID = board.masons[ThisPosX, ThisPosY];
                     break;
                 }
 
                 else
                 {
-                    RedBridges.transform.GetChild((board.masons[ThisPosX,ThisPosY] * -1) - 1).GetComponent<BridgeButtonManager>().BridgeApplyer(ThisPosX,ThisPosY);
+                    BridgeButtonManager bbm = RedBridges.transform.GetChild((board.masons[ThisPosX,ThisPosY] * -1) - 1).GetComponent<BridgeButtonManager>();
+                    bbm.BridgeApplyer(ThisPosX, ThisPosY);
+                    bbm.BridgeID = board.masons[ThisPosX, ThisPosY];
                     break;
                 }
         }       

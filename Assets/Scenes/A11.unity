@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 151643817}
   - component: {fileID: 151643816}
   - component: {fileID: 151643815}
+  - component: {fileID: 151643814}
   m_Layer: 5
   m_Name: BoardBridge
   m_TagString: Untagged
@@ -229,10 +230,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 359761543}
+  - {fileID: 1521417395}
+  - {fileID: 1315983675}
   - {fileID: 857541455}
+  - {fileID: 359761543}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -545,7 +548,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 151643818}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &436716527
 GameObject:
@@ -716,7 +719,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 151643818}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &866598194
 GameObject:
@@ -1287,7 +1290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MapCSV: A11
   MaxTurnNumber: 10
-  PieceNumber: 1
+  PieceNumber: 2
   BlueTurn: 1
   BoardXMax: 11
   BoardYMax: 11
@@ -1613,7 +1616,7 @@ RectTransform:
   - {fileID: 1691318202}
   - {fileID: 244114683}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
