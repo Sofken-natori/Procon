@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.Networking.Match;
 using System.Runtime;
 using System.Runtime.Serialization;
 using ServerConnector;
@@ -34,8 +33,8 @@ public class TurnManager : MonoBehaviour
     [Header("城のスコア"), SerializeField] int CastleScore = 100;
 
     
-    [Header("青いコマの置き場所"),SerializeField]GameObject BlueBridges;
-    [Header("赤いコマの置き場所"),SerializeField]GameObject RedBridges;
+    [Header("青いコマの置き場所")]public GameObject BlueBridges;
+    [Header("赤いコマの置き場所")]public GameObject RedBridges;
 
 
     [HideInInspector] public int BlueScore = 0;
@@ -54,7 +53,7 @@ public class TurnManager : MonoBehaviour
     public int NowTurn = 0;
     TextAsset csvFile;
     MatchesInfo matchesInfo;
-    MatchInfo matchInfo;
+    ServerConnector.MatchInfo matchInfo;
     PostInfo postInfo;
 
      void Start()
@@ -379,6 +378,54 @@ public class TurnManager : MonoBehaviour
                 RedBridges.transform.GetChild(i).GetComponent<BridgeButtonManager>().BridgeRester();
             }
         }
+    }
+    public async void CallMatchInfoGet(int id)
+    {
+        InfoConnector infoConnector = new InfoConnector();
+        matchInfo = await infoConnector.GetMatchInfo(id);
+    }
+
+    public async void CallMatchesInfoGet(int id)
+    {
+        InfoConnector infoConnector = new InfoConnector();
+        matchesInfo = await infoConnector.GetMatchesInfo();
+    }
+
+    public void CallAreaApply(MatchInfo info)
+    {
+        for (int i = 0; i < BoardYMax; i++)
+        {
+            for (int j = 0; j < BoardXMax; j++)
+            {
+                area = this.transform.GetChild(i).GetChild(j).GetComponent<Area>();
+                area.AreaApply(info.board);
+            }
+        }
+    }
+
+    public void GetBridgeMoves()
+    {
+        postInfo = new PostInfo();
+        postInfo.turn = matchInfo.turn + 1;
+        if (postInfo.turn % 2 == 0)
+        {
+            postInfo.turn++;
+        }
+        for (int i = 0; i < BlueBridges.transform.childCount; i++)
+        {
+            Move BridgeMove = new Move
+            {
+                dir = BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().MoveDirection,
+                type = BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().ActionType
+            };
+            postInfo.actions.Add(BridgeMove);
+        }
+    }
+
+    public void CallPostMatchInfo(PostInfo info)
+    {
+        InfoConnector infoConnector = new InfoConnector();
+        infoConnector.PostMatchInfo(id, info);
     }
     public void AB()
     {
