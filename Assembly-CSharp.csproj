@@ -56,34 +56,35 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\Evaluation Functions.cs" />
+    <Compile Include="Assets\Map\B15.cs" />
+    <Compile Include="Assets\Script\EvaluationFunctions.cs" />
     <Compile Include="Assets\Script\KomaIndex.cs" />
+    <Compile Include="Assets\Map\C11.cs" />
+    <Compile Include="Assets\Map\A17.cs" />
+    <Compile Include="Assets\Map\C21.cs" />
+    <Compile Include="Assets\Map\C15.cs" />
+    <Compile Include="Assets\Script\Alphatest.cs" />
+    <Compile Include="Assets\Map\A21.cs" />
     <Compile Include="Assets\Script\BridgeButtonManager.cs" />
+    <Compile Include="Assets\Map\B13.cs" />
     <Compile Include="Assets\Script\TurnManager.cs" />
     <Compile Include="Assets\Script\Monte.cs" />
+    <Compile Include="Assets\Map\B11.cs" />
+    <Compile Include="Assets\Map\B17.cs" />
     <Compile Include="Assets\Script\Area.cs" />
     <Compile Include="Assets\Script\Alpha.cs" />
     <Compile Include="Assets\Script\NeitherWallChacker.cs" />
+    <Compile Include="Assets\Map\B25.cs" />
+    <Compile Include="Assets\Map\A25.cs" />
+    <Compile Include="Assets\Map\A11.cs" />
+    <Compile Include="Assets\Map\A15.cs" />
+    <Compile Include="Assets\Map\C13.cs" />
     <Compile Include="Assets\Script\ChangeScene.cs" />
     <Compile Include="Assets\Script\KomaCalulator.cs" />
-    <Compile Include="Assets\Map\A11.cs" />
     <Compile Include="Assets\Map\A13.cs" />
-    <Compile Include="Assets\Map\A15.cs" />
-    <Compile Include="Assets\Map\A17.cs" />
-    <Compile Include="Assets\Map\A21.cs" />
-    <Compile Include="Assets\Map\A25.cs" />
-    <Compile Include="Assets\Map\B11.cs" />
-    <Compile Include="Assets\Map\B13.cs" />
-    <Compile Include="Assets\Map\B15.cs" />
-    <Compile Include="Assets\Map\B17.cs" />
     <Compile Include="Assets\Map\B21.cs" />
-    <Compile Include="Assets\Map\B25.cs" />
-    <Compile Include="Assets\Map\C11.cs" />
-    <Compile Include="Assets\Map\C13.cs" />
-    <Compile Include="Assets\Map\C15.cs" />
-    <Compile Include="Assets\Map\C17.cs" />
-    <Compile Include="Assets\Map\C21.cs" />
     <Compile Include="Assets\Map\C25.cs" />
+    <Compile Include="Assets\Map\C17.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -538,13 +538,17 @@ MonoBehaviour:
   RedScoreText: {fileID: 1641060649}
   BlueScoreText: {fileID: 7708866}
   TurnText: {fileID: 382538194}
+  id: 10
   AreaScore: 30
   WallScore: 10
   CastleScore: 100
+  BlueBridges: {fileID: 913059176}
+  RedBridges: {fileID: 738278126}
   BlueScore: 0
   RedScore: 0
   UntapPhase: 0
   TurnEnd: 0
+  NowTurn: 0
 --- !u!1 &738190771
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,6 +628,66 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 738190771}
   m_CullTransparentMesh: 1
+--- !u!1 &738278126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 738278127}
+  m_Layer: 0
+  m_Name: GameObject (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &738278127
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738278126}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 440.6212, y: 580.6454, z: -17.562817}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &913059176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 913059177}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &913059177
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 913059176}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 440.6212, y: 580.6454, z: -17.562817}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1033478233
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -780,7 +844,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4a0c806cdb89c5439464a9426f33897, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TM: {fileID: 0}
 --- !u!114 &1122270155
 MonoBehaviour:
   m_ObjectHideFlags: 0

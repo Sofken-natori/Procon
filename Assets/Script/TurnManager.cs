@@ -41,10 +41,7 @@ public class TurnManager : MonoBehaviour
     [HideInInspector] public List<string[]> MapData = new List<string[]>();
 
     Area area;
-    Button RedButton;
-    Button BlueButton;
     Transform square;
-    Text text;
     int BridgeActCount = 0;
     int BridgestandbyCount = 0;
     public int NowTurn = 0;
@@ -324,6 +321,11 @@ public class TurnManager : MonoBehaviour
     public void CallBridgeRester()
     {
         AB();
+        KomaCalulator komaCalulator;
+        komaCalulator = this.transform.GetComponent<KomaCalulator>();
+     //   int[,] ban = komaCalulator.AIBanState();
+       // komaCalulator.AIBanState();
+       // komaCalulator.AIAreaCheckBlue(ban);
         if (BlueTurn)
         {
             for (int i = 0; i < BlueBridges.transform.childCount; i++)
@@ -340,35 +342,27 @@ public class TurnManager : MonoBehaviour
             }
         }
     }
+  
     public void AB()
     {
         KomaCalulator komaCalulator;
         Monte monte;
-        //ターン確認
         Alpha a;
+        Alphatest alpha;
         komaCalulator = this.transform.GetComponent<KomaCalulator>();
+        alpha = this.transform.GetComponent<Alphatest>();
         monte = this.transform.GetComponent<Monte>();
         a = this.transform.GetComponent<Alpha>();
         int[,] ban = komaCalulator.AIBanState();
-
-        // a.AlphaBeta(2, ban, 0, true);
         if (BlueTurn)
         {
 
-            for (int N = 0; N < BlueBridges.transform.childCount; N++)
-            {
-                monte.MonteCarloSearch(N, true);
-
-            }
-        }
-        if (!BlueTurn)
-        {
             if (NowTurn >= MaxTurnNumber * 0.8)
             {
-
+               
                 for (int N = 0; N < RedBridges.transform.childCount; N++)
                 {
-                    monte.MonteCarloSearch(N, false);
+                    monte.MonteCarloSearch(N, true);
 
                 }
 
@@ -377,16 +371,24 @@ public class TurnManager : MonoBehaviour
             {
 
                 int[,] Ban = komaCalulator.AIBanState();
-                for (int N = 0; N < RedBridges.transform.childCount; N++)
+               // alpha.AlphaBeta(1, Ban, 0, true);
+               for (int N = 0; N < RedBridges.transform.childCount; N++)
                 {
-                    a.AlphaBeta(2, Ban, N, false);
-                    for (int n = 0; n < RedBridges.transform.childCount; n++)
-                    {
-                      
-                   
-                    }
-
+                    alpha.AlphaBeta(1, Ban, N, true);
                 }
+              
+
+            }
+            
+        }
+        if (!BlueTurn)
+        {
+            //komaCalulator.AIBlueTurn = false;
+            int[,] Ban = komaCalulator.AIBanState();
+            for (int N = 0; N < BlueBridges.transform.childCount; N++)
+            {
+
+              //  alpha.AlphaBeta(2, Ban, N, false);
 
             }
         }
