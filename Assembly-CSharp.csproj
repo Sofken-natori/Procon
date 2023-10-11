@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{120E54D6-8776-A169-69E1-1AEC83EBC617}</ProjectGuid>
+    <ProjectGuid>{4C573138-E68A-2945-7733-FD627566946C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -66,9 +66,12 @@
     <Compile Include="Assets\Script\Alphatest.cs" />
     <Compile Include="Assets\Map\A21.cs" />
     <Compile Include="Assets\Script\BridgeButtonManager.cs" />
+    <Compile Include="Assets\Script\ServerConnector.cs" />
     <Compile Include="Assets\Map\B13.cs" />
     <Compile Include="Assets\Script\TurnManager.cs" />
     <Compile Include="Assets\Script\Monte.cs" />
+    <Compile Include="Assets\Map\B11.cs" />
+    <Compile Include="Assets\Map\B17.cs" />
     <Compile Include="Assets\Map\B11.cs" />
     <Compile Include="Assets\Map\B17.cs" />
     <Compile Include="Assets\Script\Area.cs" />
@@ -79,10 +82,16 @@
     <Compile Include="Assets\Map\A11.cs" />
     <Compile Include="Assets\Map\A15.cs" />
     <Compile Include="Assets\Map\C13.cs" />
+    <Compile Include="Assets\Map\B25.cs" />
+    <Compile Include="Assets\Map\A25.cs" />
+    <Compile Include="Assets\Map\A11.cs" />
+    <Compile Include="Assets\Map\A15.cs" />
+    <Compile Include="Assets\Map\C13.cs" />
     <Compile Include="Assets\Script\ChangeScene.cs" />
     <Compile Include="Assets\Script\KomaCalulator.cs" />
     <Compile Include="Assets\Map\A13.cs" />
     <Compile Include="Assets\Map\B21.cs" />
+    <Compile Include="Assets\Map\C25.cs" />
     <Compile Include="Assets\Map\C25.cs" />
     <Compile Include="Assets\Map\C17.cs" />
   </ItemGroup>
@@ -308,6 +317,9 @@
     </Reference>
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.1\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2020.3.40f1\Editor\Data\NetStandard\ref\2.0.0\netstandard.dll</HintPath>
@@ -752,6 +764,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="UniTask.DOTween.csproj">
+      <Project>{0E3A2128-1C5B-501A-760C-B39C2141879E}</Project>
+      <Name>UniTask.DOTween</Name>
+    </ProjectReference>
+    <ProjectReference Include="UniTask.Linq.csproj">
+      <Project>{1FE415C7-460C-E5E2-695E-DCDB8C051E89}</Project>
+      <Name>UniTask.Linq</Name>
+    </ProjectReference>
+    <ProjectReference Include="UniRx.csproj">
+      <Project>{77EAF54C-CDA7-2025-1532-449A1A430395}</Project>
+      <Name>UniRx</Name>
+    </ProjectReference>
+    <ProjectReference Include="UniTask.TextMeshPro.csproj">
+      <Project>{77F8AF88-EC58-6CAC-C5E4-143D8C3CD117}</Project>
+      <Name>UniTask.TextMeshPro</Name>
+    </ProjectReference>
+    <ProjectReference Include="UniTask.csproj">
+      <Project>{4F044CC1-BA15-3163-D3BC-06270D434116}</Project>
+      <Name>UniTask</Name>
+    </ProjectReference>
+    <ProjectReference Include="UniTask.Addressables.csproj">
+      <Project>{71886225-0906-2C6E-2711-8E7133A59656}</Project>
+      <Name>UniTask.Addressables</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

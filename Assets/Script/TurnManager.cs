@@ -5,9 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.Networking.Match;
 using System.Runtime;
 using System.Runtime.Serialization;
+using ServerConnector;
+using Cysharp.Threading.Tasks;
+using System.Threading.Tasks;
 using Koma;
 
 public class TurnManager : MonoBehaviour
@@ -24,15 +26,16 @@ public class TurnManager : MonoBehaviour
     [Header("赤陣営のスコア表示"), SerializeField] Text RedScoreText;
     [Header("青陣営のスコア表示"), SerializeField] Text BlueScoreText;
     [Header("現在のターン表示"), SerializeField] Text TurnText;
-    [Header("Http通信のID")] public int id = 10;
+    [Header("Http通信のID")]public int id = 10;
+    [Header("通信を行うか"),SerializeField]bool host = true;
 
     [Header("陣地のスコア"), SerializeField] int AreaScore = 30;
     [Header("城壁のスコア"), SerializeField] int WallScore = 10;
     [Header("城のスコア"), SerializeField] int CastleScore = 100;
 
-
-    [Header("青いコマの置き場所"), SerializeField] public GameObject BlueBridges;
-    [Header("赤いコマの置き場所"), SerializeField] public GameObject RedBridges;
+    
+    [Header("青いコマの置き場所")]public GameObject BlueBridges;
+    [Header("赤いコマの置き場所")]public GameObject RedBridges;
 
 
     [HideInInspector] public int BlueScore = 0;
@@ -48,6 +51,9 @@ public class TurnManager : MonoBehaviour
     public int NowTurn = 0;
     public KomaIndex[] Dontroop = new KomaIndex[6];
     TextAsset csvFile;
+    MatchesInfo matchesInfo;
+    ServerConnector.MatchInfo matchInfo;
+    PostInfo postInfo;
 
      void Start()
     {
@@ -132,12 +138,20 @@ public class TurnManager : MonoBehaviour
 
     public void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("Interrupt");
             SceneManager.LoadScene("StageSelectScene");
         }
 
-
+        if(host)
+        {
+            CallMatchInfoGet(id);
+            CallAreaApply(matchInfo);
+            CallMatchesInfoGet(id);
+            GetBridgeMoves();
+            CallPostMatchInfo(postInfo);
+        }
     }
 
     public void Bridgestandby()
@@ -150,27 +164,46 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public void BuildAndDestroyBridge(int x, int y)
+    public void BuildAndDestroyBridge(int x,int y, int n = -1, bool isBlue = false)
     {
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
         if (area.RedWall || area.BlueWall)
         {
-            area.RedWall = false;
-            area.BlueWall = false;
-            area.RedAreaLeak = true;
-            area.BlueAreaLeak = true;
+                area.RedWall = false;
+                area.BlueWall = false;
+                area.RedAreaLeak = true;
+                area.BlueAreaLeak  = true;
+                if(n > -1)
+                {
+                    if(isBlue)
+                    {
+                        BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 3;
+                    }
+                    else
+                    {
+                        RedBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 3;
+                    }
+                }
         }
 
         else if (BlueTurn)
         {
             area.BlueWall = true;
             area.BlueAreaLeak = false;
+            if(n > -1)
+            {
+                BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 2;
+            }
         }
 
         else
         {
             area.RedWall = true;
             area.RedAreaLeak = false;
+            if(n > -1)
+            {
+                RedBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 2;
+            }
         }
     }
 
@@ -188,12 +221,16 @@ public class TurnManager : MonoBehaviour
         }
     }
 
-    public Vector2 MoveBridge(int x, int y)
+    public Vector2 MoveBridge(int x,int y,int n = -1)
     {
         // Set the bridge position
         square = this.transform.GetChild(x).GetChild(y);
         area = square.GetComponent<Area>();
         area.Bridge = true;
+        if(n > -1)
+        {
+            BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 1;
+        }
         return square.position;
     }
 
@@ -218,6 +255,8 @@ public class TurnManager : MonoBehaviour
                 square = this.transform.GetChild(i).GetChild(j);
                 area = square.GetComponent<Area>();
                 area.AreaDeployer(MapData[i][j]);
+                area.BlueBridges = BlueBridges;
+                area.RedBridges = RedBridges;
             }
         }
     }
@@ -239,7 +278,7 @@ public class TurnManager : MonoBehaviour
     {
         if (isBlue)
         {
-            GameObject Bridge = Instantiate(BlueBridge, new Vector2(x, y), Quaternion.identity, BlueBridges.transform);
+            GameObject Bridge = Instantiate(BlueBridge, new Vector2(x,y), Quaternion.identity, BlueBridges.transform);
             BridgeButtonManager BBM = Bridge.GetComponent<BridgeButtonManager>();
             BBM.TM = this;
             BBM.BoardX = x;
@@ -249,7 +288,7 @@ public class TurnManager : MonoBehaviour
 
         else
         {
-            GameObject Bridge = Instantiate(RedBridge, new Vector2(x, y), Quaternion.identity, RedBridges.transform);
+            GameObject Bridge = Instantiate(RedBridge, new Vector2(x,y), Quaternion.identity, RedBridges.transform);
             BridgeButtonManager RBM = Bridge.GetComponent<BridgeButtonManager>();
             RBM.TM = this;
             RBM.BoardX = x;
@@ -347,7 +386,54 @@ public class TurnManager : MonoBehaviour
             }
         }
     }
-  
+    public async void CallMatchInfoGet(int id)
+    {
+        InfoConnector infoConnector = new InfoConnector();
+        matchInfo = await infoConnector.GetMatchInfo(id);
+    }
+
+    public async void CallMatchesInfoGet(int id)
+    {
+        InfoConnector infoConnector = new InfoConnector();
+        matchesInfo = await infoConnector.GetMatchesInfo();
+    }
+
+    public void CallAreaApply(MatchInfo info)
+    {
+        for (int i = 0; i < BoardYMax; i++)
+        {
+            for (int j = 0; j < BoardXMax; j++)
+            {
+                area = this.transform.GetChild(i).GetChild(j).GetComponent<Area>();
+                area.AreaApply(info.board);
+            }
+        }
+    }
+
+    public void GetBridgeMoves()
+    {
+        postInfo = new PostInfo();
+        postInfo.turn = matchInfo.turn + 1;
+        if (postInfo.turn % 2 == 0)
+        {
+            postInfo.turn++;
+        }
+        for (int i = 0; i < BlueBridges.transform.childCount; i++)
+        {
+            Move BridgeMove = new Move
+            {
+                dir = BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().MoveDirection,
+                type = BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().ActionType
+            };
+            postInfo.actions.Add(BridgeMove);
+        }
+    }
+
+    public void CallPostMatchInfo(PostInfo info)
+    {
+        InfoConnector infoConnector = new InfoConnector();
+        infoConnector.PostMatchInfo(id, info);
+    }
     public void AB()
     {
         KomaCalulator komaCalulator;
