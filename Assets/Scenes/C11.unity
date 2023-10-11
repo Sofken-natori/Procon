@@ -445,6 +445,8 @@ GameObject:
   - component: {fileID: 480308781}
   - component: {fileID: 480308782}
   - component: {fileID: 480308783}
+  - component: {fileID: 480308784}
+  - component: {fileID: 480308785}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -627,8 +629,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnManager: {fileID: 0}
+  c: {fileID: 0}
   txt: {fileID: 1543860971}
   Move: 0
+--- !u!114 &480308784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480308778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9ad857632aa245459713f930cd3330f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnManager: {fileID: 0}
+  c: {fileID: 0}
+  txt: {fileID: 1543860971}
+  Move: 0
+--- !u!114 &480308785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480308778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8986c9852081e3419b6f7832ed7cf59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &502414046
 GameObject:
   m_ObjectHideFlags: 0
@@ -1744,6 +1775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnManager: {fileID: 0}
+  c: {fileID: 0}
   txt: {fileID: 0}
   Move: 0
 --- !u!114 &1772997822

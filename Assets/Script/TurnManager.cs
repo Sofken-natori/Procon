@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using ServerConnector;
 using Cysharp.Threading.Tasks;
 using System.Threading.Tasks;
+using Koma;
 
 public class TurnManager : MonoBehaviour
 {
@@ -44,13 +45,11 @@ public class TurnManager : MonoBehaviour
     [HideInInspector] public List<string[]> MapData = new List<string[]>();
 
     Area area;
-    Button RedButton;
-    Button BlueButton;
     Transform square;
-    Text text;
     int BridgeActCount = 0;
     int BridgestandbyCount = 0;
     public int NowTurn = 0;
+    public KomaIndex[] Dontroop = new KomaIndex[6];
     TextAsset csvFile;
     MatchesInfo matchesInfo;
     ServerConnector.MatchInfo matchInfo;
@@ -58,7 +57,10 @@ public class TurnManager : MonoBehaviour
 
      void Start()
     {
-      
+        for (int N = 0; N < BlueBridges.transform.childCount; N++)
+        {
+            Dontroop[N] = new KomaIndex(0, 0, true);
+        }
     }
     void Awake()
     {
@@ -356,13 +358,18 @@ public class TurnManager : MonoBehaviour
             }
         }
 
-        Debug.Log("BlueScore:" + BlueScore);
-        Debug.Log("RedScore:" + RedScore);
+       // Debug.Log("BlueScore:" + BlueScore);
+       // Debug.Log("RedScore:" + RedScore);
     }
 
     public void CallBridgeRester()
     {
         AB();
+        KomaCalulator komaCalulator;
+        komaCalulator = this.transform.GetComponent<KomaCalulator>();
+     //   int[,] ban = komaCalulator.AIBanState();
+       // komaCalulator.AIBanState();
+       // komaCalulator.AIAreaCheckBlue(ban);
         if (BlueTurn)
         {
             for (int i = 0; i < BlueBridges.transform.childCount; i++)
@@ -431,31 +438,22 @@ public class TurnManager : MonoBehaviour
     {
         KomaCalulator komaCalulator;
         Monte monte;
-        //ターン確認
         Alpha a;
+        Alphatest alpha;
         komaCalulator = this.transform.GetComponent<KomaCalulator>();
+        alpha = this.transform.GetComponent<Alphatest>();
         monte = this.transform.GetComponent<Monte>();
         a = this.transform.GetComponent<Alpha>();
         int[,] ban = komaCalulator.AIBanState();
-
-        // a.AlphaBeta(2, ban, 0, true);
         if (BlueTurn)
         {
 
-            for (int N = 0; N < BlueBridges.transform.childCount; N++)
-            {
-                monte.MonteCarloSearch(N, true);
-
-            }
-        }
-        if (!BlueTurn)
-        {
             if (NowTurn >= MaxTurnNumber * 0.8)
             {
-
+               
                 for (int N = 0; N < RedBridges.transform.childCount; N++)
                 {
-                    monte.MonteCarloSearch(N, false);
+                    monte.MonteCarloSearch(N, true);
 
                 }
 
@@ -464,16 +462,24 @@ public class TurnManager : MonoBehaviour
             {
 
                 int[,] Ban = komaCalulator.AIBanState();
-                for (int N = 0; N < RedBridges.transform.childCount; N++)
+               //alpha.AlphaBeta(1, Ban, 0, true);
+               for (int N = 0; N < RedBridges.transform.childCount; N++)
                 {
-                    a.AlphaBeta(2, Ban, N, false);
-                    for (int n = 0; n < RedBridges.transform.childCount; n++)
-                    {
-                      
-                   
-                    }
-
+                    alpha.AlphaBeta(1, Ban, N, true);
                 }
+              
+
+            }
+            
+        }
+        if (!BlueTurn)
+        {
+            //komaCalulator.AIBlueTurn = false;
+            int[,] Ban = komaCalulator.AIBanState();
+            for (int N = 0; N < BlueBridges.transform.childCount; N++)
+            {
+
+              //  alpha.AlphaBeta(2, Ban, N, false);
 
             }
         }

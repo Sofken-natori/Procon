@@ -22,9 +22,12 @@ public class KomaCalulator : MonoBehaviour
     GameObject Boards;
     public Text txt;
     public int[,] Ban;
+   public bool[,]  Redcount = new bool[25 , 25];
+   public bool[ ,]  Bluecount = new bool[25,25];
+    public bool[,] jinticount = new bool[25, 25];
     Monte monte;
     Area area;
-    public bool AIBlueTurn;
+    public bool AIBlueTurn = true;
     public int PlayerCount = 0;
     bool CanMove = false;
     public BridgeButtonManager BBB;
@@ -89,18 +92,75 @@ public class KomaCalulator : MonoBehaviour
         {
             for (int X = 0; X < TM.BoardXMax; X++)
             {
-                if (Ban[X, Y] == 0 || Ban[X, Y] == 100)
+                if (ban[X, Y] == 0 && jinticount[X,Y] == false)
                 {
-                    Ban[X, Y] += 30;
-                    RedAndBlue();
+                    ban[X, Y] += 30;
+                    Bluecount[X, Y] = true;
+                    RedAndBlue( X ,Y, ban);
                 }
-                else if ( Ban[X, Y] == 10)
+                else if (jinticount[X ,Y] == false && ban[X, Y] == 100)
                 {
-                    Ban[X, Y] = 10;
+                    ban[X, Y] += 30;
+                    Bluecount[X, Y] = true;
+                    RedAndBlue(X, Y, ban);
                 }
-                else if (Ban[X, Y] == -30)
-                {
+                /* else if (Ban[X, Y] == 10)
+                 {
+                     Ban[X, Y] = 10;
+                 }
+                 else
+                 {
+                     Ban[X, Y] -= 2;
+                 }
+                */
+                jinticount[X, Y] = false;
+            }
+        }
 
+    }
+    public void AIAreaCheckRed(int[,] ban)
+    {
+        for (int i = 0; i < TM.BoardXMax; i++)
+        {
+            for (int j = 0; j < 1; j++)
+            {
+                AIAreaCheckBlueAround(0, i, false, ban);
+            }
+
+            for (int j = 0; j < 1; j++)
+            {
+                AIAreaCheckBlueAround(i, 0, false, ban);
+            }
+            for (int k = TM.BoardYMax - 1; k < TM.BoardYMax; k++)
+            {
+                AIAreaCheckBlueAround(k, i, false, ban);
+            }
+            for (int l = TM.BoardYMax - 1; l < TM.BoardYMax; l++)
+            {
+                AIAreaCheckBlueAround(i, l, false, ban);
+            }
+
+
+        }
+        for (int Y = 0; Y < TM.BoardYMax; Y++)
+        {
+            for (int X = 0; X < TM.BoardXMax; X++)
+            {
+                if (Ban[X, Y] == 0)
+                {
+                    Ban[X, Y] = -30;
+                    Redcount[X, Y] = true;
+                    RedAndBlue(X, Y , ban);
+                }
+                else if (Ban[X, Y] == -10)
+                {
+                    Ban[X, Y] = -10;
+                }
+                else if(Ban[X, Y] == 100)
+                {
+                    Ban[X, Y] = -130;
+                    Redcount[X, Y] = true;
+                    RedAndBlue(X, Y, ban);
                 }
                 else
                 {
@@ -108,50 +168,42 @@ public class KomaCalulator : MonoBehaviour
                 }
             }
         }
-
     }
-    public void RedAndBlue()
+    public void RedAndBlue(int x ,int y ,int[,] ban)
     {
-        
+        if (Redcount[x , y] && Bluecount[x, y])
+        {
+            ban[x, y] = 15;
+            Redcount[x, y] = false;
+            Bluecount[x, y] = false;
+        }
     }
     public void AIAreaCheckBlueAround(int x, int y, bool Blue , int[,] Ban)
     {
 
         if (Blue)
         {
-
-            //ƒGƒŠƒA‚Ìã‚©‚ç‚ð‚Ç‚¤‚·‚é‚©
-            //alpha-beta
-            //•]‰¿ŠÖ”
-            //”z—ñ‚ÆMonte‚Ì®”õ
-            if (Ban[x, y] != 2 && Ban[x, y] != 10 && Ban[x , y] != 30 && Ban[x ,y] != -30 && Ban[x ,y] != 130 && Ban[x ,y] != 15 )
+            if (TM.BoardYMax - 1 >= y && TM.BoardXMax - 1 >= x  && x >= 0 && y >= 0 && Ban[x, y] != 10 && jinticount[x ,y] == false )
             {
-                //NowTurn++;
-                Ban[x, y] += 2;
-                if (y != TM.BoardYMax - 1)
-                {
+                jinticount[x ,y] = true;
+               
                     AIAreaCheckBlueAround(x, y + 1, true , Ban);
-                }
-                if (y != 0)
-                {
-
+                
+              
                     AIAreaCheckBlueAround(x, y - 1, true , Ban);
-                }
-                if (x != 0)
-                {
-
+                
+              
                     AIAreaCheckBlueAround(x - 1, y, true , Ban);
-                }
-                if (x != TM.BoardXMax - 1)
-                {
+                
+               
 
                     AIAreaCheckBlueAround(x + 1, y, true , Ban);
-                }
+                
             }
         }
         else
         {
-            if (Ban[x, y] != 2 && Ban[x, y] != 10)
+            if (Ban[x, y] != 2 && Ban[x, y] != -10 )
             {
                
                 Ban[x, y] += 2;
@@ -206,23 +258,20 @@ public class KomaCalulator : MonoBehaviour
         }
         else if (area.pond)
         {
-           // Debug.Log("Ike");
+          
             return -1;
         }
         else if (area.castle)
         {
-            // Debug.Log("castle");
+
             return 100;
         }
         else if (area.Bridge)
         {
-            // Debug.Log("Bluek");
-
             return 11;
         }
         else
         {
-            //  Debug.Log("tyu");
             return 0;
         }
 
@@ -230,15 +279,15 @@ public class KomaCalulator : MonoBehaviour
     }
     public int[,] AIBanState()
     {
-     // txt.text = "";
-     
+    //  txt.text = "";
+    
         for (int y = 0; y < TM.BoardYMax; y++)
         {
        //   txt.text += "\n";
             for (int x = 0; x < TM.BoardXMax; x++)
             {
                 Ban[x, y] = AreaMathChengh(y, x);
-          //  txt.text += Ban[x, y].ToString() + "  ";
+        //    txt.text += Ban[x, y].ToString() + "  ";
             }
         }
         return Ban;
@@ -889,175 +938,245 @@ public class KomaCalulator : MonoBehaviour
         }
         return false;
     }
+    public List<KomaIndex> GetCanDestoroyIndex(int N, bool Blue)
+    {
+        var CanMoves = new List<KomaIndex>();
+        if (Blue)
+        {
+            CanMove = CanDestroy(BlueY[N], BlueX[N] + 1 , Blue);
+            if (CanMove)
+            {
 
-    
+                CanMoves.Add(new KomaIndex(BlueX[N] + 1, BlueY[N], true));
+            }
+            CanMove = CanDestroy(BlueY[N], BlueX[N] - 1 , Blue);
+            if (CanMove)
+            {
+
+                CanMoves.Add(new KomaIndex(BlueX[N] - 1, BlueY[N], true));
+            }
+            CanMove = CanDestroy(BlueY[N] + 1, BlueX[N], Blue);
+            if (CanMove)
+            {
+
+                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] + 1, true));
+            }
+            CanMove = CanDestroy(BlueY[N] - 1, BlueX[N], Blue);
+            if (CanMove)
+            {
+
+                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] - 1, true));
+            }
+        }
+        else
+        {
+            CanMove = CanDestroy(BlueY[N], BlueX[N] + 1, Blue);
+            if (CanMove)
+            {
+
+                CanMoves.Add(new KomaIndex(BlueX[N] + 1, BlueY[N], true));
+            }
+            CanMove = CanDestroy(BlueY[N], BlueX[N] - 1, Blue);
+            if (CanMove)
+            {
+
+                CanMoves.Add(new KomaIndex(BlueX[N] - 1, BlueY[N], true));
+            }
+            CanMove = CanDestroy(BlueY[N] + 1, BlueX[N], Blue);
+            if (CanMove)
+            {
+
+                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] + 1, true));
+            }
+            CanMove = CanDestroy(BlueY[N] - 1, BlueX[N], Blue);
+            if (CanMove)
+            {
+
+                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] - 1, true));
+            }
+        }
+        return CanMoves;
+    }
+
+
     public List<KomaIndex> GetCanMoveIndex(int N , bool Blue)
     {
         var CanMoves = new List<KomaIndex>();
         if (Blue)
         {
-            
             CanMove = AICanMoves(BlueY[N], BlueX[N] + 1);
             if (CanMove)
             {
-
                 CanMoves.Add(new KomaIndex(BlueX[N] + 1, BlueY[N], false));
             }
             CanMove = AICanMoves(BlueY[N], BlueX[N] - 1);
             if (CanMove)
             {
-
                 CanMoves.Add(new KomaIndex(BlueX[N] - 1, BlueY[N], false));
             }
             CanMove = AICanMoves(BlueY[N] + 1, BlueX[N]);
             if (CanMove)
             {
-
                 CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] + 1, false));
             }
             CanMove = AICanMoves(BlueY[N] - 1, BlueX[N]);
             if (CanMove)
             {
-
                 CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] - 1, false));
             }
             CanMove = AICanMoves(BlueY[N] - 1, BlueX[N] - 1);
 
             if (CanMove)
             {
-
                 CanMoves.Add(new KomaIndex(BlueX[N] - 1, BlueY[N] - 1, false));
             }
             CanMove = AICanMoves(BlueY[N] - 1, BlueX[N] + 1);
             if (CanMove)
             {
+
                 CanMoves.Add(new KomaIndex(BlueX[N] + 1, BlueY[N] - 1, false));
             }
             CanMove = AICanMoves(BlueY[N] + 1, BlueX[N] - 1);
             if (CanMove)
             {
-
                 CanMoves.Add(new KomaIndex(BlueX[N] - 1, BlueY[N] + 1, false));
             }
             CanMove = AICanMoves(BlueY[N] + 1, BlueX[N] + 1);
             if (CanMove)
             {
-
                 CanMoves.Add(new KomaIndex(BlueX[N] + 1, BlueY[N] + 1, false));
             }
 
             CanMove = CanBuild(BlueY[N], BlueX[N] + 1);
             if (CanMove)
             {
-
-                CanMoves.Add(new KomaIndex(BlueX[N] + 1, BlueY[N], false));
+                CanMoves.Add(new KomaIndex(BlueX[N] + 1, BlueY[N], true));
             }
             CanMove = CanBuild(BlueY[N], BlueX[N] - 1);
             if (CanMove)
             {
-
-                CanMoves.Add(new KomaIndex(BlueX[N] - 1, BlueY[N], false));
+                CanMoves.Add(new KomaIndex(BlueX[N] - 1, BlueY[N], true));
             }
             CanMove = CanBuild(BlueY[N] + 1, BlueX[N]);
             if (CanMove)
             {
-
-                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] + 1, false));
+                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] + 1, true));
             }
             CanMove = CanBuild(BlueY[N] - 1, BlueX[N]);
             if (CanMove)
             {
-
-                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] - 1, false));
+                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] - 1, true));
             }
         }
         else
         {
+            
             CanMove = AICanMoves(RedY[N], RedX[N] + 1);
             if (CanMove)
             {
-
                 CanMoves.Add(new KomaIndex(RedX[N] + 1, RedY[N], false));
             }
+          
             CanMove = AICanMoves(RedY[N], RedX[N] - 1);
             if (CanMove)
             {
-
                 CanMoves.Add(new KomaIndex(RedX[N] - 1, RedY[N], false));
             }
             CanMove = AICanMoves(RedY[N] + 1, RedX[N]);
             if (CanMove)
             {
-
                 CanMoves.Add(new KomaIndex(RedX[N], RedY[N] + 1, false));
             }
             CanMove = AICanMoves(RedY[N] - 1, RedX[N]);
             if (CanMove)
             {
-
+           
                 CanMoves.Add(new KomaIndex(RedX[N], RedY[N] - 1, false));
             }
             CanMove = AICanMoves(RedY[N] - 1, RedX[N] - 1);
 
             if (CanMove)
             {
-
+               
                 CanMoves.Add(new KomaIndex(RedX[N] - 1, RedY[N] - 1, false));
             }
             CanMove = AICanMoves(RedY[N] - 1, RedX[N] + 1);
             if (CanMove)
             {
+     
                 CanMoves.Add(new KomaIndex(RedX[N] + 1,     RedY[N] - 1, false));
             }
             CanMove = AICanMoves(RedY[N] + 1, RedX[N] - 1);
             if (CanMove)
             {
-
+       
                 CanMoves.Add(new KomaIndex(RedX[N] - 1, RedY[N] + 1, false));
             }
             CanMove = AICanMoves(RedY[N] + 1, RedX[N] + 1);
             if (CanMove)
             {
-
+     
                 CanMoves.Add(new KomaIndex(RedX[N] + 1, RedY[N] + 1, false));
             }
 
-            CanMove = CanBuild(BlueY[N], BlueX[N] + 1);
+            CanMove = CanBuild(RedY[N], RedX[N] + 1);
             if (CanMove)
             {
-
-                CanMoves.Add(new KomaIndex(BlueX[N] + 1, BlueY[N], false));
+       
+                CanMoves.Add(new KomaIndex(RedX[N] + 1, RedY[N], true));
             }
-            CanMove = CanBuild(BlueY[N], BlueX[N] - 1);
+        
+            CanMove = CanBuild(RedY[N], RedX[N] - 1);
             if (CanMove)
             {
-
-                CanMoves.Add(new KomaIndex(BlueX[N] - 1, BlueY[N], false));
+            
+                CanMoves.Add(new KomaIndex(RedX[N] - 1, RedY[N], true));
             }
-            CanMove = CanBuild(BlueY[N] + 1, BlueX[N]);
+            CanMove = CanBuild(RedY[N] + 1, RedX[N]);
             if (CanMove)
             {
-
-                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] + 1, false));
+             
+                CanMoves.Add(new KomaIndex(RedX[N], RedY[N] + 1, true));
             }
-            CanMove = CanBuild(BlueY[N] - 1, BlueX[N]);
+            CanMove = CanBuild(RedY[N] - 1, RedX[N]);
             if (CanMove)
             {
-
-                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] - 1, false));
+              
+                CanMoves.Add(new KomaIndex(RedX[N], RedY[N] - 1, true));
             }
         }
-   
+
+      
         return CanMoves;
     }
-    public bool CanBuild(int x, int y)
+    public bool CanDestroy(int x , int y ,bool Blue)
     {
-        if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0 )
+        if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0)
         {
             return false;
         }
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
-        if (area.castle || area.Bridge )
+            if ( area.RedWall)
+            {
+                return true;
+            }
+
+        return false;
+        
+
+        
+    }
+    public bool CanBuild(int x, int y)
+    {
+      
+        if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0 )
+        {
+           
+            return false;
+        }
+        area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
+       
+        if (area.castle || area.BlueWall|| area.RedWall)
         {
             return false;
         }
@@ -1065,12 +1184,14 @@ public class KomaCalulator : MonoBehaviour
     }
     public bool AICanMoves(int x, int y)
     {
+    
         if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0)
         {
+         
             return false;
         }
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
-        if (area.Bridge || area.pond || area.BlueWall || area.RedWall)
+        if ( area.pond || area.BlueWall || area.RedWall )
         {
             return false;
         }
@@ -1083,8 +1204,6 @@ public class KomaCalulator : MonoBehaviour
         var CanMoves = new List<KomaIndex>();
         if (Blue)
         {
-          //  Debug.Log(BlueX[N]);
-          //  Debug.Log(BlueY[N]);
             bool CanMove = AICan(ban, BlueX[N] + 1, BlueY[N]);
             if (CanMove)
             {
@@ -1150,6 +1269,7 @@ public class KomaCalulator : MonoBehaviour
         else
         {
            bool CanMove = AIBuild(ban, RedX[N] + 1, RedY[N]);
+        
             if (CanMove)
             {
                 CanMoves.Add(new KomaIndex(RedX[N] + 1, RedY[N], true));
@@ -1219,7 +1339,8 @@ public class KomaCalulator : MonoBehaviour
     
     public bool AICan(int[,] ban,int x , int y)
     {
-        if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0)
+    
+            if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0)
         {
             return false;
         }
@@ -1227,10 +1348,19 @@ public class KomaCalulator : MonoBehaviour
         {
             return false;
         }
+     //   Debug.Log(x);
+     //   Debug.Log(y);
         return true;
     }
+    public int What(int[,] ban , int x , int y )
+    {
+        int X = ban[x, y];
+        return X;
+    }
+  
     public bool AIBuild(int[,] ban, int x, int y)
     {
+
         if (x >= TM.BoardXMax || y >= TM.BoardYMax || x < 0 || y < 0)
         {
             return false;
@@ -1243,7 +1373,7 @@ public class KomaCalulator : MonoBehaviour
     }
     public int[,] Build(int x, int y , int[,] ban , bool Blue)
     {
-        if(ban[x, y] == 10)
+        if (ban[x, y] == 10)
         {
             ban[x ,y] = 0;
         }
@@ -1255,16 +1385,14 @@ public class KomaCalulator : MonoBehaviour
         {
             ban[x, y] = -10;
         }
-      
+    
         return ban;
     }
-    public int[,] Move(int x , int y,int[,] ban ,int N , bool Blue )
-
+    public int[,] Move(int x , int y,int[,] ban ,int N , bool Blue )   
     {
         if (Blue)
         {
             ban[BlueX[N], BlueY[N]] = 0;
-        
         }
         else
         {
@@ -1282,22 +1410,22 @@ public class KomaCalulator : MonoBehaviour
             CanMove = CanBuild(BlueY[N] + 1, BlueX[N]);
             if (CanMove)
             {
-                CanMoves.Add(new KomaIndex(BlueX[N] + 1, BlueY[N], true));
+                CanMoves.Add(new KomaIndex(BlueX[N] , BlueY[N] +1, true));
             }
-            CanMove = CanBuild(BlueY[N] - 1, BlueX[N]);
+            CanMove = CanBuild(BlueY[N] , BlueX[N]);
             if (CanMove)
             {
-                CanMoves.Add(new KomaIndex(BlueX[N] - 1, BlueY[N], true));
+                CanMoves.Add(new KomaIndex(BlueX[N] , BlueY[N] -1, true));
             }
             CanMove = CanBuild(BlueY[N], BlueX[N] + 1);
             if (CanMove)
             {
-                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] + 1, true));
+                CanMoves.Add(new KomaIndex(BlueX[N] +1, BlueY[N] , true));
             }
             CanMove = CanBuild(BlueY[N], BlueX[N] - 1);
             if (CanMove)
             {
-                CanMoves.Add(new KomaIndex(BlueX[N], BlueY[N] - 1, true));
+                CanMoves.Add(new KomaIndex(BlueX[N] -1, BlueY[N] , true));
             }
         }
         else
@@ -1305,22 +1433,22 @@ public class KomaCalulator : MonoBehaviour
             CanMove = CanBuild(RedY[N] + 1, RedX[N]);
             if (CanMove)
             {
-                CanMoves.Add(new KomaIndex(RedX[N] + 1, RedY[N], true));
+                CanMoves.Add(new KomaIndex(RedX[N] , RedY[N] +1, true));
             }
-            CanMove = CanBuild(RedY[N] - 1, RedX[N]);
+            CanMove = CanBuild(RedY[N] -1 , RedX[N]);
             if (CanMove)
             {
-                CanMoves.Add(new KomaIndex(RedX[N] - 1, RedY[N], true));
+                CanMoves.Add(new KomaIndex(RedX[N] , RedY[N] - 1, true));
             }
             CanMove = CanBuild(RedY[N], RedX[N] + 1);
             if (CanMove)
             {
-                CanMoves.Add(new KomaIndex(RedX[N], RedY[N] + 1, true));
+                CanMoves.Add(new KomaIndex(RedX[N] + 1, RedY[N], true));
             }
             CanMove = CanBuild(RedY[N], RedX[N] - 1);
             if (CanMove)
             {
-                CanMoves.Add(new KomaIndex(RedX[N], RedY[N] - 1, true));
+                CanMoves.Add(new KomaIndex(RedX[N] - 1, RedY[N] , true));
             }
 
         }
