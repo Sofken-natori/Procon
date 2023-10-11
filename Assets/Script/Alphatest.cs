@@ -4,6 +4,7 @@ using System.Data;
 using System.Reflection;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
@@ -19,7 +20,6 @@ public class Alphatest : MonoBehaviour
     public TurnManager turnManager;
     [Header("ï]âøä÷êî"), SerializeField] C11 c;
     public KomaIndex[] k = new KomaIndex[12];
-    public KomaIndex[,] Dontroop = new KomaIndex[6, 200];
     public Text txt;
     public bool Move;
     bool F = false;
@@ -28,7 +28,6 @@ public class Alphatest : MonoBehaviour
     int jinti_point = 30;
     int[,] EvaluateMoveStateScore;
     int[,] EvaluateBuildStateScore;
-    int RoopCount = 1;
     private void Start()
     {
         Board = GameObject.Find("BoardBridge");
@@ -39,30 +38,31 @@ public class Alphatest : MonoBehaviour
         EvaluateMoveStateScore = eF.EvaluationA();
         EvaluateBuildStateScore = eF.EvaluationA();
         var CanMoves = new List<KomaIndex>();
-        for (int N = 0; N < turnManager.RedBridges.transform.childCount; N++)
-        {
-            Dontroop[N ,RoopCount - 1] = new KomaIndex(0, 0, true);
-        }
+     
     }
-        //   komaCalulator.AIBlueTurn = true;
-          /*  {  1 , 1,   1,   1 ,  1 ,  1 ,  1 ,  10 ,  10 ,  10 ,  -1 },
-            { 1 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  10 ,  20 ,  30 ,  -1 },
-            { 1 ,  0  , 0  , 10 ,  0 ,  0 ,  0 ,  10 ,  30 ,  20 ,  30 },
-            { 1 ,  0 ,  0 ,  0 ,  -1 ,  -1 ,  -1 ,  20,   -1 ,  30,   10 },
-            { 1   ,0 ,  0 ,  -1 ,  -1 ,  20 ,  -1 ,  10 ,  -1 ,  10 ,  1 },
-            { 1  , 0  , -1 ,  -1 ,  20 ,  20 ,  20 ,  -1 ,  -1 ,  0 ,  1 },
-            { 1  , 0 ,  -1 ,  10,      -1,   20  , -1 ,  -1,   0 ,  0 ,  1 },
-            { 1  , 30  , -1 ,  20 ,  10 ,  1 ,  -1 , 0,   0 ,  0 ,  1 },
-            { 30 ,  20 ,   30 ,  10  , 0 ,  0 ,  0 ,  0  , 0 ,  0 ,  1 },
-            { -1 , 30 ,  5 ,  0  , 0 ,  0 ,  0 ,  0 ,  0  , 0 ,  1 },
-            { -1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1  , 1 ,  1 },
-          */
+    private void Update()
+    {
+      
+    }
+    //   komaCalulator.AIBlueTurn = true;
+    /*  {  1 , 1,   1,   1 ,  1 ,  1 ,  1 ,  10 ,  10 ,  10 ,  -1 },
+      { 1 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  10 ,  20 ,  30 ,  -1 },
+      { 1 ,  0  , 0  , 10 ,  0 ,  0 ,  0 ,  10 ,  30 ,  20 ,  30 },
+      { 1 ,  0 ,  0 ,  0 ,  -1 ,  -1 ,  -1 ,  20,   -1 ,  30,   10 },
+      { 1   ,0 ,  0 ,  -1 ,  -1 ,  20 ,  -1 ,  10 ,  -1 ,  10 ,  1 },
+      { 1  , 0  , -1 ,  -1 ,  20 ,  20 ,  20 ,  -1 ,  -1 ,  0 ,  1 },
+      { 1  , 0 ,  -1 ,  10,      -1,   20  , -1 ,  -1,   0 ,  0 ,  1 },
+      { 1  , 30  , -1 ,  20 ,  10 ,  1 ,  -1 , 0,   0 ,  0 ,  1 },
+      { 30 ,  20 ,   30 ,  10  , 0 ,  0 ,  0 ,  0  , 0 ,  0 ,  1 },
+      { -1 , 30 ,  5 ,  0  , 0 ,  0 ,  0 ,  0 ,  0  , 0 ,  1 },
+      { -1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1  , 1 ,  1 },
+    */
 
 
 
 
 
-  
+
     /* { 0 ,  0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0,  1 },
       {   0 ,   0 , 0 , 0 , 0 , 0 , 0 , 0 , 2 , 50,  -1 },
       {   0 ,   0 , 0 , 0 , 0 , 0 , 0 , 0 , 50 , 2,  50},
@@ -77,14 +77,14 @@ public class Alphatest : MonoBehaviour
     */
 
 
-       
+
 
     public int EvaluateBuildStates(int[,] ban)
     {
         // ban = komaCalulator.AIScoreCheck(ban);
         var myscore = 0;
         var enemyscore = 0;
-        for (int n = 0; n < turnManager.BlueBridges.transform.childCount; n++)
+     /*   for (int n = 0; n < turnManager.BlueBridges.transform.childCount; n++)
         {
             myscore += EvaluateMoveStateScore[komaCalulator.BlueX[n], komaCalulator.BlueY[n]];
           
@@ -94,16 +94,16 @@ public class Alphatest : MonoBehaviour
             enemyscore += EvaluateMoveStateScore[komaCalulator.RedX[n], komaCalulator.RedY[n]];
 
         }
-      
-       
-       
+     */
 
+
+      //  Debug.Log(EvaluateMoveStateScore[0, 0]);
         komaCalulator.AIAreaCheckBlue(ban);
         ///komaCalulator.AIAreaCheckRed(ban);
-       txt.text = "";
+     
         for (int y = 0; y < turnManager.BoardYMax; y++)
         {
-            txt.text += "\n";
+           
             for (int x = 0; x < turnManager.BoardXMax; x++)
             {
                 // Debug.Log(myscore);
@@ -138,13 +138,29 @@ public class Alphatest : MonoBehaviour
                     enemyscore += jinti_point + Banscore;
                     myscore += jinti_point + Banscore;
                 }
-                txt.text += ban[x, y].ToString() + "  ";
+              
 
             }
 
         }
     //   Debug.Log(myscore);
         return myscore - enemyscore;
+    }
+    public int EvaluateMoveStates(int[,] ban ,int x ,int y , int Z)
+    {
+        var myscore = 0;
+        var enemyscore = 0;
+        var Banscore = EvaluateBuildStateScore[x, y];
+        if ( Z == 130)
+        {
+            myscore -= 5 + Banscore;
+        }
+        if (Z == 0)
+        {
+            myscore += 9 + Banscore;
+        }
+         
+            return myscore -enemyscore;
     }
     public void AlphaBeta(int depth, int[,] ban, int N, bool Bule)
     {
@@ -166,27 +182,19 @@ public class Alphatest : MonoBehaviour
             var Ban = ban;
             if (putkomaStateIndex.Build == true)
             {
-              
+                X = komaCalulator.What(Ban, putkomaStateIndex.X, putkomaStateIndex.Y);
                 Ban = komaCalulator.Build(putkomaStateIndex.X, putkomaStateIndex.Y, ban, Bule);
                 Buildscore = GetAllCanMoveSearch(Ban, depth - 1, alphaB, beta, 0, !Bule);
-               
-                    if (Dontroop[N, RoopCount - 1] == putkomaStateIndex)
-                    {
-                    Debug.Log("fdfyyffuyf");
-                        continue;
-                    }
-                
                 if (alphaB < Buildscore)
                     {
                         alphaB = Buildscore;
                         resultPutIndex = putkomaStateIndex;
                         max = Buildscore;
                     }
-                
             }
             if (putkomaStateIndex.Build == false)
             {
-                
+                X = komaCalulator.What(Ban, putkomaStateIndex.X, putkomaStateIndex.Y);
                 Ban = komaCalulator.Move(putkomaStateIndex.X, putkomaStateIndex.Y, ban, N, Bule);
                 if (Bule)
                 {
@@ -199,13 +207,8 @@ public class Alphatest : MonoBehaviour
                     komaCalulator.RedX[N] = putkomaStateIndex.X;
                     komaCalulator.RedY[N] = putkomaStateIndex.Y;
                 }
-                score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, !Bule);
-               
-                    if (Dontroop[N, RoopCount - 1] == putkomaStateIndex)
-                    {
-                    Debug.Log(RoopCount);
-                    continue;
-                    }
+                // score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, !Bule);
+                score = EvaluateMoveStates(Ban ,putkomaStateIndex.X , putkomaStateIndex.Y , X);
                 
                 if (alpha < score)
                 {
@@ -240,7 +243,8 @@ public class Alphatest : MonoBehaviour
         {
             
             turnManager.BuildAndDestroyBridge(resultDestoryIndex.Y, resultDestoryIndex.X);
-            Dontroop[N, RoopCount] = resultDestoryIndex;
+            turnManager.Dontroop[N] = resultDestoryIndex;
+           
             for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
             {
                 GameObject komaR = turnManager.RedBridges.transform.GetChild(n).gameObject;
@@ -253,7 +257,7 @@ public class Alphatest : MonoBehaviour
                 komaCalulator.BlueY[n] = komaCalulator.bb[n].BoardY;
 
             }
-            RoopCount++;
+         //   RoopCount++;
         }
         else
         {
@@ -277,16 +281,13 @@ public class Alphatest : MonoBehaviour
 
                     GameObject koma = turnManager.BlueBridges.transform.GetChild(N).gameObject;
                     koma.transform.position = turnManager.MoveBridge(resultKomaIndex.Y, resultKomaIndex.X);
+                  
                     komaCalulator.BlueX[N] = resultKomaIndex.X;
                     komaCalulator.BlueY[N] = resultKomaIndex.Y;
                     komaCalulator.bb[N].BoardX = resultKomaIndex.X;
                     komaCalulator.bb[N].BoardY = resultKomaIndex.Y;
-                 //   Dontroop[N, RoopCount] = resultKomaIndex;
-                
-                 //   Debug.Log(Dontroop[0, RoopCount-1].X);
-                 //   Debug.Log(Dontroop[0, RoopCount-1].Y);
-
-                    RoopCount++;
+                    turnManager.Dontroop[N] = resultKomaIndex;
+      
                 }
                 if (!Bule)
                 {
@@ -318,6 +319,7 @@ public class Alphatest : MonoBehaviour
             {
 
                 turnManager.BuildAndDestroyBridge(resultPutIndex.Y, resultPutIndex.X);
+                   turnManager.Dontroop[N] = resultKomaIndex;
                 for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
                 {
                     GameObject komaR = turnManager.RedBridges.transform.GetChild(n).gameObject;
@@ -330,6 +332,7 @@ public class Alphatest : MonoBehaviour
                     komaCalulator.BlueY[n] = komaCalulator.bb[n].BoardY;
 
                 }
+               // RoopCount++;
             }
         }
 

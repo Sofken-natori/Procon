@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Networking.Match;
 using System.Runtime;
 using System.Runtime.Serialization;
+using Koma;
 
 public class TurnManager : MonoBehaviour
 {
@@ -45,11 +46,15 @@ public class TurnManager : MonoBehaviour
     int BridgeActCount = 0;
     int BridgestandbyCount = 0;
     public int NowTurn = 0;
+    public KomaIndex[] Dontroop = new KomaIndex[6];
     TextAsset csvFile;
 
      void Start()
     {
-      
+        for (int N = 0; N < BlueBridges.transform.childCount; N++)
+        {
+            Dontroop[N] = new KomaIndex(0, 0, true);
+        }
     }
     void Awake()
     {
@@ -314,8 +319,8 @@ public class TurnManager : MonoBehaviour
             }
         }
 
-        Debug.Log("BlueScore:" + BlueScore);
-        Debug.Log("RedScore:" + RedScore);
+       // Debug.Log("BlueScore:" + BlueScore);
+       // Debug.Log("RedScore:" + RedScore);
     }
 
     public void CallBridgeRester()
@@ -371,7 +376,7 @@ public class TurnManager : MonoBehaviour
             {
 
                 int[,] Ban = komaCalulator.AIBanState();
-               // alpha.AlphaBeta(1, Ban, 0, true);
+               //alpha.AlphaBeta(1, Ban, 0, true);
                for (int N = 0; N < RedBridges.transform.childCount; N++)
                 {
                     alpha.AlphaBeta(1, Ban, N, true);
