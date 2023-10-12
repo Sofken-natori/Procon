@@ -67,10 +67,8 @@ public class TurnManager : MonoBehaviour
 
         ConnectArea();
 
-        Debug.Log("PieceDeployed");
         csvFile = Resources.Load("CSV/" + MapCSV) as TextAsset;
         StringReader reader = new StringReader(csvFile.text);
-        Debug.Log("CSVReaded");
 
         while (reader.Peek() != -1)
         {
@@ -78,13 +76,11 @@ public class TurnManager : MonoBehaviour
             MapData.Add(line.Split(','));
         }
 
-        Debug.Log("MapDataDeployed");
 
         CallAreaDeployer();
-        Debug.Log("AreaDeployed");
         PieceNumber /= 2;
         UntapPhase = true;
-        Debug.Log("----------------------------------------------------InitEnd----------------------------------------------------");
+     
     }
 
     // Update is called once per frame
@@ -101,6 +97,7 @@ public class TurnManager : MonoBehaviour
                 NowTurn++;
             }
             Debug.Log("TurnChange");
+            CallPostMatchInfo(postInfo);
             CallAreaLeakChecker(true);
             CallAreaLeakChecker(false);
             CallSiegeAreaChecker(true);
@@ -150,7 +147,6 @@ public class TurnManager : MonoBehaviour
             CallAreaApply(matchInfo);
             CallMatchesInfoGet(id);
             GetBridgeMoves();
-            CallPostMatchInfo(postInfo);
         }
     }
 
@@ -217,6 +213,7 @@ public class TurnManager : MonoBehaviour
 
         else
         {
+            
             return true;
         }
     }
@@ -390,6 +387,18 @@ public class TurnManager : MonoBehaviour
     {
         InfoConnector infoConnector = new InfoConnector();
         matchInfo = await infoConnector.GetMatchInfo(id);
+        NowTurn = matchInfo.turn;
+        foreach (Log item in matchInfo.logs)
+        {
+            string log = "turn:" + item.turn;
+
+            foreach (Action action in item.actions)
+            {
+                log += " Type:" + action.type + " Direction:" + action.dir + " Success:" + action.succeeded;
+            }
+
+            Debug.Log(log);
+        }
     }
 
     public async void CallMatchesInfoGet(int id)

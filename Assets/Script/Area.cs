@@ -181,12 +181,10 @@ public class Area : MonoBehaviour
 
             case "a":
                 TM.BridgeDeployer(true,ThisPosY,ThisPosX);
-                Debug.Log("BridgeDeployed");
                 return;
                 
             case "b":
                 TM.BridgeDeployer(false,ThisPosY,ThisPosX);
-                Debug.Log("BridgeDeployed");
                 return;
             
             default:
@@ -348,7 +346,7 @@ public class Area : MonoBehaviour
                 castle = true;
                 break;
             default:
-                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.walls[ThisPosY, ThisPosX]);
+                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.structures[ThisPosX, ThisPosY]);
                 break;
         }
 
@@ -361,7 +359,7 @@ public class Area : MonoBehaviour
                 {
                     BridgeButtonManager bbm = BlueBridges.transform.GetChild(board.masons[ThisPosX, ThisPosY] - 1).GetComponent<BridgeButtonManager>();
                     bbm.BridgeApplyer(ThisPosX,ThisPosY);
-                    bbm.BridgeID = board.masons[ThisPosX, ThisPosY];
+                    bbm.BridgeID = Mathf.Abs(board.masons[ThisPosX, ThisPosY]) - 1;
                     break;
                 }
 
@@ -369,12 +367,12 @@ public class Area : MonoBehaviour
                 {
                     BridgeButtonManager bbm = RedBridges.transform.GetChild((board.masons[ThisPosX,ThisPosY] * -1) - 1).GetComponent<BridgeButtonManager>();
                     bbm.BridgeApplyer(ThisPosX, ThisPosY);
-                    bbm.BridgeID = board.masons[ThisPosX, ThisPosY];
+                    bbm.BridgeID = Mathf.Abs(board.masons[ThisPosX, ThisPosY]) - 1;
                     break;
                 }
         }       
 
-        switch(board.walls[ThisPosY, ThisPosX])
+        switch(board.walls[ThisPosX, ThisPosY])
         {
             case 0:
                 BlueWall = false;
@@ -389,12 +387,12 @@ public class Area : MonoBehaviour
                 RedWall = true;
                 break;
             default:
-                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.walls[ThisPosY, ThisPosX]);
+                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.walls[ThisPosX, ThisPosY]);
                 break;
 
         }
 
-        switch(board.territories[ThisPosY, ThisPosX])
+        switch(board.territories[ThisPosX, ThisPosY])
         {
             case 0:
                 BlueArea = false;
@@ -413,7 +411,7 @@ public class Area : MonoBehaviour
                 RedArea = true;
                 break;
             default:
-                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.territories[ThisPosY, ThisPosX]);
+                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.territories[ThisPosX, ThisPosY]);
                 break;
         }
         return;

@@ -16,12 +16,12 @@ public class BridgeButtonManager : MonoBehaviour
     [Header("駒のY位置")]public int BoardY;
     // 0:滞在,1:移動,2:建造,3:移動
     [Header("行動の種類")]public int ActionType;
-    // 0:無方向,1左上,2上,3右上,4.右,5.右下,6.下,7.左下,8.左
+    // 0: 無方向, 1: 左上, 2: 上, 3: 右上, 4: 右, 5: 右下, 6: 下, 7: 左下, 8: 左
     [Header("移動方向")]public int MoveDirection;
     
     
     bool CanMove = false;
-    [System.NonSerialized]public int BridgeID = -1;
+    public int BridgeID = -1;
     public Button ButtonIntaract;
     public TurnManager TM;
     
@@ -225,8 +225,8 @@ public class BridgeButtonManager : MonoBehaviour
         BuildAndDestroyArrow.SetActive(false);
         BridgeRester();
         ButtonIntaract.interactable = false;
-        TM.BuildAndDestroyBridge(BoardY-1, BoardX);
-        
+        TM.BuildAndDestroyBridge(BoardY-1, BoardX, BridgeID);
+        MoveDirection = 2;
     }
 
     public void BuildAndDestroyBackward()
@@ -235,7 +235,8 @@ public class BridgeButtonManager : MonoBehaviour
         BuildAndDestroyArrow.SetActive(false);
         BridgeRester();
         ButtonIntaract.interactable = false;
-        TM.BuildAndDestroyBridge(BoardY+1, BoardX);
+        TM.BuildAndDestroyBridge(BoardY+1, BoardX, BridgeID);
+        MoveDirection = 6;
     }
 
     public void BuildAndDestroyRight()
@@ -244,7 +245,8 @@ public class BridgeButtonManager : MonoBehaviour
         BuildAndDestroyArrow.SetActive(false);
         BridgeRester();
         ButtonIntaract.interactable = false;
-        TM.BuildAndDestroyBridge(BoardY, BoardX+1);
+        TM.BuildAndDestroyBridge(BoardY, BoardX+1, BridgeID);
+        MoveDirection = 4;
     }
 
     public void BuildAndDestroyLeft()
@@ -253,7 +255,8 @@ public class BridgeButtonManager : MonoBehaviour
         BuildAndDestroyArrow.SetActive(false);
         BridgeRester();
         ButtonIntaract.interactable = false;
-        TM.BuildAndDestroyBridge(BoardY, BoardX-1);
+        TM.BuildAndDestroyBridge(BoardY, BoardX-1, BridgeID);
+        MoveDirection = 8;
     }
 
     public void BridgeRester()
