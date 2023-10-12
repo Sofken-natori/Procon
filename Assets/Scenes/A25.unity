@@ -123,36 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &67055848
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 67055849}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &67055849
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 67055848}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 796.8043, y: -221.69107, z: -96.20601}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 574667206}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &96675547
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -595,36 +565,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 305469019}
   m_CullTransparentMesh: 1
---- !u!1 &361345046
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 361345047}
-  m_Layer: 0
-  m_Name: GameObject (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &361345047
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 361345046}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 796.8043, y: -221.69107, z: -96.20601}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 574667206}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &379775836
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1051,8 +991,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 361345047}
-  - {fileID: 67055849}
+  - {fileID: 935138049}
+  - {fileID: 2103619927}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2634,11 +2574,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1851399146}
   - component: {fileID: 1851399147}
-  - component: {fileID: 1851399149}
-  - component: {fileID: 1851399148}
-  - component: {fileID: 1851399151}
-  - component: {fileID: 1851399150}
-  - component: {fileID: 1851399152}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -2712,157 +2647,12 @@ MonoBehaviour:
   AreaScore: 30
   WallScore: 10
   CastleScore: 100
-  BlueBridges: {fileID: 361345046}
-  RedBridges: {fileID: 67055848}
+  BlueBridges: {fileID: 935138048}
+  RedBridges: {fileID: 2103619926}
   BlueScore: 0
   RedScore: 0
   UntapPhase: 0
   TurnEnd: 0
-  NowTurn: 0
---- !u!114 &1851399148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1851399145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b62b09359c41ba947b7363dce00069c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turnManager: {fileID: 0}
-  c: {fileID: 0}
-  txt: {fileID: 0}
-  Move: 0
---- !u!114 &1851399149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1851399145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bcd20f50537da646a078976873bcc61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obj: {fileID: 0}
-  txt: {fileID: 0}
-  AIBlueTurn: 0
-  PlayerCount: 0
-  BBB: {fileID: 0}
-  bbb:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  BB:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  RedX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  RedY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BlueY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BlueX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BanX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BanY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  bb: []
---- !u!114 &1851399150
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1851399145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bcd20f50537da646a078976873bcc61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obj: {fileID: 0}
-  txt: {fileID: 0}
-  AIBlueTurn: 1
-  PlayerCount: 0
-  BBB: {fileID: 0}
-  bbb:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  BB:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  RedX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  RedY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BlueY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BlueX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BanX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BanY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  bb: []
---- !u!114 &1851399151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1851399145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9ad857632aa245459713f930cd3330f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turnManager: {fileID: 0}
-  c: {fileID: 0}
-  txt: {fileID: 0}
-  Move: 0
---- !u!114 &1851399152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1851399145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8986c9852081e3419b6f7832ed7cf59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2086295267
 PrefabInstance:
   m_ObjectHideFlags: 0

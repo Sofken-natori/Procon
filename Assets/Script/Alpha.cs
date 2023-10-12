@@ -16,7 +16,6 @@ public class Alpha : MonoBehaviour
     GameObject TM;
     KomaCalulator komaCalulator;
     public TurnManager turnManager;
-    [Header("ï]âøä÷êî"), SerializeField] C11 c; 
     public KomaIndex[] k = new KomaIndex[12];
     public Text txt;
     public bool Move;
@@ -62,24 +61,23 @@ public class Alpha : MonoBehaviour
       };
 
 
-    public int EvaluateBuildStates(int[,] ban)
+    public int EvaluateBuildStates(int[,] ban, int N)
     {
         // ban = komaCalulator.AIScoreCheck(ban);
       
         var myscore = 0;
         var enemyscore = 0;
-        for (int n = 0; n < turnManager.BlueBridges.transform.childCount ; n++)
+        for (int n = 0; n < turnManager.BlueBridges.transform.childCount; n++)
         {
             myscore += EvaluateMoveStateScore[komaCalulator.BlueX[n], komaCalulator.BlueY[n]];
         }
-        for (int n = 0; n < turnManager.RedBridges.transform.childCount ; n++)
+        for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
         {
             enemyscore += EvaluateMoveStateScore[komaCalulator.RedX[n], komaCalulator.RedY[n]];
 
         }
         // komaCalulator.
-        komaCalulator.AIAreaCheckBlue(ban);
-        komaCalulator.AIAreaCheckRed(ban);
+        // komaCalulator.AIAreaCheckBlue(ban);
         for (int y = 0; y < turnManager.BoardYMax; y++)
         {
             
@@ -95,40 +93,31 @@ public class Alpha : MonoBehaviour
                 {
                     myscore += jinti_point + Banscore;
                 }
-                else if (ban[x, y] == -10)
+                if (ban[x, y] == -10)
                 {
                     enemyscore += bluekoma_point + Banscore;
                 }
-                else if (ban[x, y] == -30)
+                if (ban[x, y] == -30)
                 {
                     enemyscore += jinti_point + Banscore;
                 }
-                else if (ban[x, y] == 130)
+                if (ban[x, y] == 130)
                 {
                     myscore += castle + Banscore;
                 }
-                else if (ban[x, y] == -130)
+                if (ban[x, y] == -130)
                 {
                     enemyscore += castle;
                 }
-                else if (ban[x, y] == 15)
-                {
-                    enemyscore += jinti_point + Banscore;
-                    myscore += jinti_point + Banscore;
-                }
-                
                
             }
 
         }
-     // Debug.Log(myscore);
+       // Debug.Log(myscore);
         return myscore - enemyscore;
     }
 
-    public void Update()
-    {
-      
-    }
+
     public void AlphaBeta(int depth, int[,] ban, int N, bool Bule)
     {
       
@@ -140,13 +129,11 @@ public class Alpha : MonoBehaviour
         var canMovekoma = komaCalulator.GetCanMoveIndex(N, Bule);
         foreach (var putkomaStateIndex in canMovekoma)
         {
-            int X = 0;
             var Ban = ban;
             if (putkomaStateIndex.Build == true)
             {
-                
                 Ban = komaCalulator.Build(putkomaStateIndex.X, putkomaStateIndex.Y, ban, Bule);
-                Buildscore = GetAllCanMoveSearch(Ban, depth - 0, alpha, beta, N, true);
+                Buildscore = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, N, true);
                 if (alpha < Buildscore)
                 {
                     alpha = Buildscore;
@@ -174,10 +161,6 @@ public class Alpha : MonoBehaviour
             {
                 alpha = score;
                 resultKomaIndex = putkomaStateIndex;
-            }
-            if(putkomaStateIndex.Build == true)
-            {
-                Ban[putkomaStateIndex.X, putkomaStateIndex.Y] = X;
             }
         }
         
@@ -233,7 +216,7 @@ public class Alpha : MonoBehaviour
         else
         {
             turnManager.BuildAndDestroyBridge(resultKomaIndex.Y, resultKomaIndex.X);
-            for (int n = 0; n < turnManager.RedBridges.transform.childCount - 1; n++)
+            for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
             {
                 GameObject komaR = turnManager.RedBridges.transform.GetChild(n).gameObject;
                 GameObject komaB = turnManager.BlueBridges.transform.GetChild(n).gameObject;
@@ -243,7 +226,6 @@ public class Alpha : MonoBehaviour
                 komaCalulator.bb[n] = komaB.GetComponent<BridgeButtonManager>();
                 komaCalulator.BlueX[n] = komaCalulator.bb[n].BoardX;
                 komaCalulator.BlueY[n] = komaCalulator.bb[n].BoardY;
-
             }
         }
     
@@ -251,23 +233,21 @@ public class Alpha : MonoBehaviour
     public int GetAllCanMoveSearch(int[,] ban, int depth, int alpha, int beta, int N, bool First)
     {
         
-        if (depth == 0) return EvaluateBuildStates(ban);
+        if (depth == 0) return EvaluateBuildStates(ban, N);
         var MaxScore = 0;
         komaCalulator.AIBlueTurn = !komaCalulator.AIBlueTurn;
         var canMovekoma = komaCalulator.BanCanMove(ban, N, komaCalulator.AIBlueTurn);                                                                         //  var canMovekoma = komaCalulator.BanCanBuild(ban,  N);
         foreach (var putkomaStateIndex in canMovekoma)
         {
-            int A = 0;
             var Ban = ban;
             if (putkomaStateIndex.Build == true)
             {
-                
-                Ban = komaCalulator.Build(putkomaStateIndex.X, putkomaStateIndex.Y, ban, komaCalulator.AIBlueTurn );
+                Ban = komaCalulator.Build(putkomaStateIndex.X, putkomaStateIndex.Y, ban, komaCalulator.AIBlueTurn);
                
             }
             else
             {
-                Ban = komaCalulator.Move(putkomaStateIndex.X, putkomaStateIndex.Y, ban, N, komaCalulator.AIBlueTurn );
+                Ban = komaCalulator.Move(putkomaStateIndex.X, putkomaStateIndex.Y, ban, N, komaCalulator.AIBlueTurn);
                 if (komaCalulator.AIBlueTurn)
                 {
                     komaCalulator.BlueX[N] = putkomaStateIndex.X;
@@ -284,9 +264,7 @@ public class Alpha : MonoBehaviour
             var childMovekoma = komaCalulator.BanCanMove(ban, N +1, komaCalulator.AIBlueTurn);
             foreach (var child in childMovekoma)
             {
-               
-                
-                int B = 0;
+
                 if (child.Build == true)
                 {
                     Ban = komaCalulator.Build(child.X, child.Y, ban, komaCalulator.AIBlueTurn);
@@ -313,9 +291,6 @@ public class Alpha : MonoBehaviour
                     var ChildKoma1 = komaCalulator.BanCanMove(ban, N +2 , komaCalulator.AIBlueTurn);
                     foreach (var childKoma1 in ChildKoma1)
                     {
-                        Debug.Log(childKoma1.X);
-                        Debug.Log(childKoma1.Y);
-                        int C = 0;
                         if (childKoma1.Build == true)
                         {
                             Ban = komaCalulator.Build(childKoma1.X, childKoma1.Y, ban, komaCalulator.AIBlueTurn);
@@ -343,14 +318,13 @@ public class Alpha : MonoBehaviour
                             var ChildKoma3 = komaCalulator.BanCanMove(ban, N + 3, komaCalulator.AIBlueTurn);
                             foreach (var childKoma3 in ChildKoma3)
                             {
-                                int D = 0;
                                 if (childKoma3.Build == true)
                                 {
                                     Ban = komaCalulator.Build(childKoma3.X, childKoma3.Y, ban, komaCalulator.AIBlueTurn);
                                 }
                                 else
                                 {
-                                    Ban = komaCalulator.Move(childKoma3.X, childKoma3.Y, ban, N +3, komaCalulator.AIBlueTurn);
+                                    Ban = komaCalulator.Move(childKoma3.X, childKoma3.Y, ban, N, komaCalulator.AIBlueTurn);
                                     if (komaCalulator.AIBlueTurn)
                                     {
                                         komaCalulator.BlueX[N + 3] = childKoma3.X;
@@ -368,14 +342,13 @@ public class Alpha : MonoBehaviour
                                     var ChildKoma4 = komaCalulator.BanCanMove(ban, N + 4, komaCalulator.AIBlueTurn);
                                     foreach (var childKoma4 in ChildKoma4)
                                     {
-                                        int E = 0;
                                         if (childKoma4.Build == true)
                                         {
                                             Ban = komaCalulator.Build(childKoma4.X, childKoma4.Y, ban, komaCalulator.AIBlueTurn);
                                         }
                                         else
                                         {
-                                            Ban = komaCalulator.Move(childKoma4.X, childKoma4.Y, ban, N +4, komaCalulator.AIBlueTurn);
+                                            Ban = komaCalulator.Move(childKoma4.X, childKoma4.Y, ban, N, komaCalulator.AIBlueTurn);
                                             if (komaCalulator.AIBlueTurn)
                                             {
                                                 komaCalulator.BlueX[N + 4] = childKoma4.X;
@@ -393,14 +366,13 @@ public class Alpha : MonoBehaviour
                                             var ChildKoma5 = komaCalulator.BanCanMove(ban, N + 5, komaCalulator.AIBlueTurn);
                                             foreach (var childKoma5 in ChildKoma5)
                                             {
-                                                int F = 0;
                                                 if (childKoma5.Build == true)
                                                 {
                                                     Ban = komaCalulator.Build(childKoma5.X, childKoma5.Y, ban, komaCalulator.AIBlueTurn);
                                                 }
                                                 else
                                                 {
-                                                    Ban = komaCalulator.Move(childKoma5.X, childKoma5.Y, ban, N +5, komaCalulator.AIBlueTurn);
+                                                    Ban = komaCalulator.Move(childKoma5.X, childKoma5.Y, ban, N, komaCalulator.AIBlueTurn);
                                                     if (komaCalulator.AIBlueTurn)
                                                     {
                                                         komaCalulator.BlueX[N + 5] = childKoma5.X;
@@ -414,15 +386,11 @@ public class Alpha : MonoBehaviour
                                                 }
                                                 ban = Ban;
                                                 var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, true);
-
                                                 if (score > beta)
                                                 {
-                                                    MaxScore = score;
+                                                    MaxScore = beta;
                                                 }
-                                                if (childKoma5.Build)
-                                                {
-                                                    Ban[childKoma5.X, childKoma5.Y] = F;
-                                                }
+                                                Ban[childKoma5.X, childKoma5.Y] = 0;
                                             }
                                         }
 
@@ -435,10 +403,7 @@ public class Alpha : MonoBehaviour
                                             }
 
                                         }
-                                        if (childKoma4.Build)
-                                        {
-                                            Ban[childKoma4.X, childKoma4.Y] = 0;
-                                        }
+                                        Ban[childKoma4.X, childKoma4.Y] = 0;
                                     }
                                 }
                                 else
@@ -446,25 +411,17 @@ public class Alpha : MonoBehaviour
                                     var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, true);
                                     if (score > beta)
                                     {
-                                        MaxScore = score;
+                                        MaxScore = beta;
                                     }
 
                                 }
-                                if (childKoma3.Build)
-                                {
-                                    Ban[childKoma3.X, childKoma3.Y] = 0;
-                                }
+                                Ban[childKoma3.X, childKoma3.Y] = 0;
                             }
                             
                         }
                         else
                         {
                             var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, true);
-                            if (childKoma1.Build == true)
-                            {
-                                F = true;
-                                Ban[childKoma1.X, childKoma1.Y] = 0;
-                            }
                             if (score > beta && F == true) return score;
 
                             if (score > beta)
@@ -476,7 +433,8 @@ public class Alpha : MonoBehaviour
                             MaxScore = Mathf.Max(MaxScore, score);
                            
                         }
-                       
+                         F = true;
+                        Ban[childKoma1.X, childKoma1.Y] = 0;
                     }
                        
                     }
@@ -495,13 +453,11 @@ public class Alpha : MonoBehaviour
                    
                     }
                   F = true;
-                if (child.Build == true)
-                {
-                    Ban[child.X, child.Y] = B;
-                }
+
+                Ban[child.X, child.Y] = 0;
                
             }
-            Ban[putkomaStateIndex.X, putkomaStateIndex.Y] = A;
+            Ban[putkomaStateIndex.X, putkomaStateIndex.Y] = 0;
         }
         return MaxScore;
     }

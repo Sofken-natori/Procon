@@ -120,7 +120,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: BuildAndDestroyLeft
         m_Mode: 1
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: MoveArrowVisible
         m_Mode: 1
@@ -543,7 +543,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: MoveBackwardBridge
         m_Mode: 1
@@ -675,7 +675,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: MoveRightBridge
         m_Mode: 1
@@ -807,7 +807,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: MoveLeftBackwardBridge
         m_Mode: 1
@@ -939,7 +939,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: MoveForwardBridge
         m_Mode: 1
@@ -1071,7 +1071,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: MoveRightForwardBridge
         m_Mode: 1
@@ -1246,7 +1246,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: MoveLeftBridge
         m_Mode: 1
@@ -1378,7 +1378,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: MoveLeftForwardBridge
         m_Mode: 1
@@ -1510,7 +1510,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: MoveRightBackwardBridge
         m_Mode: 1
@@ -1800,7 +1800,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: BuildAndDestroyBackward
         m_Mode: 1
@@ -1932,7 +1932,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: BuildAndDestroyForward
         m_Mode: 1
@@ -2065,7 +2065,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: BuildAndDestroyArrowVisible
         m_Mode: 1
@@ -2236,7 +2236,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4080288199169958094}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: BridgeButtonManager, Assembly-CSharp
         m_MethodName: BuildAndDestroyRight
         m_Mode: 1
