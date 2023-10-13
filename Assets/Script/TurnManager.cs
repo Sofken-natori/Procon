@@ -56,12 +56,12 @@ public class TurnManager : MonoBehaviour
     PostInfo postInfo;
 
      void Start()
-    {
+     {
         for (int N = 0; N < BlueBridges.transform.childCount; N++)
         {
             Dontroop[N] = new KomaIndex(0, 0, true);
         }
-    }
+     }
     void Awake()
     {
 
@@ -92,12 +92,16 @@ public class TurnManager : MonoBehaviour
 
         if (BridgeActCount >= PieceNumber)
         {
-            if (!BlueTurn)
+            if (BlueTurn)
             {
+                if (host)
+                {
+                    GetBridgeMoves();
+                    CallPostMatchInfo(postInfo);
+                }
                 NowTurn++;
             }
             Debug.Log("TurnChange");
-            CallPostMatchInfo(postInfo);
             CallAreaLeakChecker(true);
             CallAreaLeakChecker(false);
             CallSiegeAreaChecker(true);
@@ -146,7 +150,6 @@ public class TurnManager : MonoBehaviour
             CallMatchInfoGet(id);
             CallAreaApply(matchInfo);
             CallMatchesInfoGet(id);
-            GetBridgeMoves();
         }
     }
 
@@ -201,6 +204,27 @@ public class TurnManager : MonoBehaviour
                 RedBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 2;
             }
         }
+
+        if(n > -1)
+        {
+            BridgeButtonManager b = BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>();
+
+            if ((b.BeforeBoardX - x == 0 && b.BeforeBoardY - y <= -1) || (b.BeforeBoardX - y == 0 && b.BeforeBoardY - x <= -1))
+                b.MoveDirection = 2;
+
+            else if ((b.BeforeBoardX - x >= 1 && b.BeforeBoardY - y == 0) || (b.BeforeBoardX - y >= 1 && b.BeforeBoardY - x == 0))
+                b.MoveDirection = 4;
+
+            else if ((b.BeforeBoardX - x == 0 && b.BeforeBoardY - y >= 1) || (b.BeforeBoardX - y == 0 && b.BeforeBoardY - x >= 1))
+                b.MoveDirection = 6;
+
+            else if ((b.BeforeBoardX - x <= -1 && b.BeforeBoardY - y == 0) || (b.BeforeBoardX - y <= -1 && b.BeforeBoardY - x == 0))
+                b.MoveDirection = 8;
+
+            else
+                Debug.Log("BeforeBoardX - x:" + (b.BeforeBoardX - x) + "BeforeBoardY - y:" + (b.BeforeBoardY - y) + "\n" + n + "個目の駒が" + x + "," + y + "に建築及び破壊したかったけど建築および破壊できなかった。");
+            
+        }
     }
 
     public bool CanMove(int x, int y)
@@ -224,10 +248,46 @@ public class TurnManager : MonoBehaviour
         square = this.transform.GetChild(x).GetChild(y);
         area = square.GetComponent<Area>();
         area.Bridge = true;
-        if(n > -1)
+        if (n > -1)
         {
+            BridgeButtonManager b = BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>();
             BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 1;
+
+            // 0: 無方向, 1: 左上, 2: 上, 3: 右上, 4: 右, 5: 右下, 6: 下, 7: 左下, 8: 左
+            if (b.BeforeBoardX - x <= -1 && b.BeforeBoardY - y <= -1)
+                b.MoveDirection = 1;
+
+            else if (b.BeforeBoardX - x == 0 && b.BeforeBoardY - y <= -1)
+                b.MoveDirection = 2;
+
+            else if (b.BeforeBoardX - x >= 1 && b.BeforeBoardY - y <= -1)
+                b.MoveDirection = 3;
+
+
+            else if (b.BeforeBoardX - x >= 1 && b.BeforeBoardY - y == 0)
+                b.MoveDirection = 4;
+
+
+            else if (b.BeforeBoardX - x >= 1 && b.BeforeBoardY - y <= -1)
+                b.MoveDirection = 5;
+
+            else if (b.BeforeBoardX - x == 0 && b.BeforeBoardY - y >= 1)
+                b.MoveDirection = 6;
+
+            else if (b.BeforeBoardX - x <= -1 && b.BeforeBoardY - y >= 1)
+                b.MoveDirection = 7;
+
+            else if (b.BeforeBoardX - x <= -1 && b.BeforeBoardY - y == 0)
+                b.MoveDirection = 8;
+
+            else
+                Debug.Log(n + "個目の駒が" + x + "," + y + "に移動したかったけど移動できなかった。");
+            
+
+            b.BeforeBoardX = x;
+            b.BeforeBoardY = y;
         }
+
         return square.position;
     }
 
@@ -354,7 +414,6 @@ public class TurnManager : MonoBehaviour
                 RedScore += ScoreIndex.Red;
             }
         }
-
        // Debug.Log("BlueScore:" + BlueScore);
        // Debug.Log("RedScore:" + RedScore);
     }
@@ -364,9 +423,9 @@ public class TurnManager : MonoBehaviour
         AB();
         KomaCalulator komaCalulator;
         komaCalulator = this.transform.GetComponent<KomaCalulator>();
-     //   int[,] ban = komaCalulator.AIBanState();
-       // komaCalulator.AIBanState();
-       // komaCalulator.AIAreaCheckBlue(ban);
+        // int[,] ban = komaCalulator.AIBanState();
+        // komaCalulator.AIBanState();
+        // komaCalulator.AIAreaCheckBlue(ban);
         if (BlueTurn)
         {
             for (int i = 0; i < BlueBridges.transform.childCount; i++)
@@ -383,6 +442,7 @@ public class TurnManager : MonoBehaviour
             }
         }
     }
+
     public async void CallMatchInfoGet(int id)
     {
         InfoConnector infoConnector = new InfoConnector();
@@ -443,6 +503,7 @@ public class TurnManager : MonoBehaviour
         InfoConnector infoConnector = new InfoConnector();
         infoConnector.PostMatchInfo(id, info);
     }
+
     public void AB()
     {
         KomaCalulator komaCalulator;
@@ -487,21 +548,8 @@ public class TurnManager : MonoBehaviour
             int[,] Ban = komaCalulator.AIBanState();
             for (int N = 0; N < BlueBridges.transform.childCount; N++)
             {
-
               //  alpha.AlphaBeta(2, Ban, N, false);
-
             }
         }
     }
- 
-    
 }
-               
-               
-             
- 
-
-
-
-
-

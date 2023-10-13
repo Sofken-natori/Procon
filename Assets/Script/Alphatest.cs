@@ -242,7 +242,7 @@ public class Alphatest : MonoBehaviour
         if (resultDestoryIndex != null)
         {
             
-            turnManager.BuildAndDestroyBridge(resultDestoryIndex.Y, resultDestoryIndex.X);
+            turnManager.BuildAndDestroyBridge(resultDestoryIndex.Y, resultDestoryIndex.X, N);
             turnManager.Dontroop[N] = resultDestoryIndex;
            
             for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
@@ -318,7 +318,7 @@ public class Alphatest : MonoBehaviour
             else
             {
 
-                turnManager.BuildAndDestroyBridge(resultPutIndex.Y, resultPutIndex.X);
+                turnManager.BuildAndDestroyBridge(resultPutIndex.Y, resultPutIndex.X, N);
                    turnManager.Dontroop[N] = resultKomaIndex;
                 for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
                 {

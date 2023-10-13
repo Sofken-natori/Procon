@@ -43,7 +43,6 @@ public class Area : MonoBehaviour
     [HideInInspector]public bool Bridge = false;
     [HideInInspector]public TurnManager TM;
 
-    
     int i;
     int ThisPosX;
     int ThisPosY;
@@ -331,7 +330,7 @@ public class Area : MonoBehaviour
 
     public void AreaApply(NowBoard board)
     {
-        switch (board.structures[ThisPosX,ThisPosY])
+        switch (board.structures[ThisPosY,ThisPosX])
         {
             case 0:
                 pond = false;
@@ -346,33 +345,35 @@ public class Area : MonoBehaviour
                 castle = true;
                 break;
             default:
-                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.structures[ThisPosX, ThisPosY]);
+                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.structures[ThisPosY,ThisPosX]);
                 break;
         }
 
-        switch(board.masons[ThisPosX,ThisPosY])
+        switch(board.masons[ThisPosY,ThisPosX])
         {
             case 0:
                 break;
             default:
-                if (board.masons[ThisPosX,ThisPosY] > 0)
+                if (board.masons[ThisPosY,ThisPosX] > 0)
                 {
-                    BridgeButtonManager bbm = BlueBridges.transform.GetChild(board.masons[ThisPosX, ThisPosY] - 1).GetComponent<BridgeButtonManager>();
+                    BridgeButtonManager bbm = BlueBridges.transform.GetChild(board.masons[ThisPosY,ThisPosX] - 1).GetComponent<BridgeButtonManager>();
                     bbm.BridgeApplyer(ThisPosX,ThisPosY);
-                    bbm.BridgeID = Mathf.Abs(board.masons[ThisPosX, ThisPosY]) - 1;
+                    bbm.BeforeBoardX = ThisPosX;
+                    bbm.BeforeBoardY = ThisPosY;
+                    bbm.BridgeID = Mathf.Abs(board.masons[ThisPosY,ThisPosX]) - 1;
                     break;
                 }
 
                 else
                 {
-                    BridgeButtonManager bbm = RedBridges.transform.GetChild((board.masons[ThisPosX,ThisPosY] * -1) - 1).GetComponent<BridgeButtonManager>();
-                    bbm.BridgeApplyer(ThisPosX, ThisPosY);
-                    bbm.BridgeID = Mathf.Abs(board.masons[ThisPosX, ThisPosY]) - 1;
+                    BridgeButtonManager bbm = RedBridges.transform.GetChild((board.masons[ThisPosY,ThisPosX] * -1) - 1).GetComponent<BridgeButtonManager>();
+                    bbm.BridgeApplyer(ThisPosX,ThisPosY);
+                    bbm.BridgeID = Mathf.Abs(board.masons[ThisPosY,ThisPosX]) - 1;
                     break;
                 }
         }       
 
-        switch(board.walls[ThisPosX, ThisPosY])
+        switch(board.walls[ThisPosY,ThisPosX])
         {
             case 0:
                 BlueWall = false;
@@ -387,12 +388,11 @@ public class Area : MonoBehaviour
                 RedWall = true;
                 break;
             default:
-                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.walls[ThisPosX, ThisPosY]);
+                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.walls[ThisPosY,ThisPosX]);
                 break;
-
         }
 
-        switch(board.territories[ThisPosX, ThisPosY])
+        switch(board.territories[ThisPosY,ThisPosX])
         {
             case 0:
                 BlueArea = false;
@@ -411,7 +411,7 @@ public class Area : MonoBehaviour
                 RedArea = true;
                 break;
             default:
-                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.territories[ThisPosX, ThisPosY]);
+                Debug.LogWarning("予期しないもの拾った 拾ったやつ:" + board.territories[ThisPosY,ThisPosX]);
                 break;
         }
         return;
