@@ -97,7 +97,7 @@ namespace ServerConnector
     public class InfoConnector
     {
         public string CallAPIURL = "http://localhost:3000";
-        public string token = "first";
+        public string token = "natori463152845d344e13cbe4cd1cb276cbaf8479aa6f3930baecbd9e977a9f";
 
 
         public async UniTask<MatchesInfo> GetMatchesInfo()
@@ -157,8 +157,8 @@ namespace ServerConnector
         public async void PostMatchInfo(int id, PostInfo move)
         { 
             string reqStr = JsonConvert.SerializeObject(move);
+            Debug.Log(reqStr);
             var reqJson = Encoding.UTF8.GetBytes(reqStr);
-            Debug.Log(reqJson);
             UnityWebRequest req = new UnityWebRequest(CallAPIURL + "/matches/" + id + "?token=" + token, UnityWebRequest.kHttpVerbPOST)
             {
                 uploadHandler = new UploadHandlerRaw(reqJson),
