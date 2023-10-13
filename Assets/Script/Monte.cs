@@ -41,10 +41,12 @@ public class Monte : MonoBehaviour
         
         
     }
-     void Update()
+
+    void Update()
     {
         NowTurn = tm.NowTurn;
     }
+
     public void MathAreaChengh()
     {
 
@@ -52,11 +54,9 @@ public class Monte : MonoBehaviour
     
     public int MonteCarlo(int X)
     {
-       
-     
-        int BlueWinCount = 0;       
+       int BlueWinCount = 0;       
        for (int m = 0; m < X; m++)
-        {
+       {
             for (int n = 0; n < tm.BlueBridges.transform.childCount; n++)
             {
                 GameObject komaR = tm.RedBridges.transform.GetChild(n).gameObject;
@@ -68,7 +68,9 @@ public class Monte : MonoBehaviour
                 kc.BlueX[n] = kc.bb[n].BoardX;
                 kc.BlueY[n] = kc.bb[n].BoardY;
             }
+
             int[,] Ban = kc.AIBanState();
+            
             for (NowTurn = 0; NowTurn <tm.MaxTurnNumber;)
             {
                 int N = 0;
@@ -80,11 +82,14 @@ public class Monte : MonoBehaviour
                 NowTurn++;
                 kc.AIBlueTurn = !kc.AIBlueTurn;
             }
+
             var win = kc.AIScoreCheck(Ban);
+            
             if (win)
             {
                 BlueWinCount++;
             }
+            
             for (int n = 0; n < tm.BlueBridges.transform.childCount; n++)
             {
                 GameObject komaR = tm.RedBridges.transform.GetChild(n).gameObject;
@@ -97,7 +102,7 @@ public class Monte : MonoBehaviour
                 kc.BlueY[n] = kc.bb[n].BoardY;
             }
 
-        }
+       }
 
         return BlueWinCount;
     }
@@ -134,7 +139,7 @@ public class Monte : MonoBehaviour
        
         if(BuildMax > Max)
         {
-            tm.BuildAndDestroyBridge(komaB.Y, komaB.X);
+            tm.BuildAndDestroyBridge(komaB.Y, komaB.X, N);
             for (int n = 0; n < tm.BlueBridges.transform.childCount; n++)
             {
                 GameObject komar = tm.BlueBridges.transform.GetChild(n).gameObject;
@@ -157,7 +162,7 @@ public class Monte : MonoBehaviour
             GameObject komas = tm.BlueBridges.transform.GetChild(N).gameObject;
             kc.bb[N] = komas.GetComponent<BridgeButtonManager>();
             komas.GetComponent<BridgeButtonManager>();//  ê‘î≈Ç‡çÏÇÈ
-            komas.transform.position = tm.MoveBridge(koma.Y, koma.X);
+            komas.transform.position = tm.MoveBridge(koma.Y, koma.X, N);
             for(int n = 0;  n < tm.BlueBridges.transform.childCount; n++)
             {
                 GameObject komar = tm.BlueBridges.transform.GetChild(n).gameObject;
@@ -188,11 +193,5 @@ public class Monte : MonoBehaviour
             kc.bb[N].BoardY = koma.Y;
         }
         return koma;
-        
-     
     }
-  
-  
-    
-  
 }
