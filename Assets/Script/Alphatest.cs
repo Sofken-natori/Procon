@@ -17,12 +17,16 @@ public class Alphatest : MonoBehaviour
     GameObject TM;
     KomaCalulator komaCalulator;
     EvaluationFunctions eF;
+    EvaluationFunctionsMove eFM;
     public TurnManager turnManager;
     [Header("ï]âøä÷êî"), SerializeField] C11 c;
     public KomaIndex[] k = new KomaIndex[12];
     public Text txt;
     public bool Move;
     bool F = false;
+    int De;
+    int firstN;
+    Area area;
     int castle = 100;
     int bluekoma_point = 10;
     int jinti_point = 30;
@@ -35,82 +39,74 @@ public class Alphatest : MonoBehaviour
         turnManager = TM.GetComponent<TurnManager>();
         komaCalulator = TM.GetComponent<KomaCalulator>();
         eF = TM.GetComponent<EvaluationFunctions>();
-        EvaluateMoveStateScore = eF.EvaluationA();
+        eFM = TM.GetComponent<EvaluationFunctionsMove>();
+        EvaluateMoveStateScore = eFM.EvaluationA();
         EvaluateBuildStateScore = eF.EvaluationA();
         var CanMoves = new List<KomaIndex>();
-     
-    }
-    private void Update()
-    {
+      /*  for (int a = 0; a < turnManager.BoardXMax; a ++)
+        {
+            for (int b = 0;  b < turnManager.BoardXMax; b++)
+            {
+                if(a == 0 || b == 0)
+                {
+                    EvaluateMoveStateScore[a , b] = -100;
+                }
+                area = this.transform.GetChild(a).GetChild(b).GetComponent<Area>();
+                if (area.castle && a-1 > 0)
+                {
+                   
+                    EvaluateMoveStateScore[a - 1, b] = 5;
+                
+                   
+                }
+                else if (area.castle && b - 1 > 0 )
+                {
+
+                    EvaluateMoveStateScore[a, b - 1] = 5;
+                }
+                else if(area.castle && b + 1 < turnManager.BoardXMax )
+                {
+                    EvaluateMoveStateScore[a, b + 1] = 5;
+                }
+                else if(area.castle && a + 1 < turnManager.BoardYMax)
+                {
+                    EvaluateMoveStateScore[a + 1, b] = 5;
+                }
+                else
+                {
+                    EvaluateMoveStateScore[a, b] = 0;
+                }
+                Debug.Log(EvaluateMoveStateScore[a, b]);
+
+            }
+        }
+      */
       
     }
-    //   komaCalulator.AIBlueTurn = true;
-    /*  {  1 , 1,   1,   1 ,  1 ,  1 ,  1 ,  10 ,  10 ,  10 ,  -1 },
-      { 1 ,  0 ,  0 ,  0 ,  0 ,  0 ,  0 ,  10 ,  20 ,  30 ,  -1 },
-      { 1 ,  0  , 0  , 10 ,  0 ,  0 ,  0 ,  10 ,  30 ,  20 ,  30 },
-      { 1 ,  0 ,  0 ,  0 ,  -1 ,  -1 ,  -1 ,  20,   -1 ,  30,   10 },
-      { 1   ,0 ,  0 ,  -1 ,  -1 ,  20 ,  -1 ,  10 ,  -1 ,  10 ,  1 },
-      { 1  , 0  , -1 ,  -1 ,  20 ,  20 ,  20 ,  -1 ,  -1 ,  0 ,  1 },
-      { 1  , 0 ,  -1 ,  10,      -1,   20  , -1 ,  -1,   0 ,  0 ,  1 },
-      { 1  , 30  , -1 ,  20 ,  10 ,  1 ,  -1 , 0,   0 ,  0 ,  1 },
-      { 30 ,  20 ,   30 ,  10  , 0 ,  0 ,  0 ,  0  , 0 ,  0 ,  1 },
-      { -1 , 30 ,  5 ,  0  , 0 ,  0 ,  0 ,  0 ,  0  , 0 ,  1 },
-      { -1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1 ,  1  , 1 ,  1 },
-    */
-
-
-
-
-
-
-    /* { 0 ,  0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0,  1 },
-      {   0 ,   0 , 0 , 0 , 0 , 0 , 0 , 0 , 2 , 50,  -1 },
-      {   0 ,   0 , 0 , 0 , 0 , 0 , 0 , 0 , 50 , 2,  50},
-      {   0 ,   0 , 0 , 0 , -1 , -1 , -1 , 2 , 50 , 10,  0},
-      {   0 ,   0 , 0 , -1 , -1 , 2 , -1 , 0 , -1 , 0,  0},
-      {   0 ,   0 , -1 , -1 , 2 , 2 , 2 , -1 , -1 , 0,  0},
-      {   40 ,   50 , -1 , 0 , -1 , 2 , -1 , -1 , 0 , 0,  0},
-      {   50 ,   2 , -1 , 2 , -1 , -1 , -1 , 0 , 0 , 0,  0},
-      {   50 ,   2 , 50 , 0 , 0 , 0 , 0 , 0 , 0 , 0,  0},
-      {   50 ,   50 , 50 , 50 , 25 , 0 , 0 , 0 , 0 , 0,  0},
-       {  -1 ,   0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0,  0}
-    */
-
-
-
 
     public int EvaluateBuildStates(int[,] ban)
-    {
-        // ban = komaCalulator.AIScoreCheck(ban);
+    { 
         var myscore = 0;
         var enemyscore = 0;
-     /*   for (int n = 0; n < turnManager.BlueBridges.transform.childCount; n++)
-        {
-            myscore += EvaluateMoveStateScore[komaCalulator.BlueX[n], komaCalulator.BlueY[n]];
-          
-        }
-        for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
-        {
-            enemyscore += EvaluateMoveStateScore[komaCalulator.RedX[n], komaCalulator.RedY[n]];
-
-        }
-     */
-
-
-      //  Debug.Log(EvaluateMoveStateScore[0, 0]);
         komaCalulator.AIAreaCheckBlue(ban);
         ///komaCalulator.AIAreaCheckRed(ban);
-     
+        for (int i = 0; i < turnManager.RedBridges.transform.childCount; i++)
+        {
+          //  Debug.Log(i);
+            myscore += EvaluateMoveStateScore[komaCalulator.BlueX[i], komaCalulator.BlueY[i]];
+            enemyscore += EvaluateMoveStateScore[komaCalulator.RedX[i], komaCalulator.RedY[i]];
+        }
         for (int y = 0; y < turnManager.BoardYMax; y++)
         {
            
             for (int x = 0; x < turnManager.BoardXMax; x++)
             {
-                // Debug.Log(myscore);
+                //Debug.Log(myscore);
                  var Banscore = EvaluateBuildStateScore[x, y];
                // var Banscore = 0;
                 if (ban[x, y] == 10)
                 {
+                 //   Debug.Log(ban[x, y]);
                     myscore += bluekoma_point + Banscore;
                 }
                 else if (ban[x, y] == 30)
@@ -138,53 +134,101 @@ public class Alphatest : MonoBehaviour
                     enemyscore += jinti_point + Banscore;
                     myscore += jinti_point + Banscore;
                 }
-              
+
+                
+            }
+
+        }
+      // Debug.Log(myscore);
+       //Debug.Log(enemyscore);
+        return myscore - enemyscore;
+    }
+    public int EvaluateMoveStates(int[,] ban , int N)
+    {
+        // ban = komaCalulator.AIScoreCheck(ban);
+        var myscore = 0;
+        var enemyscore = 0;
+        komaCalulator.AIAreaCheckBlue(ban);
+        ///komaCalulator.AIAreaCheckRed(ban);
+        for (int i = 0; i < turnManager.transform.childCount; i++)
+        {
+            myscore += EvaluateMoveStateScore[komaCalulator.BlueX[i], komaCalulator.BlueY[i]];
+            enemyscore += EvaluateMoveStateScore[komaCalulator.RedX[i], komaCalulator.RedY[i]];
+        }
+        for (int y = 0; y < turnManager.BoardYMax; y++)
+        {
+
+            for (int x = 0; x < turnManager.BoardXMax; x++)
+            {
+               
+                var Banscore = EvaluateBuildStateScore[x, y];
+                // var Banscore = 0;
+                if (ban[x, y] == 10)
+                {
+                    //   Debug.Log(ban[x, y]);
+                    myscore += bluekoma_point + Banscore;
+                }
+                else if (ban[x, y] == 30)
+                {
+                    myscore += jinti_point + Banscore;
+                }
+                else if (ban[x, y] == -10)
+                {
+                    enemyscore += bluekoma_point + Banscore;
+                }
+                else if (ban[x, y] == -30)
+                {
+                    enemyscore += jinti_point + Banscore;
+                }
+                else if (ban[x, y] == 130)
+                {
+                    myscore += castle + Banscore;
+                }
+                else if (ban[x, y] == -130)
+                {
+                    enemyscore += castle + Banscore;
+                }
+                else if (ban[x, y] == 15)
+                {
+                    enemyscore += jinti_point + Banscore;
+                    myscore += jinti_point + Banscore;
+                }
+
 
             }
 
         }
-    //   Debug.Log(myscore);
+        Debug.Log(myscore);
+        // Debug.Log(enemyscore);
         return myscore - enemyscore;
-    }
-    public int EvaluateMoveStates(int[,] ban ,int x ,int y , int Z)
-    {
-        var myscore = 0;
-        var enemyscore = 0;
-        var Banscore = EvaluateBuildStateScore[x, y];
-        if ( Z == 130)
-        {
-            myscore -= 5 + Banscore;
-        }
-        if (Z == 0)
-        {
-            myscore += 9 + Banscore;
-        }
-         
-            return myscore -enemyscore;
     }
     public void AlphaBeta(int depth, int[,] ban, int N, bool Bule)
     {
-       // komaCalulator.AIBlueTurn = true;
+        // komaCalulator.AIBlueTurn = true;
+      
         KomaIndex resultKomaIndex = null;
         KomaIndex resultPutIndex = null;
         KomaIndex resultDestoryIndex = null;
         var alpha = -100;
         var alphaB = -100;
-        var beta = 1;
+        var beta = -1000;
         var score = 0;
         var Buildscore = 0;
         var max = 0;
+        firstN = N;
         var canMovekoma = komaCalulator.GetCanMoveIndex(N, Bule);
         var canDestroy = komaCalulator.GetCanDestoroyIndex(N , Bule);
         foreach (var putkomaStateIndex in canMovekoma)
         {
-            int X = 0;
-            var Ban = ban;
+            De = 0;
+           
+                var Ban = ban;
             if (putkomaStateIndex.Build == true)
             {
-                X = komaCalulator.What(Ban, putkomaStateIndex.X, putkomaStateIndex.Y);
+                De = komaCalulator.What(Ban, putkomaStateIndex.X, putkomaStateIndex.Y);
                 Ban = komaCalulator.Build(putkomaStateIndex.X, putkomaStateIndex.Y, ban, Bule);
                 Buildscore = GetAllCanMoveSearch(Ban, depth - 1, alphaB, beta, 0, !Bule);
+               
                 if (alphaB < Buildscore)
                     {
                         alphaB = Buildscore;
@@ -194,7 +238,8 @@ public class Alphatest : MonoBehaviour
             }
             if (putkomaStateIndex.Build == false)
             {
-                X = komaCalulator.What(Ban, putkomaStateIndex.X, putkomaStateIndex.Y);
+                De = komaCalulator.What(Ban, putkomaStateIndex.X, putkomaStateIndex.Y);
+                
                 Ban = komaCalulator.Move(putkomaStateIndex.X, putkomaStateIndex.Y, ban, N, Bule);
                 if (Bule)
                 {
@@ -208,8 +253,8 @@ public class Alphatest : MonoBehaviour
                     komaCalulator.RedY[N] = putkomaStateIndex.Y;
                 }
                 // score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, !Bule);
-                score = EvaluateMoveStates(Ban ,putkomaStateIndex.X , putkomaStateIndex.Y , X);
-                
+                score = GetAllCanMoveSearch(Ban , depth-1  , alpha , beta , 0 ,!Bule);
+             //   Debug.Log(score);
                 if (alpha < score)
                 {
                    
@@ -220,10 +265,24 @@ public class Alphatest : MonoBehaviour
 
                
             }
-                Ban[putkomaStateIndex.X, putkomaStateIndex.Y] = X;
+                Ban[putkomaStateIndex.X, putkomaStateIndex.Y] = De;
             
         }
-       
+       if(resultKomaIndex == null)
+        {
+            foreach (var Des in canDestroy)
+            {
+                var Ban = ban;
+                Ban = komaCalulator.Build(Des.X, Des.Y, ban, Bule);
+                var Detroyscore = GetAllCanMoveSearch(Ban, depth - 1, alphaB, beta, 0, !Bule);
+
+            
+                    alphaB = Buildscore;
+                    resultDestoryIndex = Des;
+                
+
+            }
+        }
         if (canDestroy != null)
         {
             foreach (var Des in canDestroy)
@@ -243,7 +302,7 @@ public class Alphatest : MonoBehaviour
         {
             
             turnManager.BuildAndDestroyBridge(resultDestoryIndex.Y, resultDestoryIndex.X);
-            turnManager.Dontroop[N] = resultDestoryIndex;
+            turnManager.Dontroop[N, turnManager.NowTurn] = resultDestoryIndex;
            
             for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
             {
@@ -255,13 +314,18 @@ public class Alphatest : MonoBehaviour
                 komaCalulator.bb[n] = komaB.GetComponent<BridgeButtonManager>();
                 komaCalulator.BlueX[n] = komaCalulator.bb[n].BoardX;
                 komaCalulator.BlueY[n] = komaCalulator.bb[n].BoardY;
+                
+               
 
             }
          //   RoopCount++;
         }
+      
         else
         {
-            if (alpha >= alphaB)
+           Debug.Log(alpha);
+            Debug.Log(alphaB);
+            if (alpha > alphaB)
             {
 
                 if (Bule)
@@ -278,7 +342,9 @@ public class Alphatest : MonoBehaviour
                         komaCalulator.BlueY[n] = komaCalulator.bb[n].BoardY;
 
                     }
-
+             
+                    area = this.transform.GetChild(komaCalulator.BlueY[N]).GetChild(komaCalulator.BlueX[N]).GetComponent<Area>();
+                    area.Bridge = false;
                     GameObject koma = turnManager.BlueBridges.transform.GetChild(N).gameObject;
                     koma.transform.position = turnManager.MoveBridge(resultKomaIndex.Y, resultKomaIndex.X);
                   
@@ -286,8 +352,10 @@ public class Alphatest : MonoBehaviour
                     komaCalulator.BlueY[N] = resultKomaIndex.Y;
                     komaCalulator.bb[N].BoardX = resultKomaIndex.X;
                     komaCalulator.bb[N].BoardY = resultKomaIndex.Y;
-                    turnManager.Dontroop[N] = resultKomaIndex;
-      
+                    turnManager.Dontroop[N,turnManager.RoopCount] = resultKomaIndex;
+                   
+                    area = this.transform.GetChild(resultKomaIndex.Y).GetChild(resultKomaIndex.X).GetComponent<Area>();
+                    area.Bridge = true;
                 }
                 if (!Bule)
                 {
@@ -317,9 +385,8 @@ public class Alphatest : MonoBehaviour
             }
             else
             {
-
                 turnManager.BuildAndDestroyBridge(resultPutIndex.Y, resultPutIndex.X);
-                   turnManager.Dontroop[N] = resultKomaIndex;
+                   turnManager.Dontroop[N, turnManager.NowTurn] = resultKomaIndex;
                 for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
                 {
                     GameObject komaR = turnManager.RedBridges.transform.GetChild(n).gameObject;
@@ -337,10 +404,10 @@ public class Alphatest : MonoBehaviour
         }
 
     }
-    public int GetAllCanMoveSearch(int[,] ban, int depth, int alpha, int beta, int N, bool Bl)
+    public int GetAllCanMoveSearch(int[,] ban, int depth, int alpha, int beta, int N, bool Bl )
     {
-
-        if (depth == 0) return EvaluateBuildStates(ban);
+     
+        if (depth == 0 ) return EvaluateBuildStates(ban);
         var MaxScore = 0;
         var FirstMaxScore = 10000000;
         int[] XSR = new int[turnManager.BoardXMax];
@@ -402,9 +469,6 @@ public class Alphatest : MonoBehaviour
                 }
                 else
                 {
-                  //  Debug.Log(depth);
-               //     Debug.Log(child.X);
-               //     Debug.Log(child.Y);
                     B = komaCalulator.What(ban, child.X, child.Y);
                     Ban = komaCalulator.Move(child.X, child.Y, ban, N + 1, Bl);
                     if (Bl)
@@ -565,10 +629,10 @@ public class Alphatest : MonoBehaviour
                                                     }
                                                 }
                                                 ban = Ban;
-                                                var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, true);
-                                                if (score > beta)
+                                                var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, !Bl );
+                                                if (score > MaxScore)
                                                 {
-                                                    MaxScore = beta;
+                                                    MaxScore = score;
                                                 }
                                                 
                                                     Ban[childKoma5.X, childKoma5.Y] = F;
@@ -582,9 +646,10 @@ public class Alphatest : MonoBehaviour
 
                                         else
                                         {
-                                            var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, true);
-                                            if (score > FirstMaxScore || alpha > score) return score;
-                                            if (score > beta)
+                                            var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, !Bl);
+                                           
+                                            if (score > FirstMaxScore ) return score;
+                                            if (score > MaxScore)
                                             {
                                                 beta = score;
                                                 score = MaxScore;
@@ -603,10 +668,15 @@ public class Alphatest : MonoBehaviour
                                 }
                                 else
                                 {
-                                    var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, true);
-                                    if (score > beta)
+                                    var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, !Bl);
+                                 //   Debug.Log(score);
+                                    if (score > MaxScore)
                                     {
-                                        MaxScore = beta;
+                                    
+                                       
+                                       
+                                        MaxScore = score;
+                                       
                                     }
 
                                 }
@@ -622,9 +692,11 @@ public class Alphatest : MonoBehaviour
                         else
                         {
                             var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, !Bl);
-                            if (score > FirstMaxScore || alpha > score) return score;
-                            if (score > beta)
+                           
+                            if (FirstMaxScore >score || alpha > score) return score;
+                            if (score > MaxScore)
                             {
+                               
                                 beta = score;
                                 score = MaxScore;
                             }
@@ -641,10 +713,13 @@ public class Alphatest : MonoBehaviour
                 {
                     
                     var score = GetAllCanMoveSearch(Ban, depth - 1, alpha, beta, 0, !Bl);
-                    if (score > beta ) return score;
-                        if (score > beta)
+                  
+                    if (score > MaxScore ) return score;
+
+                        if (score > MaxScore)
                         {
-                            beta = score;
+                        
+                        beta = score;
                             score = MaxScore;
                         }
                 }

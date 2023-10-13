@@ -83,6 +83,7 @@
     <Compile Include="Assets\Script\KomaCalulator.cs" />
     <Compile Include="Assets\Map\A13.cs" />
     <Compile Include="Assets\Map\B21.cs" />
+    <Compile Include="Assets\Script\EvaluationFunctionsMove.cs" />
     <Compile Include="Assets\Map\C25.cs" />
     <Compile Include="Assets\Map\C17.cs" />
   </ItemGroup>
