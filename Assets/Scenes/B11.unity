@@ -1171,7 +1171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MapCSV: B11
-  MaxTurnNumber: 100
+  MaxTurnNumber: 30
   PieceNumber: 1
   BlueTurn: 1
   BoardXMax: 11

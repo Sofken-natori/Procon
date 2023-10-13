@@ -209,20 +209,20 @@ public class TurnManager : MonoBehaviour
         {
             BridgeButtonManager b = BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>();
 
-            if ((b.BeforeBoardX - x == 0 && b.BeforeBoardY - y <= -1) || (b.BeforeBoardX - y == 0 && b.BeforeBoardY - x <= -1))
+            if (b.BeforeBoardX - y == 0 && b.BeforeBoardY - x >= 1)
                 b.MoveDirection = 2;
 
-            else if ((b.BeforeBoardX - x >= 1 && b.BeforeBoardY - y == 0) || (b.BeforeBoardX - y >= 1 && b.BeforeBoardY - x == 0))
+            else if (b.BeforeBoardX - y <= -1 && b.BeforeBoardY - x == 0)
                 b.MoveDirection = 4;
 
-            else if ((b.BeforeBoardX - x == 0 && b.BeforeBoardY - y >= 1) || (b.BeforeBoardX - y == 0 && b.BeforeBoardY - x >= 1))
+            else if (b.BeforeBoardX - y == 0 && b.BeforeBoardY - x <= -1)
                 b.MoveDirection = 6;
 
-            else if ((b.BeforeBoardX - x <= -1 && b.BeforeBoardY - y == 0) || (b.BeforeBoardX - y <= -1 && b.BeforeBoardY - x == 0))
+            else if (b.BeforeBoardX - y >= 1 && b.BeforeBoardY - x == 0)
                 b.MoveDirection = 8;
 
             else
-                Debug.Log("BeforeBoardX - x:" + (b.BeforeBoardX - x) + "BeforeBoardY - y:" + (b.BeforeBoardY - y) + "\n" + n + "個目の駒が" + x + "," + y + "に建築及び破壊したかったけど建築および破壊できなかった。");
+                Debug.Log("BeforeBoardX - x:" + (b.BeforeBoardX - y) + "BeforeBoardY - y:" + (b.BeforeBoardY - x) + "\n" + n + "個目の駒が" + x + "," + y + "に建築したかったけど建築できなかった。");
             
         }
     }
@@ -251,33 +251,34 @@ public class TurnManager : MonoBehaviour
         if (n > -1)
         {
             BridgeButtonManager b = BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>();
-            BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 1;
 
+            BlueBridges.transform.GetChild(n).GetComponent<BridgeButtonManager>().ActionType = 1;
+            
             // 0: 無方向, 1: 左上, 2: 上, 3: 右上, 4: 右, 5: 右下, 6: 下, 7: 左下, 8: 左
-            if (b.BeforeBoardX - x <= -1 && b.BeforeBoardY - y <= -1)
+            if (b.BeforeBoardX - y >= 1 && b.BeforeBoardY - x >= 1)
                 b.MoveDirection = 1;
 
-            else if (b.BeforeBoardX - x == 0 && b.BeforeBoardY - y <= -1)
+            else if (b.BeforeBoardX - y == 0 && b.BeforeBoardY - x >= 1)
                 b.MoveDirection = 2;
 
-            else if (b.BeforeBoardX - x >= 1 && b.BeforeBoardY - y <= -1)
+            else if (b.BeforeBoardX - x <= -1 && b.BeforeBoardY - x <= -1)
                 b.MoveDirection = 3;
 
 
-            else if (b.BeforeBoardX - x >= 1 && b.BeforeBoardY - y == 0)
+            else if (b.BeforeBoardX - y <= -1 && b.BeforeBoardY - x == 0)
                 b.MoveDirection = 4;
 
 
-            else if (b.BeforeBoardX - x >= 1 && b.BeforeBoardY - y <= -1)
+            else if (b.BeforeBoardX - y <= -1 && b.BeforeBoardY - x >= 1)
                 b.MoveDirection = 5;
 
-            else if (b.BeforeBoardX - x == 0 && b.BeforeBoardY - y >= 1)
+            else if (b.BeforeBoardX - y == 0 && b.BeforeBoardY - x <= -1)
                 b.MoveDirection = 6;
 
-            else if (b.BeforeBoardX - x <= -1 && b.BeforeBoardY - y >= 1)
+            else if (b.BeforeBoardX - y >= 1 && b.BeforeBoardY - x <= -1)
                 b.MoveDirection = 7;
 
-            else if (b.BeforeBoardX - x <= -1 && b.BeforeBoardY - y == 0)
+            else if (b.BeforeBoardX - y >= 1 && b.BeforeBoardY - x == 0)
                 b.MoveDirection = 8;
 
             else
@@ -311,7 +312,7 @@ public class TurnManager : MonoBehaviour
             {
                 square = this.transform.GetChild(i).GetChild(j);
                 area = square.GetComponent<Area>();
-                area.AreaDeployer(MapData[i][j]);
+                area.AreaDeployer(MapData[j][i]);
                 area.BlueBridges = BlueBridges;
                 area.RedBridges = RedBridges;
             }
@@ -494,6 +495,9 @@ public class TurnManager : MonoBehaviour
                 dir = BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().MoveDirection,
                 type = BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().ActionType
             };
+
+            BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().MoveDirection = 0;
+            BlueBridges.transform.GetChild(i).gameObject.GetComponent<BridgeButtonManager>().ActionType = 0;
             postInfo.actions.Add(BridgeMove);
         }
     }
@@ -531,11 +535,10 @@ public class TurnManager : MonoBehaviour
             else
             {
 
-                int[,] Ban = komaCalulator.AIBanState();
                //alpha.AlphaBeta(1, Ban, 0, true);
                for (int N = 0; N < RedBridges.transform.childCount; N++)
                 {
-                    alpha.AlphaBeta(1, Ban, N, true);
+                    alpha.AlphaBeta(1, ban, N, true);
                 }
               
 
