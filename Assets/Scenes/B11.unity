@@ -1174,7 +1174,7 @@ MonoBehaviour:
   MaxTurnNumber: 30
   PieceNumber: 1
   BlueTurn: 1
-  IsFirst: 0
+  IsFirst: 1
   BoardXMax: 11
   BoardYMax: 11
   RedBridge: {fileID: 6137180533846073905, guid: cd0f4ea0b50cc0240b7ea23dd7020962, type: 3}

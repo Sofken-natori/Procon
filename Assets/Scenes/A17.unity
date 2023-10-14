@@ -1173,7 +1173,6 @@ GameObject:
   - component: {fileID: 1299668407}
   - component: {fileID: 1299668406}
   - component: {fileID: 1299668405}
-  - component: {fileID: 1299668404}
   m_Layer: 5
   m_Name: BoardBridge
   m_TagString: Untagged
@@ -1181,18 +1180,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1299668404
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1299668403}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4a0c806cdb89c5439464a9426f33897, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1299668405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1504,6 +1491,7 @@ MonoBehaviour:
   MaxTurnNumber: 100
   PieceNumber: 1
   BlueTurn: 0
+  IsFirst: 0
   BoardXMax: 17
   BoardYMax: 17
   RedBridge: {fileID: 6137180533846073905, guid: cd0f4ea0b50cc0240b7ea23dd7020962, type: 3}
@@ -1513,11 +1501,12 @@ MonoBehaviour:
   TurnText: {fileID: 1322350767}
   id: 10
   host: 1
+  ABDeep: 1
   AreaScore: 30
   WallScore: 10
   CastleScore: 100
-  BlueBridges: {fileID: 0}
-  RedBridges: {fileID: 0}
+  BlueBridges: {fileID: 1842290664}
+  RedBridges: {fileID: 172468343}
   BlueScore: 0
   RedScore: 0
   UntapPhase: 0

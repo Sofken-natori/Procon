@@ -481,7 +481,6 @@ GameObject:
   m_Component:
   - component: {fileID: 423712045}
   - component: {fileID: 423712046}
-  - component: {fileID: 423712050}
   - component: {fileID: 423712049}
   - component: {fileID: 423712048}
   - component: {fileID: 423712047}
@@ -538,6 +537,7 @@ MonoBehaviour:
   MaxTurnNumber: 100
   PieceNumber: 1
   BlueTurn: 0
+  IsFirst: 0
   BoardXMax: 13
   BoardYMax: 13
   RedBridge: {fileID: 6137180533846073905, guid: cd0f4ea0b50cc0240b7ea23dd7020962, type: 3}
@@ -547,6 +547,7 @@ MonoBehaviour:
   TurnText: {fileID: 382538194}
   id: 10
   host: 1
+  ABDeep: 1
   AreaScore: 30
   WallScore: 10
   CastleScore: 100
@@ -636,18 +637,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 577c7973beea45748b840ccd16e2fa4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &423712050
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 423712044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8986c9852081e3419b6f7832ed7cf59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &423712051
@@ -829,18 +818,13 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738278126}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -519.3788, y: 40.645386, z: -17.562817}
   m_GameObject: {fileID: 814205078}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -17.562817}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1122270158}
   m_RootOrder: 1
-  m_Father: {fileID: 1122270158}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -869,18 +853,13 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 913059176}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -519.3788, y: 40.645386, z: -17.562817}
   m_GameObject: {fileID: 851091138}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -17.562817}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1122270158}
   m_RootOrder: 0
-  m_Father: {fileID: 1122270158}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1023,6 +1002,7 @@ GameObject:
   - component: {fileID: 1122270157}
   - component: {fileID: 1122270156}
   - component: {fileID: 1122270155}
+  - component: {fileID: 1122270154}
   m_Layer: 5
   m_Name: BoardBridge
   m_TagString: Untagged
@@ -1114,11 +1094,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 913059177}
-  - {fileID: 738278127}
-  m_Children:
-  - {fileID: 814205079}
   - {fileID: 851091139}
+  - {fileID: 814205079}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

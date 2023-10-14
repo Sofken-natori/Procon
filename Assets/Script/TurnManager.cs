@@ -117,7 +117,7 @@ public class TurnManager : MonoBehaviour
             BlueTurn = !BlueTurn;
             BridgeActCount = 0;
             UntapPhase = true;
-        }
+        }   
 
         if (NowTurn >= MaxTurnNumber)
         {
@@ -140,6 +140,8 @@ public class TurnManager : MonoBehaviour
 
             SceneManager.LoadScene("StageSelectScene");
         }
+
+        if(!AIMoved && ((IsFirst && ) || ()))
     }
 
     public void FixedUpdate()
