@@ -96,7 +96,7 @@ namespace ServerConnector
 
     public class InfoConnector
     {
-        public string CallAPIURL = "http://localhost:3000";
+        public string CallAPIURL = "http://172.28.0.1:8080";
         public string token = "natori463152845d344e13cbe4cd1cb276cbaf8479aa6f3930baecbd9e977a9f";
 
 
