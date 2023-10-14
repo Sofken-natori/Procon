@@ -19,6 +19,7 @@ public class TurnManager : MonoBehaviour
     [Header("最大ターン数"), SerializeField] public int MaxTurnNumber;
     [Header("生成する駒の数"), SerializeField] public int PieceNumber;
     [Header("青のターンかどうか")] public bool BlueTurn = true;
+    [Header("こちらが先手")]public bool IsFirst;
     [Header("縦のマス数")] public int BoardXMax;
     [Header("横のマス数")] public int BoardYMax;
     [Header("赤い駒のプレハブ"), SerializeField] GameObject RedBridge;
@@ -28,6 +29,7 @@ public class TurnManager : MonoBehaviour
     [Header("現在のターン表示"), SerializeField] Text TurnText;
     [Header("Http通信のID")] public int id = 10;
     [Header("通信を行うか"), SerializeField] bool host = true;
+    [Header("AB法の深さ")] public int ABDeep = 1;
 
     [Header("陣地のスコア"), SerializeField] int AreaScore = 30;
     [Header("城壁のスコア"), SerializeField] int WallScore = 10;
@@ -501,7 +503,7 @@ public class TurnManager : MonoBehaviour
     {
         postInfo = new PostInfo();
         postInfo.turn = matchInfo.turn + 1;
-        if (postInfo.turn % 2 == 0)
+        if ((postInfo.turn % 2 == 0 && IsFirst) || (postInfo.turn % 2 == 1 && !IsFirst))
         {
             postInfo.turn++;
         }
@@ -561,7 +563,7 @@ public class TurnManager : MonoBehaviour
 
                     for (int N = 0; N < RedBridges.transform.childCount; N++)
                     {
-                       alpha.AlphaBeta(2, Ban, N, true);
+                       alpha.AlphaBeta(ABDeep, Ban, N, true);
                     
                     }
                     RoopCount++;

@@ -648,8 +648,6 @@ GameObject:
   m_Component:
   - component: {fileID: 420555114}
   - component: {fileID: 420555115}
-  - component: {fileID: 420555116}
-  - component: {fileID: 420555117}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged

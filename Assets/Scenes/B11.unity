@@ -1121,15 +1121,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1589795338}
   - component: {fileID: 1589795339}
+  - component: {fileID: 1589795340}
   - component: {fileID: 1589795342}
-  - component: {fileID: 1589795341}
-  - component: {fileID: 1589795343}
   - component: {fileID: 1589795344}
-  - component: {fileID: 1589795340}
   - component: {fileID: 1589795343}
-  - component: {fileID: 1589795342}
   - component: {fileID: 1589795341}
-  - component: {fileID: 1589795340}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -1178,6 +1174,7 @@ MonoBehaviour:
   MaxTurnNumber: 30
   PieceNumber: 1
   BlueTurn: 1
+  IsFirst: 0
   BoardXMax: 11
   BoardYMax: 11
   RedBridge: {fileID: 6137180533846073905, guid: cd0f4ea0b50cc0240b7ea23dd7020962, type: 3}
@@ -1187,6 +1184,7 @@ MonoBehaviour:
   TurnText: {fileID: 59264636}
   id: 10
   host: 1
+  ABDeep: 1
   AreaScore: 30
   WallScore: 10
   CastleScore: 100
@@ -1197,118 +1195,6 @@ MonoBehaviour:
   UntapPhase: 0
   TurnEnd: 0
   NowTurn: 0
---- !u!114 &1589795340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589795337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5bcd20f50537da646a078976873bcc61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  obj: {fileID: 0}
-  txt: {fileID: 0}
-  AIBlueTurn: 1
-  PlayerCount: 0
-  BBB: {fileID: 0}
-  bbb:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  BB:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  RedX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  RedY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BlueY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BlueX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BanX: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BanY: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  bb: []
---- !u!114 &1589795341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589795337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b62b09359c41ba947b7363dce00069c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turnManager: {fileID: 0}
-  c: {fileID: 0}
-  txt: {fileID: 0}
-  Move: 0
---- !u!114 &1589795342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589795337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4eefc3e93acb5234a9ad75ef919eab3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bg: {fileID: 0}
-  bg_Red: {fileID: 0}
-  NowTurn: 0
-  koma: {fileID: 0}
-  koma_Bridge: {fileID: 0}
-  koma_Red: {fileID: 0}
---- !u!114 &1589795343
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589795337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9ad857632aa245459713f930cd3330f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turnManager: {fileID: 0}
-  c: {fileID: 0}
-  txt: {fileID: 0}
-  Move: 0
---- !u!114 &1589795344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1589795337}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8986c9852081e3419b6f7832ed7cf59, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   RoopCount: 0
 --- !u!114 &1589795340
 MonoBehaviour:
@@ -1385,10 +1271,28 @@ MonoBehaviour:
   m_GameObject: {fileID: 1589795337}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eefc3e93acb5234a9ad75ef919eab3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bg: {fileID: 0}
+  bg_Red: {fileID: 0}
+  NowTurn: 0
+  koma: {fileID: 0}
+  koma_Bridge: {fileID: 0}
+  koma_Red: {fileID: 0}
+--- !u!114 &1589795343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589795337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8986c9852081e3419b6f7832ed7cf59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1589795343
+--- !u!114 &1589795344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

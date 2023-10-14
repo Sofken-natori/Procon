@@ -301,7 +301,7 @@ public class Alphatest : MonoBehaviour
         if (resultDestoryIndex != null)
         {
             
-            turnManager.BuildAndDestroyBridge(resultDestoryIndex.Y, resultDestoryIndex.X);
+            turnManager.BuildAndDestroyBridge(resultDestoryIndex.Y, resultDestoryIndex.X, N);
             turnManager.Dontroop[N, turnManager.NowTurn] = resultDestoryIndex;
            
             for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
@@ -346,7 +346,7 @@ public class Alphatest : MonoBehaviour
                     area = this.transform.GetChild(komaCalulator.BlueY[N]).GetChild(komaCalulator.BlueX[N]).GetComponent<Area>();
                     area.Bridge = false;
                     GameObject koma = turnManager.BlueBridges.transform.GetChild(N).gameObject;
-                    koma.transform.position = turnManager.MoveBridge(resultKomaIndex.Y, resultKomaIndex.X);
+                    koma.transform.position = turnManager.MoveBridge(resultKomaIndex.Y, resultKomaIndex.X,N);
                   
                     komaCalulator.BlueX[N] = resultKomaIndex.X;
                     komaCalulator.BlueY[N] = resultKomaIndex.Y;
@@ -374,7 +374,7 @@ public class Alphatest : MonoBehaviour
 
                     GameObject koma = turnManager.RedBridges.transform.GetChild(N).gameObject;
                     komaCalulator.bbb[N] = koma.GetComponent<BridgeButtonManager>();
-                    koma.transform.position = turnManager.MoveBridge(resultKomaIndex.Y, resultKomaIndex.X);
+                    koma.transform.position = turnManager.MoveBridge(resultKomaIndex.Y, resultKomaIndex.X, N);
                     komaCalulator.RedX[N] = resultKomaIndex.X;
                     komaCalulator.RedY[N] = resultKomaIndex.Y;
                     komaCalulator.bbb[N].BoardX = resultKomaIndex.X;
@@ -385,7 +385,7 @@ public class Alphatest : MonoBehaviour
             }
             else
             {
-                turnManager.BuildAndDestroyBridge(resultPutIndex.Y, resultPutIndex.X);
+                turnManager.BuildAndDestroyBridge(resultPutIndex.Y, resultPutIndex.X, N);
                    turnManager.Dontroop[N, turnManager.NowTurn] = resultKomaIndex;
                 for (int n = 0; n < turnManager.RedBridges.transform.childCount; n++)
                 {
