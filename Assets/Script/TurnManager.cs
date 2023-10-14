@@ -140,8 +140,6 @@ public class TurnManager : MonoBehaviour
 
             SceneManager.LoadScene("StageSelectScene");
         }
-
-        if(!AIMoved && ((IsFirst && ) || ()))
     }
 
     public void FixedUpdate()
