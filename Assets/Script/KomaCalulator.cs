@@ -883,9 +883,10 @@ public class KomaCalulator : MonoBehaviour
     public bool AIScoreCheck(int[,] ban)
     {
       //  txt.text = "";
-    
+   
         var myscore = 0;
         var enemyscore = 0;
+      
         for (int y = 0; y < TM.BoardYMax; y++)
         {
            // txt.text += "\n";
@@ -1157,7 +1158,13 @@ public class KomaCalulator : MonoBehaviour
             {
                 return true;
             }
-
+            if(Blue == false)
+        {
+            if (area.BlueWall)
+            {
+                return true;
+            }
+        }
         return false;
         
 
@@ -1173,7 +1180,7 @@ public class KomaCalulator : MonoBehaviour
         }
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
        
-        if (area.castle || area.BlueWall|| area.RedWall)
+        if (area.castle || area.BlueWall|| area.RedWall || area.Bridge)
         {
             return false;
         }
@@ -1188,7 +1195,7 @@ public class KomaCalulator : MonoBehaviour
             return false;
         }
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
-        if ( area.pond || area.BlueWall || area.RedWall )
+        if ( area.pond || area.BlueWall || area.RedWall || area.Bridge)
         {
             return false;
         }

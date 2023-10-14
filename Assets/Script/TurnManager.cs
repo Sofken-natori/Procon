@@ -49,7 +49,8 @@ public class TurnManager : MonoBehaviour
     int BridgeActCount = 0;
     int BridgestandbyCount = 0;
     public int NowTurn = 0;
-    public KomaIndex[] Dontroop = new KomaIndex[6];
+    public int RoopCount;
+    public KomaIndex[,] Dontroop = new KomaIndex[6 , 1200];
     TextAsset csvFile;
     MatchesInfo matchesInfo;
     ServerConnector.MatchInfo matchInfo;
@@ -57,9 +58,11 @@ public class TurnManager : MonoBehaviour
 
     void Start()
     {
-        for (int N = 0; N < BlueBridges.transform.childCount; N++)
-        {
-            Dontroop[N] = new KomaIndex(0, 0, true);
+        for (int i = 0; i < 1200; i++) {
+            for (int N = 0; N < BlueBridges.transform.childCount; N++)
+            {
+                Dontroop[N, i] = new KomaIndex(0, 0, true);
+            }
         }
     }
     void Awake()
@@ -535,27 +538,64 @@ public class TurnManager : MonoBehaviour
         int[,] ban = komaCalulator.AIBanState();
         if (BlueTurn)
         {
-
-            if (NowTurn >= MaxTurnNumber * 0.8)
+            if (BlueBridge.transform.childCount < 5)
             {
-               
-                for (int N = 0; N < RedBridges.transform.childCount; N++)
+                if (NowTurn >= MaxTurnNumber * 0.8)
                 {
-                    monte.MonteCarloSearch(N, true);
+
+                    for (int N = 0; N < RedBridges.transform.childCount; N++)
+                    {
+                        monte.MonteCarloSearch(N, true);
+
+                    }
 
                 }
+                else
+                {
 
+                    int[,] Ban = komaCalulator.AIBanState();
+                    // alpha.AlphaBeta(1, Ban, 1, true);
+                     // alpha.AlphaBeta(2, Ban, 0, true);
+                    //  Debug.Log(Dontroop[0].X);
+                    //  Debug.Log(Dontroop[0].Y);
+
+                    for (int N = 0; N < RedBridges.transform.childCount; N++)
+                    {
+                       alpha.AlphaBeta(2, Ban, N, true);
+                    
+                    }
+                    RoopCount++;
+
+                }
             }
             else
             {
-
-               //alpha.AlphaBeta(1, Ban, 0, true);
-               for (int N = 0; N < RedBridges.transform.childCount; N++)
+                if (NowTurn >= MaxTurnNumber * 0.8)
                 {
-                    alpha.AlphaBeta(1, ban, N, true);
-                }
-              
 
+                    for (int N = 0; N < RedBridges.transform.childCount; N++)
+                    {
+                        monte.MonteCarloSearch(N, true);
+
+                    }
+
+                }
+                else
+                {
+
+                    int[,] Ban = komaCalulator.AIBanState();
+                    // alpha.AlphaBeta(1, Ban, 1, true);
+                    //  alpha.AlphaBeta(1, Ban, 0, true);
+                    //  Debug.Log(Dontroop[0].X);
+                    //  Debug.Log(Dontroop[0].Y);
+
+                    for (int N = 0; N < RedBridges.transform.childCount; N++)
+                    {
+                        alpha.AlphaBeta(1, Ban, N, true);
+                    }
+                    RoopCount++;
+
+                }
             }
             
         }
@@ -567,6 +607,16 @@ public class TurnManager : MonoBehaviour
             {
               //  alpha.AlphaBeta(2, Ban, N, false);
             }
+        }
+    }
+    public void Monte()
+    {
+        Monte monte;
+        monte = this.transform.GetComponent<Monte>();
+        for (int N = 0; N < RedBridges.transform.childCount; N++)
+        {
+            monte.MonteCarloSearch(N, true);
+
         }
     }
 }

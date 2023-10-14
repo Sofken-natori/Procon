@@ -2639,6 +2639,7 @@ GameObject:
   - component: {fileID: 1851399151}
   - component: {fileID: 1851399150}
   - component: {fileID: 1851399152}
+  - component: {fileID: 1851399153}
   m_Layer: 0
   m_Name: Board
   m_TagString: Untagged
@@ -2719,6 +2720,7 @@ MonoBehaviour:
   UntapPhase: 0
   TurnEnd: 0
   NowTurn: 0
+  RoopCount: 0
 --- !u!114 &1851399148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2861,6 +2863,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c8986c9852081e3419b6f7832ed7cf59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1851399153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851399145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 577c7973beea45748b840ccd16e2fa4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &2086295267
