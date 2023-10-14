@@ -28,6 +28,7 @@ public class TurnManager : MonoBehaviour
     [Header("現在のターン表示"), SerializeField] Text TurnText;
     [Header("Http通信のID")] public int id = 10;
     [Header("通信を行うか"), SerializeField] bool host = true;
+    [Header("AB法の深さ")] public int ABDeep = 1;
 
     [Header("陣地のスコア"), SerializeField] int AreaScore = 30;
     [Header("城壁のスコア"), SerializeField] int WallScore = 10;
@@ -561,7 +562,7 @@ public class TurnManager : MonoBehaviour
 
                     for (int N = 0; N < RedBridges.transform.childCount; N++)
                     {
-                       alpha.AlphaBeta(2, Ban, N, true);
+                       alpha.AlphaBeta(ABDeep, Ban, N, true);
                     
                     }
                     RoopCount++;
