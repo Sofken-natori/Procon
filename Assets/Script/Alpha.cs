@@ -199,7 +199,7 @@ public class Alpha : MonoBehaviour
 
                 }
                 GameObject koma = turnManager.BlueBridges.transform.GetChild(N).gameObject;
-                koma.transform.position = turnManager.MoveBridge(resultKomaIndex.Y, resultKomaIndex.X);
+                koma.transform.position = turnManager.MoveBridge(resultKomaIndex.Y, resultKomaIndex.X,N);
                 komaCalulator.BlueX[N] = resultKomaIndex.X;
                 komaCalulator.BlueY[N] = resultKomaIndex.Y;
                 komaCalulator.bb[N].BoardX = resultKomaIndex.X;
@@ -221,7 +221,7 @@ public class Alpha : MonoBehaviour
                 }
                 GameObject koma = turnManager.RedBridges.transform.GetChild(N).gameObject;
                 komaCalulator.bbb[N] = koma.GetComponent<BridgeButtonManager>();
-                koma.transform.position = turnManager.MoveBridge(resultKomaIndex.Y, resultKomaIndex.X);
+                koma.transform.position = turnManager.MoveBridge(resultKomaIndex.Y, resultKomaIndex.X,N);
                 komaCalulator.RedX[N] = resultKomaIndex.X;
                 komaCalulator.RedY[N] = resultKomaIndex.Y;
                 komaCalulator.bbb[N].BoardX = resultKomaIndex.X;
@@ -232,7 +232,7 @@ public class Alpha : MonoBehaviour
         }
         else
         {
-            turnManager.BuildAndDestroyBridge(resultKomaIndex.Y, resultKomaIndex.X);
+            turnManager.BuildAndDestroyBridge(resultKomaIndex.Y, resultKomaIndex.X, N);
             for (int n = 0; n < turnManager.RedBridges.transform.childCount - 1; n++)
             {
                 GameObject komaR = turnManager.RedBridges.transform.GetChild(n).gameObject;

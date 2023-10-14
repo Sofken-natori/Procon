@@ -235,15 +235,11 @@ public class KomaCalulator : MonoBehaviour
         area = this.transform.GetChild(x).GetChild(y).GetComponent<Area>();
         if (area.BlueWall)
         {
-         
             return 10;
-        
         }
         else if (area.RedWall)
         {
-           
             return -10;
-           
         }
         else if (area.RedArea)
         {
@@ -293,6 +289,7 @@ public class KomaCalulator : MonoBehaviour
         return Ban;
 
     }
+
     #region モンテカルロ法用ランダム
     public int[,] AIdown(int N, bool Bule)
     {
